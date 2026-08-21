@@ -65,8 +65,8 @@ _No items yet._
 - [x] **IMPL-6** Web Audio beep helper: short oscillator burst at a given frequency, wired to start and end, silent when a frequency is omitted (KD-3)
 - [x] **IMPL-7** Dispatch cadence:start / cadence:complete CustomEvents on the root element and call an optional onComplete callback from config (KD-8, KD-9)
 - [x] **IMPL-8** Accessibility wiring: role=progressbar with live aria-valuenow/min/max, an aria-live=polite region announcing only start/complete text, and a visual pulse paired with each beep
-- [ ] **IMPL-9** Playwright test suite backing the verification criteria: config, layout, audio, a11y, toggle, no-network (KD-12)
-- [ ] **IMPL-10** Minimal standalone demo page spawning a <cadence-clock> with sample JSON, deployable as-is to GitHub Pages (KD-6)
+- [x] **IMPL-9** Playwright test suite backing the verification criteria: config, layout, audio, a11y, toggle, no-network (KD-12)
+- [x] **IMPL-10** Minimal standalone demo page spawning a <cadence-clock> with sample JSON, deployable as-is to GitHub Pages (KD-6)
 
 ## Verification Criteria
 - [ ] **VC-1** {"durationSeconds": 5} runs for 5000ms ± one animation frame, measured by starting the clock and asserting the completion callback fires at ~5s
@@ -152,3 +152,5 @@ _No items yet._
 - 2026-08-21: KD-17 resolves OQ-15
 - 2026-08-21: IMPL-2 checked
 - 2026-08-21: IMPL-3, IMPL-4, IMPL-5, IMPL-6, IMPL-7, IMPL-8 checked
+- 2026-08-21: IMPL-9 checked
+- 2026-08-21: IMPL-10 checked
