@@ -684,13 +684,14 @@ def cmd_check(args: "list[str]") -> None:
     print(f"checked {', '.join(done)}")
 
 
-def archive_doc(path: Path, lines: "list[str]", summary: "str | None") -> None:
-    """Close a document by deleting it from the working tree.
+def assert_committed(path: Path) -> str:
+    """Refuse to touch a document git cannot yet restore if the file is lost.
 
-    Git already stores it immutably and searchably, so archiving is a move, not
-    an edit — the record itself is never touched. The catalog keeps the summary
-    and the commit needed to read it back. Because the content survives only in
-    git, this refuses to run unless the file is committed and unmodified.
+    Called before any mutation that ends in deleting the file, so a failure
+    here happens before that mutation rather than after — a caller that
+    writes elsewhere first and archives second would otherwise leave that
+    other write in place while the archive itself fails, with no way to
+    retry cleanly (append-only means the retry cannot undo it either).
     """
     slug = slug_of(path)
     rel = path.relative_to(ROOT).as_posix()
@@ -704,6 +705,20 @@ def archive_doc(path: Path, lines: "list[str]", summary: "str | None") -> None:
     commit = git("rev-parse", "HEAD").stdout.strip()
     if not commit:
         die("this repository has no commits yet — commit the document first")
+    return commit
+
+
+def archive_doc(path: Path, lines: "list[str]", summary: "str | None") -> None:
+    """Close a document by deleting it from the working tree.
+
+    Git already stores it immutably and searchably, so archiving is a move, not
+    an edit — the record itself is never touched. The catalog keeps the summary
+    and the commit needed to read it back. Because the content survives only in
+    git, this refuses to run unless the file is committed and unmodified.
+    """
+    slug = slug_of(path)
+    rel = path.relative_to(ROOT).as_posix()
+    commit = assert_committed(path)
 
     ARCHIVE.mkdir(parents=True, exist_ok=True)
     if not CATALOG.exists():
@@ -785,6 +800,10 @@ def cmd_apply(args: "list[str]") -> None:
     if open_questions:
         print(f"warning: {len(open_questions)} question(s) still open in this discovery",
               file=sys.stderr)
+
+    # Check archivability before writing anything to the parent: that write is
+    # permanent (append-only), but this one is not, so it must fail first.
+    assert_committed(path)
 
     parent_path, parent_old = load(parent_slug)
     parent_new = list(parent_old)
