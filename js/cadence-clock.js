@@ -138,6 +138,11 @@ class CadenceClock extends HTMLElement {
     try {
       if (!this._audioCtx) this._audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       const ctx = this._audioCtx;
+      // A context created before any user gesture starts suspended and stays
+      // that way until resumed; a gesture may have happened since (KD-14
+      // leaves unlocking to the embedder, but resuming here is free and
+      // recovers a still-running session as soon as one occurs).
+      if (ctx.state === 'suspended') ctx.resume().catch(() => {});
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.frequency.value = frequency;

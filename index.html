@@ -10,14 +10,22 @@
   <main>
     <h1>Cadence</h1>
     <p>A clock, spawned with a JSON config.</p>
+    <button type="button" id="start">Start demo</button>
     <cadence-clock id="demo"></cadence-clock>
   </main>
   <script src="js/cadence-clock.js"></script>
   <script>
-    document.getElementById('demo').configure({
-      durationSeconds: 20,
-      startFrequency: 440,
-      endFrequency: 880,
+    // Real browsers require a user gesture before Web Audio produces sound
+    // (KD-14) — spawning the clock straight from a page-load script, with no
+    // interaction at all, is the one guaranteed way to keep it silent. A
+    // real embedder always has an explicit "start" moment upstream; this
+    // button stands in for that so the demo actually demonstrates the beep.
+    document.getElementById('start').addEventListener('click', () => {
+      document.getElementById('demo').configure({
+        durationSeconds: 20,
+        startFrequency: 440,
+        endFrequency: 880,
+      });
     });
   </script>
 </body>

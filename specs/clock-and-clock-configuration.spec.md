@@ -33,6 +33,7 @@ _Edit via `scripts/spec.py`, never by hand._
 - **OQ-13** ~~How does a Playwright test observe that an oscillator 'started' at a given frequency, without capturing real audio output?~~ → KD-15
 - **OQ-14** ~~IMPL-3 cites KD-10, but the decision that actually specifies how config is handed over (a configure() method, not attributes) is KD-13 — a citation slip from before KD-13 existed, not a scope change~~ → KD-16
 - **OQ-15** ~~OQ-3 asked about display format too (mm:ss vs raw seconds), but KD-4 only settled elapsed-vs-remaining — what format does the chrono text actually use?~~ → KD-17
+- **OQ-16** ~~The demo (index.html) auto-configured the clock on page load with no user interaction at all — real browsers require a gesture before Web Audio produces sound (KD-14 already anticipated this for embedders generally), so the demo's own beep was silently inaudible. Is a click-to-start affordance the right fix for the demo specifically?~~ → KD-18
 
 ## Key Decisions
 - **KD-1** Duration in the JSON is a number of seconds (fractional allowed, e.g. 20.5) — matches how programs are authored and described elsewhere in Cadence ("20s leg raise"); the clock converts to milliseconds internally for its own timing loop (OQ-1 via discovery:duration-units-convention-in-timer-apps)
@@ -52,6 +53,7 @@ _Edit via `scripts/spec.py`, never by hand._
 - **KD-15** No AudioContext spying: the clock dispatches a 'cadence:beep' CustomEvent with {frequency, edge} in its detail whenever it starts a tone, on the same root element as cadence:start/cadence:complete. Tests assert on that event; it also becomes the hook the visual pulse (VC-10) listens to (OQ-13)
 - **KD-16** Confirmed a citation slip, not a scope change: IMPL-3's parenthetical should be read as (KD-13), not (KD-10) — item text is frozen so this stands as the correction rather than an edit. KD-10 still applies to IMPL-3 in spirit (no framework), just isn't the decision that shaped its JSON-handoff detail (OQ-14)
 - **KD-17** m:ss (minutes:seconds, seconds zero-padded, no leading zero on minutes) always, regardless of duration magnitude — matches the convention every consumer interval-timer app already uses (SOTA from OQ-1's discovery) and stays readable whether a step is 7s or 7 minutes (OQ-15)
+- **KD-18** Yes: the demo now has a 'Start demo' button and only calls configure() on its click, matching the real-embedder premise KD-14 already assumed. The component itself also now attempts ctx.resume() on every beep, so a session already running recovers sound as soon as any gesture occurs, even if configure() was called before one (OQ-16)
 
 ## Prior Art
 _No items yet._
@@ -82,6 +84,7 @@ _No items yet._
 - [x] **VC-11** Clicking the chrono text toggles between remaining and elapsed display, and calling the exposed toggle method/attribute does the same thing (G-2) `npx playwright test tests/toggle.spec.js` → passed 2026-08-21 (ran: exit 0 — Running 2 tests using 1 worker ✓ 1 tests/toggle.spec.js:3:5 › clicking the chrono text tog)
 - [x] **VC-12** Loading index.html triggers zero requests to any origin other than the page's own (no CDN script/style/font) (G-1) `npx playwright test tests/no-network.spec.js` → passed 2026-08-21 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/no-network.spec.js:3:5 › loading the page makes ze)
 - [x] **VC-13** index.html opens and functions correctly when loaded directly via file:// (double-click, no server) — not only when served over http(s) `node tests/file-protocol.check.mjs` → passed 2026-08-22 (ran: exit 0 — ok: index.html loaded via file:// with no errors, demo clock reads 0:20)
+- [x] **VC-14** After the demo's Start button is clicked, the AudioContext is in the 'running' state (not stuck 'suspended') by the time the first beep fires `node tests/audio-unlock.check.mjs` → failed 2026-08-22 (ran: exit 1 — node:internal/modules/run_main:104 triggerUncaughtException( ^ page.goto: net::ERR_CONNECT), passed 2026-08-22 (ran: exit 0 — ok: AudioContext state after Start click + first beep: running)
 
 ## Changelog
 - 2026-08-21: Spec initialized.
@@ -169,3 +172,9 @@ _No items yet._
 - 2026-08-22: Status: In Progress → Done
 - 2026-08-22: VC-13 added
 - 2026-08-22: VC-13 passed
+- 2026-08-22: OQ-16 added
+- 2026-08-22: KD-18 resolves OQ-16
+- 2026-08-22: VC-14 added
+- 2026-08-22: VC-14 failed
+- 2026-08-22: VC-14 passed
+- 2026-08-22: Status: In Progress → Done

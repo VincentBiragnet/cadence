@@ -11,13 +11,17 @@ test('clicking the chrono text toggles remaining/elapsed', async ({ page }) => {
 
 test('the toggleMode() method does the same thing as a click', async ({ page }) => {
   await page.goto('/index.html');
-  const [before, afterMethod] = await page.evaluate(() => {
+  const [before, afterMethod] = await page.evaluate(() => new Promise((resolve) => {
     const el = document.getElementById('demo');
     el.configure({ durationSeconds: 20 });
-    const before = el.querySelector('.cdc-time').textContent;
-    el.toggleMode();
-    const after = el.querySelector('.cdc-time').textContent;
-    return [before, after];
-  });
+    // wait for the first tick so .cdc-time reflects the new duration, not
+    // the stale text left over from render()'s initial paint
+    requestAnimationFrame(() => {
+      const before = el.querySelector('.cdc-time').textContent;
+      el.toggleMode();
+      const after = el.querySelector('.cdc-time').textContent;
+      resolve([before, after]);
+    });
+  }));
   expect(before).not.toBe(afterMethod);
 });

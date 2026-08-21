@@ -16,6 +16,7 @@ page.on('pageerror', (e) => errors.push(e.message));
 page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
 
 await page.goto(url);
+await page.click('#start');
 await page.waitForTimeout(300);
 const timeText = await page.textContent('#demo .cdc-time').catch(() => null);
 await browser.close();
