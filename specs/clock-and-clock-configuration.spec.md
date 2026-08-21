@@ -81,6 +81,7 @@ _No items yet._
 - [x] **VC-10** Each beep is paired with a visual pulse on the bar/text so start and completion are perceivable without sound (G-6) `npx playwright test tests/a11y.spec.js -g visual-pulse` → passed 2026-08-21 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/a11y.spec.js:25:5 › visual-pulse: a beep is paired)
 - [x] **VC-11** Clicking the chrono text toggles between remaining and elapsed display, and calling the exposed toggle method/attribute does the same thing (G-2) `npx playwright test tests/toggle.spec.js` → passed 2026-08-21 (ran: exit 0 — Running 2 tests using 1 worker ✓ 1 tests/toggle.spec.js:3:5 › clicking the chrono text tog)
 - [x] **VC-12** Loading index.html triggers zero requests to any origin other than the page's own (no CDN script/style/font) (G-1) `npx playwright test tests/no-network.spec.js` → passed 2026-08-21 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/no-network.spec.js:3:5 › loading the page makes ze)
+- [x] **VC-13** index.html opens and functions correctly when loaded directly via file:// (double-click, no server) — not only when served over http(s) `node tests/file-protocol.check.mjs` → passed 2026-08-22 (ran: exit 0 — ok: index.html loaded via file:// with no errors, demo clock reads 0:20)
 
 ## Changelog
 - 2026-08-21: Spec initialized.
@@ -166,3 +167,5 @@ _No items yet._
 - 2026-08-21: VC-1 passed
 - 2026-08-21: VC-3 passed
 - 2026-08-22: Status: In Progress → Done
+- 2026-08-22: VC-13 added
+- 2026-08-22: VC-13 passed
