@@ -19,7 +19,7 @@ _Edit via `scripts/spec.py`, never by hand._
 - **OQ-3** ~~Where is the program's state (which entries are done, actual timestamps if we track them) persisted across a page reload — localStorage, nothing at all (purely ephemeral, matching every component so far), or something else? None of clock-and-clock-configuration or sequence-clock needed persistence; this is the first spec where it might~~ → KD-5
 - **OQ-4** ~~Is there a default/suggested entry (e.g. whichever's planned datetime is soonest or today) the UI highlights, or is the dropdown purely manual with no auto-suggestion?~~ → KD-3
 - **OQ-5** ~~What happens to an entry whose planned datetime has already passed without being run — flagged as missed somehow, or no special handling for this first pass?~~ → deferred to NG-2
-- **OQ-6** When the user picks an entry and runs it, does its sequence-clock render inline in the program view (replacing the dropdown while it runs), navigate to a separate view, or something else? And after it completes, does the program return to the selection list, or something else? → discovery:how-the-program-view-hands-off-to-a-running-sequence-and-back
+- **OQ-6** ~~When the user picks an entry and runs it, does its sequence-clock render inline in the program view (replacing the dropdown while it runs), navigate to a separate view, or something else? And after it completes, does the program return to the selection list, or something else?~~ → discovery:how-the-program-view-hands-off-to-a-running-sequence-and-back, KD-6, KD-7, KD-8, KD-9
 - **OQ-7** ~~Does the dropdown list every entry regardless of date, or is it filtered/sorted (e.g. only today's, or soonest-first)?~~ → KD-4
 
 ## Key Decisions
@@ -28,6 +28,10 @@ _Edit via `scripts/spec.py`, never by hand._
 - **KD-3** Yes: the entry with the soonest upcoming planned datetime is highlighted/pre-selected in the dropdown as the suggestion, but the user can still pick any entry regardless (OQ-4)
 - **KD-4** Unfiltered for this first pass: every entry is listed, in the order given in the JSON — no date-based filtering or re-sorting of the list itself (the 'suggested' entry from OQ-4 is a separate highlight, not a reordering) (OQ-7)
 - **KD-5** Exported JSON: no localStorage, no backend — an 'Export' action downloads the current program (including any actual datetimes recorded) as a JSON file the user saves themselves. The natural counterpart for a no-backend static site: loading a program is via a file picker (<input type=file>) reading that JSON back in, not just configure() from embedding JS — so a session can actually resume across a reload by re-loading the exported file (OQ-3)
+- **KD-6** Inline swap within the <cadence-program> element's own light DOM: picking an entry hides the selection list and mounts a fresh, visible <cadence-sequence> element (unlike sequence-clock's headless reuse of the atomic clock — here the user genuinely watches and interacts with it) configured from that entry's data (OQ-6 via discovery:how-the-program-view-hands-off-to-a-running-sequence-and-back)
+- **KD-7** A 'Back' affordance sits alongside the running sequence, distinct from the sequence's own internal non-goals (pause/skip/rewind within a run) — this abandons the whole session and returns to the list without recording an actual datetime, for 'wrong one, let me pick again' (OQ-6 via discovery:how-the-program-view-hands-off-to-a-running-sequence-and-back)
+- **KD-8** On the sequence's cadence:complete: record now() (ISO 8601) as that entry's actual datetime, discard the <cadence-sequence> element (a fresh one is created next time, no state to bleed between entries), and return to the list — recomputed (new suggested entry, the just-run one now shows its actual datetime) (OQ-6 via discovery:how-the-program-view-hands-off-to-a-running-sequence-and-back)
+- **KD-9** <cadence-program> dispatches its own 'cadence:entryComplete' event (detail: the entry and its new actual datetime) each time a run finishes — there's no single 'whole program complete', since entries are chosen freely rather than walked through in order (G-2) (OQ-6 via discovery:how-the-program-view-hands-off-to-a-running-sequence-and-back)
 
 ## Prior Art
 _No items yet._
@@ -36,7 +40,7 @@ _No items yet._
 _No items yet._
 
 ## Verification Criteria
-_No items yet._
+- [ ] **VC-1** Picking an entry replaces the list with a visible, running <cadence-sequence> for that entry's config; clicking Back abandons it (no actual datetime recorded) and restores the list unchanged; letting it finish records an actual datetime, fires cadence:entryComplete, and restores the list showing that entry as done
 
 ## Changelog
 - 2026-08-22: Spec initialized.
@@ -57,3 +61,4 @@ _No items yet._
 - 2026-08-22: KD-5 resolves OQ-3
 - 2026-08-22: NG-2 defers OQ-5
 - 2026-08-22: OQ-6 opened discovery:how-the-program-view-hands-off-to-a-running-sequence-and-back
+- 2026-08-22: KD-6, KD-7, KD-8, KD-9, VC-1 applied from discovery:how-the-program-view-hands-off-to-a-running-sequence-and-back
