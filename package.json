@@ -1,0 +1,11 @@
+{
+  "name": "cadence",
+  "private": true,
+  "description": "A JSON-driven timed-step clock for any kind of training program.",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0"
+  }
+}

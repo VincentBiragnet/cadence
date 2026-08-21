@@ -1,3 +1,6 @@
 __pycache__/
 *.pyc
 specs/.lock
+node_modules/
+test-results/
+playwright-report/

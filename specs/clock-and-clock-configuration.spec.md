@@ -55,7 +55,7 @@ _Edit via `scripts/spec.py`, never by hand._
 _No items yet._
 
 ## Implementation Details
-- [ ] **IMPL-1** Project skeleton: index.html, css/theme.css, js/cadence-clock.js, and a package.json with Playwright as the sole devDependency
+- [x] **IMPL-1** Project skeleton: index.html, css/theme.css, js/cadence-clock.js, and a package.json with Playwright as the sole devDependency
 - [ ] **IMPL-2** Shared theme.css: color/spacing custom properties, light/dark via prefers-color-scheme, no per-component one-off styles (KD-7, KD-10)
 - [ ] **IMPL-3** Register <cadence-clock> custom element; parse its JSON config (duration, startFrequency?, endFrequency?) (KD-10)
 - [ ] **IMPL-4** Timing loop via requestAnimationFrame driving the bar fill and the chrono text, defaulting to remaining (KD-1, KD-4)
@@ -145,3 +145,4 @@ _No items yet._
 - 2026-08-21: Status: Ready → In Progress
 - 2026-08-21: OQ-14 added
 - 2026-08-21: KD-16 resolves OQ-14
+- 2026-08-21: IMPL-1 checked

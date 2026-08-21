@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cadence</title>
+  <link rel="stylesheet" href="css/theme.css">
+</head>
+<body>
+  <main>
+    <h1>Cadence</h1>
+    <p>A clock, spawned with a JSON config.</p>
+    <cadence-clock id="demo"></cadence-clock>
+  </main>
+  <script type="module" src="js/cadence-clock.js"></script>
+  <script type="module">
+    document.getElementById('demo').configure({
+      durationSeconds: 20,
+      startFrequency: 440,
+      endFrequency: 880,
+    });
+  </script>
+</body>
+</html>

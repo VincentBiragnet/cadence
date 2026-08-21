@@ -1,0 +1,2 @@
+/* Shared design system for every Cadence component. Colors/spacing live as
+   custom properties here so a component never hardcodes a one-off value. */
