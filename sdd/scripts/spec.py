@@ -425,10 +425,17 @@ def read_archived(slug: str) -> str:
     # rel is relative to ROOT (sdd/), matching how assert_committed's `git
     # status -- rel` resolves it under `-C ROOT`. But `git show rev:path`
     # always resolves path from the repo root regardless of -C, so it needs
-    # ROOT's own offset from REPO_ROOT added back.
+    # ROOT's own offset from REPO_ROOT added back — except a catalog entry
+    # written before ROOT moved (e.g. the sdd/ reorg) named a commit where
+    # the file actually sat at the bare rel, with no such offset. Try today's
+    # layout first, then fall back to the historical one rather than losing
+    # anything archived under a since-changed layout.
     repo_rel = (ROOT.relative_to(REPO_ROOT) / rel).as_posix()
     result = git("show", f"{commit}:{repo_rel}")
     if result.returncode:
+        fallback = git("show", f"{commit}:{rel}")
+        if not fallback.returncode:
+            return fallback.stdout
         die(f"git could not read {rel} at {commit}:\n       {result.stderr.strip()}")
     return result.stdout
 
