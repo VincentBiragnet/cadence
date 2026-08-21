@@ -84,6 +84,11 @@ class CadenceClock extends HTMLElement {
     return this._startedAt === null ? 0 : performance.now() - this._startedAt;
   }
 
+  // Public: lets an embedder reusing this instance headlessly (e.g.
+  // cadence-sequence, KD-1) read live progress without reaching into a
+  // private method.
+  get elapsedMs() { return this._elapsedMs(); }
+
   _start() {
     this._startedAt = performance.now();
     this.dispatchEvent(new CustomEvent('cadence:start', { detail: { config: this._config } }));

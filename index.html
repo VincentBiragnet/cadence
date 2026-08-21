@@ -9,23 +9,50 @@
 <body>
   <main>
     <h1>Cadence</h1>
-    <p>A clock, spawned with a JSON config.</p>
-    <button type="button" id="start">Start demo</button>
-    <cadence-clock id="demo"></cadence-clock>
+
+    <section>
+      <h2>Atomic clock</h2>
+      <p>A single step, spawned with a JSON config.</p>
+      <button type="button" id="start">Start demo</button>
+      <cadence-clock id="demo"></cadence-clock>
+    </section>
+
+    <section>
+      <h2>Sequence</h2>
+      <p>A whole program of blocks and steps, run end to end.</p>
+      <cadence-sequence id="demo-sequence"></cadence-sequence>
+    </section>
   </main>
   <script src="js/cadence-clock.js"></script>
+  <script src="js/cadence-sequence.js"></script>
   <script>
     // Real browsers require a user gesture before Web Audio produces sound
-    // (KD-14) — spawning the clock straight from a page-load script, with no
+    // (KD-14) — spawning a clock straight from a page-load script, with no
     // interaction at all, is the one guaranteed way to keep it silent. A
-    // real embedder always has an explicit "start" moment upstream; this
-    // button stands in for that so the demo actually demonstrates the beep.
+    // real embedder always has an explicit "start" moment upstream; these
+    // buttons stand in for that so the demo actually demonstrates the beep.
     document.getElementById('start').addEventListener('click', () => {
       document.getElementById('demo').configure({
         durationSeconds: 20,
         startFrequency: 440,
         endFrequency: 880,
       });
+    });
+
+    // cadence-sequence renders its own Start button (KD-5) — configure()
+    // just loads the program, it doesn't begin the run.
+    document.getElementById('demo-sequence').configure({
+      title: 'Sample circuit',
+      blocks: [
+        { repetitions: 2, steps: [
+          { label: 'Leg raise', durationSeconds: 20, startFrequency: 440 },
+          { label: 'Rest', durationSeconds: 10 },
+          { label: 'Crunch', durationSeconds: 20, endFrequency: 880 },
+        ]},
+        { repetitions: 1, steps: [
+          { label: 'Cooldown', durationSeconds: 30, startFrequency: 660, endFrequency: 660 },
+        ]},
+      ],
     });
   </script>
 </body>

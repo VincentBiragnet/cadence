@@ -114,11 +114,76 @@ cadence-clock[data-pulse] .cdc-bar {
   }
 }
 
-.cdc-live {
+.cdc-live, .cds-live {
   position: absolute;
   width: 1px;
   height: 1px;
   overflow: hidden;
   clip: rect(0 0 0 0);
   white-space: nowrap;
+}
+
+/* cadence-sequence: no per-step bar (KD-1) — a title, a position indicator,
+   a label, one big chrono, and a Start button, stacked. */
+cadence-sequence {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--cdc-space-1);
+  font-family: var(--cdc-font);
+}
+
+.cds-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.cds-position, .cds-label {
+  color: var(--cdc-color-muted);
+}
+
+.cds-time {
+  font-family: var(--cdc-font-mono);
+  font-size: 2.5rem;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: var(--cdc-space-1) var(--cdc-space-2);
+  border-radius: var(--cdc-radius);
+}
+
+.cds-time:hover {
+  background: var(--cdc-color-track);
+}
+
+.cds-time:focus-visible {
+  outline: 2px solid var(--cdc-color-focus);
+  outline-offset: 2px;
+}
+
+.cds-start {
+  font-family: var(--cdc-font);
+  font-size: 1rem;
+  background: var(--cdc-color-progress);
+  color: var(--cdc-color-bg);
+  border: none;
+  cursor: pointer;
+  padding: var(--cdc-space-2) var(--cdc-space-3);
+  border-radius: var(--cdc-radius);
+}
+
+cadence-sequence[data-done] .cds-time {
+  color: var(--cdc-color-progress-done);
+}
+
+cadence-sequence[data-pulse] .cds-time {
+  animation: cdc-pulse 0.4s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  cadence-sequence[data-pulse] .cds-time {
+    animation: none;
+    outline: 2px solid var(--cdc-color-progress);
+  }
 }

@@ -42,16 +42,16 @@ _Edit via `scripts/spec.py`, never by hand._
 _No items yet._
 
 ## Implementation Details
-- [ ] **IMPL-1** New js/cadence-sequence.js registering <cadence-sequence>, reusing the CadenceClock class from js/cadence-clock.js for each step's timing/beep — one hidden instance (appended off-screen so its Custom Element lifecycle runs, never shown) reconfigured per step, not one per step (KD-1)
-- [ ] **IMPL-2** Parse config { title, blocks: [{ repetitions, steps: [{ durationSeconds, startFrequency?, endFrequency?, label }] }] }; compute total duration = Σ over blocks of (Σ step durations in that block) × repetitions (G-1, G-4)
-- [ ] **IMPL-3** Render: title, a position indicator ('step 2 of 3, rep 1 of 4'), the current label, one big chrono (m:ss, KD-17's convention), and a Start button — no per-step bar or clock UI (KD-1, KD-2, KD-5)
-- [ ] **IMPL-4** Aggregate chrono timing loop: track elapsed since the sequence's own start (not per-step) via requestAnimationFrame, derive remaining from the precomputed total; toggle remaining/elapsed by click or .toggleMode(), same as the atomic clock (KD-3)
-- [ ] **IMPL-5** Start button wiring: click both begins the sequence and serves as the audio-unlock gesture for every step's beep that follows (KD-5, KD-14)
-- [ ] **IMPL-6** Accessibility: a visual pulse on the big chrono for every step's cadence:beep (listened on the hidden instance); an aria-live region announcing the label/position text only when it changes, never on a tick (G-5, KD-7)
-- [ ] **IMPL-7** Dispatch cadence:start (on the Start click) and cadence:complete (end of the whole sequence) on the <cadence-sequence> root, plus an optional onComplete callback from config; pass through cadence:beep from the hidden instance for external testability, mirroring KD-15's rationale (G-4, KD-6)
-- [ ] **IMPL-8** Playwright test suite backing the verification criteria: config/total-duration math, sequencing order, beep timing across step transitions, aggregate chrono behavior, accessibility, completion
-- [ ] **IMPL-9** Demo page (or a section of the existing one) spawning a <cadence-sequence> with a small multi-block sample program
-- [ ] **IMPL-10** Sequencing engine: walk blocks, repetitions, then steps in order; configure the hidden clock instance for each step and advance on its cadence:complete; update the label/position indicator at the start of each step (G-2, G-3)
+- [x] **IMPL-1** New js/cadence-sequence.js registering <cadence-sequence>, reusing the CadenceClock class from js/cadence-clock.js for each step's timing/beep — one hidden instance (appended off-screen so its Custom Element lifecycle runs, never shown) reconfigured per step, not one per step (KD-1)
+- [x] **IMPL-2** Parse config { title, blocks: [{ repetitions, steps: [{ durationSeconds, startFrequency?, endFrequency?, label }] }] }; compute total duration = Σ over blocks of (Σ step durations in that block) × repetitions (G-1, G-4)
+- [x] **IMPL-3** Render: title, a position indicator ('step 2 of 3, rep 1 of 4'), the current label, one big chrono (m:ss, KD-17's convention), and a Start button — no per-step bar or clock UI (KD-1, KD-2, KD-5)
+- [x] **IMPL-4** Aggregate chrono timing loop: track elapsed since the sequence's own start (not per-step) via requestAnimationFrame, derive remaining from the precomputed total; toggle remaining/elapsed by click or .toggleMode(), same as the atomic clock (KD-3)
+- [x] **IMPL-5** Start button wiring: click both begins the sequence and serves as the audio-unlock gesture for every step's beep that follows (KD-5, KD-14)
+- [x] **IMPL-6** Accessibility: a visual pulse on the big chrono for every step's cadence:beep (listened on the hidden instance); an aria-live region announcing the label/position text only when it changes, never on a tick (G-5, KD-7)
+- [x] **IMPL-7** Dispatch cadence:start (on the Start click) and cadence:complete (end of the whole sequence) on the <cadence-sequence> root, plus an optional onComplete callback from config; pass through cadence:beep from the hidden instance for external testability, mirroring KD-15's rationale (G-4, KD-6)
+- [x] **IMPL-8** Playwright test suite backing the verification criteria: config/total-duration math, sequencing order, beep timing across step transitions, aggregate chrono behavior, accessibility, completion
+- [x] **IMPL-9** Demo page (or a section of the existing one) spawning a <cadence-sequence> with a small multi-block sample program
+- [x] **IMPL-10** Sequencing engine: walk blocks, repetitions, then steps in order; configure the hidden clock instance for each step and advance on its cadence:complete; update the label/position indicator at the start of each step (G-2, G-3)
 
 ## Verification Criteria
 - [ ] **VC-1** Given a 2-block program (block A: 2 steps × 2 reps, block B: 1 step × 3 reps, known durations), the computed total duration equals the hand-calculated sum (G-1, G-4) `npx playwright test tests/sequence-config.spec.js -g 'total duration'`
@@ -111,3 +111,4 @@ _No items yet._
 - 2026-08-22: dry run clean — Walked IMPL-1 through IMPL-10: the two real gaps were accessibility leakage from the hidden instance and timer drift in the aggregate chrono, both resolved (KD-8, KD-9). Nothing else surfaced — the rest reduces to already-decided patterns from clock-and-clock-configuration (config handoff, events, toggle, m:ss format).
 - 2026-08-22: Status: Draft → Ready
 - 2026-08-22: Status: Ready → In Progress
+- 2026-08-22: IMPL-1, IMPL-2, IMPL-3, IMPL-10, IMPL-4, IMPL-5, IMPL-6, IMPL-7, IMPL-8, IMPL-9 checked
