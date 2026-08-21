@@ -27,9 +27,35 @@ the JSON is the only thing that changes.
 
 ## Status
 
-Nothing is built yet. Specs live under `specs/` and are tracked with the
-harness described below — start with `next` to see what's first (the clock
-and its configuration).
+The first component is built: `<cadence-clock>`, a single reusable clock
+primitive — one step's worth of countdown, not yet a multi-step program
+(that's a later component). It's a vanilla Custom Element with no
+framework and no build step; see `CLAUDE.md` for the conventions that
+govern it and everything built after it.
+
+```html
+<cadence-clock id="demo"></cadence-clock>
+<script src="js/cadence-clock.js"></script>
+<script>
+  document.getElementById('demo').configure({
+    durationSeconds: 20,      // required
+    startFrequency: 440,      // optional — beep at start, omit for silence
+    endFrequency: 880,        // optional — beep at end, independent pitch
+    onComplete: () => {},     // optional convenience callback
+  });
+</script>
+```
+
+It renders inline — a chrono (toggles elapsed/remaining, click the time
+or call `.toggleMode()`) alongside a bar that fills over the duration —
+auto-starts the instant `configure()` is called, and signals its
+lifecycle as `cadence:start` / `cadence:beep` / `cadence:complete`
+CustomEvents on itself. See `index.html` for a working demo (the "Start
+demo" button exists because browsers require a user gesture before
+Web Audio will actually produce sound — see `CLAUDE.md`).
+
+Specs live under `sdd/specs/` and are tracked with the harness described
+below — start with `next` to see what's next.
 
 ## Working on this project
 
