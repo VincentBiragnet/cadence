@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
 
-test('the aggregate chrono reads the full total at t=0 and decreases across a step boundary', async ({ page }) => {
+test('the displayed total at t=0 matches the precomputed sum', async ({ page }) => {
   await page.goto('/index.html');
-  const result = await page.evaluate(async () => {
+  const atStart = await page.evaluate(() => {
     const seq = document.createElement('cadence-sequence');
     document.body.appendChild(seq);
     seq.configure({
@@ -11,23 +11,49 @@ test('the aggregate chrono reads the full total at t=0 and decreases across a st
         { label: 'B', durationSeconds: 0.3 },
       ]}],
     });
-    const atStart = seq.querySelector('.cds-time').textContent; // "0:01" (0.5s rounds up)
-
-    seq.querySelector('.cds-start').click();
-    await new Promise((r) => setTimeout(r, 100)); // still in step A
-    const midA = seq.querySelector('.cds-time').textContent;
-
-    await new Promise((r) => setTimeout(r, 250)); // now into step B
-    const midB = seq.querySelector('.cds-time').textContent;
-
-    return { atStart, midA, midB };
+    return seq.querySelector('.cds-time').textContent;
   });
-  expect(result.atStart).toBe('0:01'); // 0.5s total, rounds to 1s
-  // both mid-run reads must be <= the starting total and >= 0 — the point is
-  // there is no jump/reset at the step boundary, just a monotonic decrease
-  const toSeconds = (t) => { const [m, s] = t.split(':').map(Number); return m * 60 + s; };
-  expect(toSeconds(result.midA)).toBeLessThanOrEqual(toSeconds(result.atStart));
-  expect(toSeconds(result.midB)).toBeLessThanOrEqual(toSeconds(result.midA));
+  expect(atStart).toBe('0:01'); // 0.5s total, rounds to 1s
+});
+
+test('aggregate elapsed time (ms) is monotonic and never resets at a step boundary', async ({ page }) => {
+  // Samples seq.elapsedMs directly (real ms, not the rounded m:ss display)
+  // frequently enough to actually observe the A→B boundary, so a KD-9
+  // regression — anchoring to the current step's own elapsed instead of
+  // completed-steps-by-config + current-step-elapsed — would show up as a
+  // visible drop back toward 0 at ~300ms, not just get rounded away.
+  await page.goto('/index.html');
+  const samples = await page.evaluate(async () => {
+    const seq = document.createElement('cadence-sequence');
+    document.body.appendChild(seq);
+    seq.configure({
+      blocks: [{ repetitions: 1, steps: [
+        { label: 'A', durationSeconds: 0.3 },
+        { label: 'B', durationSeconds: 0.3 },
+      ]}],
+    });
+    const out = [];
+    seq.querySelector('.cds-start').click();
+    const start = performance.now();
+    while (performance.now() - start < 550) {
+      out.push(seq.elapsedMs);
+      await new Promise((r) => setTimeout(r, 15));
+    }
+    return out;
+  });
+
+  // Monotonic non-decreasing (small tolerance for frame-timing jitter) —
+  // the exact property a reset-at-the-boundary bug would violate.
+  for (let i = 1; i < samples.length; i++) {
+    expect(samples[i]).toBeGreaterThanOrEqual(samples[i - 1] - 5);
+  }
+  // Must actually cross the ~300ms A/B boundary during the sampling window,
+  // or this test isn't exercising the transition at all.
+  expect(Math.max(...samples)).toBeGreaterThan(320);
+  // And once past the boundary, elapsed must stay past it — never drop back
+  // near 0, which is exactly what "reset instead of anchored" would do.
+  const pastBoundary = samples.filter((s) => s > 320);
+  expect(Math.min(...pastBoundary)).toBeGreaterThan(280);
 });
 
 test('clicking the chrono (or .toggleMode()) switches remaining/elapsed', async ({ page }) => {

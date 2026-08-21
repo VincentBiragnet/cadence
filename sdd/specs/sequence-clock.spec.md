@@ -1,6 +1,6 @@
 # Spec: Sequence clock
 
-**Status:** In Progress
+**Status:** Done
 **Description:** Sequence clock
 
 _Edit via `scripts/spec.py`, never by hand._
@@ -54,14 +54,14 @@ _No items yet._
 - [x] **IMPL-10** Sequencing engine: walk blocks, repetitions, then steps in order; configure the hidden clock instance for each step and advance on its cadence:complete; update the label/position indicator at the start of each step (G-2, G-3)
 
 ## Verification Criteria
-- [ ] **VC-1** Given a 2-block program (block A: 2 steps × 2 reps, block B: 1 step × 3 reps, known durations), the computed total duration equals the hand-calculated sum (G-1, G-4) `npx playwright test tests/sequence-config.spec.js -g 'total duration'`
-- [ ] **VC-2** Steps fire in the exact expected order across block/repetition boundaries for a small deterministic program, observed via label-change events (G-2) `npx playwright test tests/sequence-order.spec.js`
-- [ ] **VC-3** Each step's beep (frequency and start/end edge) matches its own config as the sequence runs through several steps with different frequencies (G-3) `npx playwright test tests/sequence-audio.spec.js`
-- [ ] **VC-4** The aggregate chrono reads the full computed total at t=0, and decreases continuously across a step-to-step transition with no jump or reset (G-4) `npx playwright test tests/sequence-chrono.spec.js`
-- [ ] **VC-5** Clicking the chrono (or calling .toggleMode()) switches the aggregate display between remaining and elapsed (G-4) `npx playwright test tests/sequence-chrono.spec.js -g toggle`
-- [ ] **VC-6** A visual pulse fires alongside every step beep, and aria-live announces the label/position text only when it changes, never once per tick (G-5) `npx playwright test tests/sequence-a11y.spec.js`
-- [ ] **VC-7** At the end of the whole program, cadence:complete fires once on the <cadence-sequence> root and the onComplete callback fires once (G-2, G-4) `npx playwright test tests/sequence-complete.spec.js`
-- [ ] **VC-8** The Start button click is what unlocks Web Audio for the run — the hidden per-step clock's AudioContext is 'running' (not stuck suspended) by the time the first beep fires `npx playwright test tests/sequence-audio-unlock.spec.js`
+- [x] **VC-1** Given a 2-block program (block A: 2 steps × 2 reps, block B: 1 step × 3 reps, known durations), the computed total duration equals the hand-calculated sum (G-1, G-4) `npx playwright test tests/sequence-config.spec.js -g 'total duration'` → passed 2026-08-22 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/sequence-config.spec.js:3:5 › total duration is th)
+- [x] **VC-2** Steps fire in the exact expected order across block/repetition boundaries for a small deterministic program, observed via label-change events (G-2) `npx playwright test tests/sequence-order.spec.js` → passed 2026-08-22 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/sequence-order.spec.js:3:5 › steps run in order ac)
+- [x] **VC-3** Each step's beep (frequency and start/end edge) matches its own config as the sequence runs through several steps with different frequencies (G-3) `npx playwright test tests/sequence-audio.spec.js` → passed 2026-08-22 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/sequence-audio.spec.js:3:5 › each step's beep matc)
+- [x] **VC-4** The aggregate chrono reads the full computed total at t=0, and decreases continuously across a step-to-step transition with no jump or reset (G-4) `npx playwright test tests/sequence-chrono.spec.js` → passed 2026-08-22 (ran: exit 0 — Running 2 tests using 1 worker ✓ 1 tests/sequence-chrono.spec.js:3:5 › the aggregate chron), passed 2026-08-22 (ran: exit 0 — Running 3 tests using 1 worker ✓ 1 tests/sequence-chrono.spec.js:3:5 › the displayed total)
+- [x] **VC-5** Clicking the chrono (or calling .toggleMode()) switches the aggregate display between remaining and elapsed (G-4) `npx playwright test tests/sequence-chrono.spec.js -g toggle` → passed 2026-08-22 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/sequence-chrono.spec.js:33:5 › clicking the chrono)
+- [x] **VC-6** A visual pulse fires alongside every step beep, and aria-live announces the label/position text only when it changes, never once per tick (G-5) `npx playwright test tests/sequence-a11y.spec.js` → passed 2026-08-22 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/sequence-a11y.spec.js:3:5 › a visual pulse fires w)
+- [x] **VC-7** At the end of the whole program, cadence:complete fires once on the <cadence-sequence> root and the onComplete callback fires once (G-2, G-4) `npx playwright test tests/sequence-complete.spec.js` → passed 2026-08-22 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/sequence-complete.spec.js:3:5 › cadence:complete a)
+- [x] **VC-8** The Start button click is what unlocks Web Audio for the run — the hidden per-step clock's AudioContext is 'running' (not stuck suspended) by the time the first beep fires `npx playwright test tests/sequence-audio-unlock.spec.js` → passed 2026-08-22 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/sequence-audio-unlock.spec.js:3:5 › the Start clic)
 
 ## Changelog
 - 2026-08-22: Spec initialized.
@@ -112,3 +112,13 @@ _No items yet._
 - 2026-08-22: Status: Draft → Ready
 - 2026-08-22: Status: Ready → In Progress
 - 2026-08-22: IMPL-1, IMPL-2, IMPL-3, IMPL-10, IMPL-4, IMPL-5, IMPL-6, IMPL-7, IMPL-8, IMPL-9 checked
+- 2026-08-22: VC-1 passed
+- 2026-08-22: VC-2 passed
+- 2026-08-22: VC-3 passed
+- 2026-08-22: VC-4 passed
+- 2026-08-22: VC-5 passed
+- 2026-08-22: VC-6 passed
+- 2026-08-22: VC-7 passed
+- 2026-08-22: VC-8 passed
+- 2026-08-22: VC-4 passed
+- 2026-08-22: Status: In Progress → Done

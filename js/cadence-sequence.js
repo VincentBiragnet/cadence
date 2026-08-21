@@ -142,6 +142,16 @@ class CadenceSequence extends HTMLElement {
     this.mode = this._mode === 'remaining' ? 'elapsed' : 'remaining';
   }
 
+  // Public: the aggregate elapsed time in ms, anchored to actual progress
+  // (completed steps by config + the current step's own live elapsed, KD-9)
+  // rather than one continuous timer — exposed so it can be asserted on
+  // directly instead of through the rounded m:ss display text.
+  get elapsedMs() {
+    return this._completedMs() + this._currentStepElapsedMs();
+  }
+
+  get totalMs() { return this._totalMs; }
+
   _completedMs() {
     return this._cursor < this._flat.length ? this._flat[this._cursor].offsetMs : this._totalMs;
   }
