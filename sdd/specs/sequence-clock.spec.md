@@ -1,6 +1,6 @@
 # Spec: Sequence clock
 
-**Status:** Draft
+**Status:** In Progress
 **Description:** Sequence clock
 
 _Edit via `scripts/spec.py`, never by hand._
@@ -24,6 +24,8 @@ _Edit via `scripts/spec.py`, never by hand._
 - **OQ-5** ~~Does this component auto-start on configure(), matching the atomic clock's KD-5, or does a multi-minute program need an explicit start gesture of its own (which would also double as the audio-unlock gesture KD-14 pushed onto embedders)?~~ → KD-5
 - **OQ-6** ~~What happens at the very end of the whole sequence — does the aggregate chrono just sit at 0, does the component dispatch a completion event/callback mirroring the atomic clock's cadence:complete, or something else?~~ → KD-6
 - **OQ-7** ~~Since the per-step atomic clock is headless (KD-1), its own accessibility wiring (visual pulse per beep, aria-live for its start/complete) never surfaces anywhere. Does this component need its own equivalent — a visual pulse when a step beeps, aria-live announcing label/position changes — to keep the accessibility bar the atomic clock set (G-6 on clock-and-clock-configuration)?~~ → KD-7
+- **OQ-8** ~~The hidden per-step clock instance still renders its own role=progressbar and aria-live region (just not shown visually) — if it's merely display:none rather than excluded from the accessibility tree, its own start/complete announcements would leak through per step and duplicate/spam alongside the sequence's own aria-live (G-5), exactly what we're trying to avoid~~ → KD-8
+- **OQ-9** ~~Deriving the aggregate remaining time from one continuous timer since the sequence's own start (IMPL-4) will drift from reality: each step-to-step transition has a small real-world gap (the JS callback chain from one step's cadence:complete to the next step's configure()), so a single uninterrupted clock slowly diverges from the sum of actual step durations over a long program with many steps~~ → KD-9
 
 ## Key Decisions
 - **KD-1** Headless: the atomic clock's timing/beep logic is reused internally (its class, not a mounted <cadence-clock> element), but nothing per-step is rendered — only the current label and the one big aggregate chrono are shown (OQ-1)
@@ -33,6 +35,8 @@ _Edit via `scripts/spec.py`, never by hand._
 - **KD-5** An explicit start gesture, not auto-start — a real button/interaction on this component itself, which conveniently doubles as the audio-unlock gesture KD-14 pushed onto embedders (a multi-minute program is exactly the kind of thing a person deliberately starts) (OQ-5)
 - **KD-6** Mirrors the atomic clock: dispatches a completion event on its own root element plus calls an optional onComplete callback from config, same pattern as KD-8/KD-9 (OQ-6)
 - **KD-7** Yes, equivalent wiring at the sequence level: a visual pulse on the big chrono paired with every step beep (the headless clock's cadence:beep still fires and this component listens for it), and an aria-live region announcing the label/position text each time it changes — not on every tick, same non-spam rule as G-6 (OQ-7)
+- **KD-8** The hidden instance is excluded from the accessibility tree entirely (aria-hidden="true" on its container, in addition to display:none) — the sequence's own aria-live is the only one that should ever announce anything (OQ-8)
+- **KD-9** Anchor to actual progress, not a single continuous timer: remaining = total − (durations of already-completed steps, by config) − current step's own elapsed (read from the hidden clock's internal state each frame). This self-corrects at every step boundary instead of accumulating scheduling overhead across a long program (OQ-9)
 
 ## Prior Art
 _No items yet._
@@ -100,3 +104,10 @@ _No items yet._
 - 2026-08-22: VC-6 added
 - 2026-08-22: VC-7 added
 - 2026-08-22: VC-8 added
+- 2026-08-22: OQ-8 raised by dry run
+- 2026-08-22: OQ-9 raised by dry run
+- 2026-08-22: KD-8 resolves OQ-8
+- 2026-08-22: KD-9 resolves OQ-9
+- 2026-08-22: dry run clean — Walked IMPL-1 through IMPL-10: the two real gaps were accessibility leakage from the hidden instance and timer drift in the aggregate chrono, both resolved (KD-8, KD-9). Nothing else surfaced — the rest reduces to already-decided patterns from clock-and-clock-configuration (config handoff, events, toggle, m:ss format).
+- 2026-08-22: Status: Draft → Ready
+- 2026-08-22: Status: Ready → In Progress
