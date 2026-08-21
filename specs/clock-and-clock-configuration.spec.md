@@ -32,6 +32,7 @@ _Edit via `scripts/spec.py`, never by hand._
 - **OQ-12** ~~Browsers gate Web Audio behind a user gesture; KD-5 has the clock auto-start with no click of its own — where does audio get unlocked?~~ → KD-14
 - **OQ-13** ~~How does a Playwright test observe that an oscillator 'started' at a given frequency, without capturing real audio output?~~ → KD-15
 - **OQ-14** ~~IMPL-3 cites KD-10, but the decision that actually specifies how config is handed over (a configure() method, not attributes) is KD-13 — a citation slip from before KD-13 existed, not a scope change~~ → KD-16
+- **OQ-15** ~~OQ-3 asked about display format too (mm:ss vs raw seconds), but KD-4 only settled elapsed-vs-remaining — what format does the chrono text actually use?~~ → KD-17
 
 ## Key Decisions
 - **KD-1** Duration in the JSON is a number of seconds (fractional allowed, e.g. 20.5) — matches how programs are authored and described elsewhere in Cadence ("20s leg raise"); the clock converts to milliseconds internally for its own timing loop (OQ-1 via discovery:duration-units-convention-in-timer-apps)
@@ -50,19 +51,20 @@ _Edit via `scripts/spec.py`, never by hand._
 - **KD-14** This component does not manage audio unlocking — that's the embedding/orchestrating page's responsibility (a session is always started by an explicit human action somewhere upstream, which is what unlocks the browser's AudioContext for everything spawned after it). Documented as a constraint on embedders, not solved here (OQ-12)
 - **KD-15** No AudioContext spying: the clock dispatches a 'cadence:beep' CustomEvent with {frequency, edge} in its detail whenever it starts a tone, on the same root element as cadence:start/cadence:complete. Tests assert on that event; it also becomes the hook the visual pulse (VC-10) listens to (OQ-13)
 - **KD-16** Confirmed a citation slip, not a scope change: IMPL-3's parenthetical should be read as (KD-13), not (KD-10) — item text is frozen so this stands as the correction rather than an edit. KD-10 still applies to IMPL-3 in spirit (no framework), just isn't the decision that shaped its JSON-handoff detail (OQ-14)
+- **KD-17** m:ss (minutes:seconds, seconds zero-padded, no leading zero on minutes) always, regardless of duration magnitude — matches the convention every consumer interval-timer app already uses (SOTA from OQ-1's discovery) and stays readable whether a step is 7s or 7 minutes (OQ-15)
 
 ## Prior Art
 _No items yet._
 
 ## Implementation Details
 - [x] **IMPL-1** Project skeleton: index.html, css/theme.css, js/cadence-clock.js, and a package.json with Playwright as the sole devDependency
-- [ ] **IMPL-2** Shared theme.css: color/spacing custom properties, light/dark via prefers-color-scheme, no per-component one-off styles (KD-7, KD-10)
-- [ ] **IMPL-3** Register <cadence-clock> custom element; parse its JSON config (duration, startFrequency?, endFrequency?) (KD-10)
-- [ ] **IMPL-4** Timing loop via requestAnimationFrame driving the bar fill and the chrono text, defaulting to remaining (KD-1, KD-4)
-- [ ] **IMPL-5** Elapsed/remaining toggle: click on the chrono text, plus a public method/attribute for programmatic control (KD-11)
-- [ ] **IMPL-6** Web Audio beep helper: short oscillator burst at a given frequency, wired to start and end, silent when a frequency is omitted (KD-3)
-- [ ] **IMPL-7** Dispatch cadence:start / cadence:complete CustomEvents on the root element and call an optional onComplete callback from config (KD-8, KD-9)
-- [ ] **IMPL-8** Accessibility wiring: role=progressbar with live aria-valuenow/min/max, an aria-live=polite region announcing only start/complete text, and a visual pulse paired with each beep
+- [x] **IMPL-2** Shared theme.css: color/spacing custom properties, light/dark via prefers-color-scheme, no per-component one-off styles (KD-7, KD-10)
+- [x] **IMPL-3** Register <cadence-clock> custom element; parse its JSON config (duration, startFrequency?, endFrequency?) (KD-10)
+- [x] **IMPL-4** Timing loop via requestAnimationFrame driving the bar fill and the chrono text, defaulting to remaining (KD-1, KD-4)
+- [x] **IMPL-5** Elapsed/remaining toggle: click on the chrono text, plus a public method/attribute for programmatic control (KD-11)
+- [x] **IMPL-6** Web Audio beep helper: short oscillator burst at a given frequency, wired to start and end, silent when a frequency is omitted (KD-3)
+- [x] **IMPL-7** Dispatch cadence:start / cadence:complete CustomEvents on the root element and call an optional onComplete callback from config (KD-8, KD-9)
+- [x] **IMPL-8** Accessibility wiring: role=progressbar with live aria-valuenow/min/max, an aria-live=polite region announcing only start/complete text, and a visual pulse paired with each beep
 - [ ] **IMPL-9** Playwright test suite backing the verification criteria: config, layout, audio, a11y, toggle, no-network (KD-12)
 - [ ] **IMPL-10** Minimal standalone demo page spawning a <cadence-clock> with sample JSON, deployable as-is to GitHub Pages (KD-6)
 
@@ -146,3 +148,7 @@ _No items yet._
 - 2026-08-21: OQ-14 added
 - 2026-08-21: KD-16 resolves OQ-14
 - 2026-08-21: IMPL-1 checked
+- 2026-08-21: OQ-15 added
+- 2026-08-21: KD-17 resolves OQ-15
+- 2026-08-21: IMPL-2 checked
+- 2026-08-21: IMPL-3, IMPL-4, IMPL-5, IMPL-6, IMPL-7, IMPL-8 checked
