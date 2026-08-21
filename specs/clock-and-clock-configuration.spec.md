@@ -11,6 +11,7 @@ _Edit via `scripts/spec.py`, never by hand._
 - **G-3** Plays a sound at the start of the duration when a starting frequency is given
 - **G-4** Plays a sound at the end of the duration when an ending frequency is given
 - **G-5** No sound plays for an omitted frequency — the clock runs silently at that edge
+- **G-6** Usable with assistive technology: start/complete are announced to screen readers without spamming a continuous tick, and the audio cue has a visual equivalent so sound isn't the only signal
 
 ## Non-Goals
 - **NG-1** Multi-step programs, sub-step sequencing, and JSON schedules of several steps — this spec is the single reusable clock primitive only
@@ -24,6 +25,9 @@ _Edit via `scripts/spec.py`, never by hand._
 - **OQ-5** ~~What happens when the duration ends — does the clock just sit at 100% and done, or does it need to signal completion to whatever embeds it (e.g. an onComplete callback), given this is meant to be a reusable primitive?~~ → discovery:completion-signaling-design-for-the-clock-primitive, KD-8, KD-9
 - **OQ-6** ~~Is this one HTML page per clock for now (a demo/test harness page), or is there already a host page/embedding contract this needs to fit into?~~ → KD-6
 - **OQ-7** ~~Any visual requirements for the bar and text — colors, size, direction of fill, font — or is a plain functional look fine for this first pass?~~ → KD-7
+- **OQ-8** ~~Which JS/CSS framework, if any, and how does the app stay deployable as a plain static GitHub Pages page with no build step?~~ → KD-10
+- **OQ-9** ~~How is the elapsed/remaining toggle (KD-4) actually triggered — user interaction, or only programmatic, given the clock otherwise has no user-facing controls (KD-5)?~~ → KD-11
+- **OQ-10** ~~How are behavior-level verification criteria (bar fill, beep timing, DOM structure) actually run mechanically, given there's no framework or build step in the shipped page?~~ → KD-12
 
 ## Key Decisions
 - **KD-1** Duration in the JSON is a number of seconds (fractional allowed, e.g. 20.5) — matches how programs are authored and described elsewhere in Cadence ("20s leg raise"); the clock converts to milliseconds internally for its own timing loop (OQ-1 via discovery:duration-units-convention-in-timer-apps)
@@ -35,17 +39,38 @@ _Edit via `scripts/spec.py`, never by hand._
 - **KD-7** A shared CSS design system (custom properties for colors/spacing, respecting prefers-color-scheme for light/dark) used by every Cadence component, not styling one-off per component (OQ-7)
 - **KD-8** The clock exposes completion via both: it dispatches a 'cadence:complete' CustomEvent on its own root element (for any/multiple listeners, matches standalone-component style already chosen), and it also accepts an optional onComplete callback in its JS config for the common single-owner case — the event is the source of truth, the callback is a convenience wrapper around listening for it (OQ-5 via discovery:completion-signaling-design-for-the-clock-primitive)
 - **KD-9** The same pattern covers the start: a 'cadence:start' CustomEvent fires when the clock begins (and the starting beep, if any, plays), so an orchestrator can align its own bookkeeping to actual start rather than to when it called spawn (OQ-5 via discovery:completion-signaling-design-for-the-clock-primitive)
+- **KD-10** No JS framework, no CSS framework: a vanilla Custom Element (<cadence-clock>) and a hand-written CSS file using custom properties, both loaded directly by a static index.html with no build step and no CDN dependency — nothing to bundle, nothing that can 404 on GitHub Pages, nothing to keep in sync with a build output (OQ-8)
+- **KD-11** Both: clicking/tapping the time text toggles elapsed/remaining for a person watching, and the same switch is exposed as a JS method/attribute so an orchestrating component can drive it too — a display toggle isn't the same as the start control KD-5 already ruled out (OQ-9)
+- **KD-12** Playwright, as a dev-only dependency (via npx, never shipped in the page) driving a real browser against the static HTML file — the only way to mechanically check animation-frame timing, computed layout, and actual Web Audio output rather than trusting the source code read right (OQ-10)
 
 ## Prior Art
 _No items yet._
 
 ## Implementation Details
-_No items yet._
+- [ ] **IMPL-1** Project skeleton: index.html, css/theme.css, js/cadence-clock.js, and a package.json with Playwright as the sole devDependency
+- [ ] **IMPL-2** Shared theme.css: color/spacing custom properties, light/dark via prefers-color-scheme, no per-component one-off styles (KD-7, KD-10)
+- [ ] **IMPL-3** Register <cadence-clock> custom element; parse its JSON config (duration, startFrequency?, endFrequency?) (KD-10)
+- [ ] **IMPL-4** Timing loop via requestAnimationFrame driving the bar fill and the chrono text, defaulting to remaining (KD-1, KD-4)
+- [ ] **IMPL-5** Elapsed/remaining toggle: click on the chrono text, plus a public method/attribute for programmatic control (KD-11)
+- [ ] **IMPL-6** Web Audio beep helper: short oscillator burst at a given frequency, wired to start and end, silent when a frequency is omitted (KD-3)
+- [ ] **IMPL-7** Dispatch cadence:start / cadence:complete CustomEvents on the root element and call an optional onComplete callback from config (KD-8, KD-9)
+- [ ] **IMPL-8** Accessibility wiring: role=progressbar with live aria-valuenow/min/max, an aria-live=polite region announcing only start/complete text, and a visual pulse paired with each beep
+- [ ] **IMPL-9** Playwright test suite backing the verification criteria: config, layout, audio, a11y, toggle, no-network (KD-12)
+- [ ] **IMPL-10** Minimal standalone demo page spawning a <cadence-clock> with sample JSON, deployable as-is to GitHub Pages (KD-6)
 
 ## Verification Criteria
 - [ ] **VC-1** {"durationSeconds": 5} runs for 5000ms ± one animation frame, measured by starting the clock and asserting the completion callback fires at ~5s
 - [ ] **VC-2** ~~{"durationSeconds": 5} runs for 5000ms ± one animation frame, measured by starting the clock and asserting the completion callback fires at ~5s~~ → duplicate of VC-1 — same 'apply' retry bug
 - [ ] **VC-3** Spawning a clock with a 5s duration and an onComplete callback: the callback fires once, and a 'cadence:complete' listener on the root element fires once, both within one frame of each other, ~5s after start
+- [ ] **VC-4** Given {"durationSeconds": 5} with no frequencies at all, the clock runs to completion with zero oscillator starts (G-1, G-5) `npx playwright test tests/config.spec.js -g 'no frequency'`
+- [ ] **VC-5** The chrono text and the progress bar render as inline siblings on one line at a 400px viewport width and never wrap (G-2) `npx playwright test tests/layout.spec.js`
+- [ ] **VC-6** Given a startFrequency, an oscillator at exactly that frequency starts within one animation frame of t=0 (G-3) `npx playwright test tests/audio.spec.js -g start`
+- [ ] **VC-7** Given an endFrequency different from startFrequency, an oscillator at exactly that frequency starts within one animation frame of the duration elapsing, and the startFrequency tone is not reused (G-4) `npx playwright test tests/audio.spec.js -g end`
+- [ ] **VC-8** Given only an endFrequency (startFrequency omitted), no oscillator starts at t=0, and exactly one starts at completion, at the given frequency (G-1, G-5) `npx playwright test tests/audio.spec.js -g partial`
+- [ ] **VC-9** The bar carries role=progressbar with aria-valuenow/min/max kept current, and an aria-live=polite region announces only the start and complete text, never intermediate ticks (G-6) `npx playwright test tests/a11y.spec.js -g announcements`
+- [ ] **VC-10** Each beep is paired with a visual pulse on the bar/text so start and completion are perceivable without sound (G-6) `npx playwright test tests/a11y.spec.js -g visual-pulse`
+- [ ] **VC-11** Clicking the chrono text toggles between remaining and elapsed display, and calling the exposed toggle method/attribute does the same thing (G-2) `npx playwright test tests/toggle.spec.js`
+- [ ] **VC-12** Loading index.html triggers zero requests to any origin other than the page's own (no CDN script/style/font) (G-1) `npx playwright test tests/no-network.spec.js`
 
 ## Changelog
 - 2026-08-21: Spec initialized.
@@ -75,3 +100,29 @@ _No items yet._
 - 2026-08-21: KD-6 resolves OQ-6
 - 2026-08-21: KD-7 resolves OQ-7
 - 2026-08-21: KD-8, KD-9, VC-3 applied from discovery:completion-signaling-design-for-the-clock-primitive
+- 2026-08-21: G-6 added
+- 2026-08-21: OQ-8 added
+- 2026-08-21: OQ-9 added
+- 2026-08-21: OQ-10 added
+- 2026-08-21: KD-10 resolves OQ-8
+- 2026-08-21: KD-11 resolves OQ-9
+- 2026-08-21: KD-12 resolves OQ-10
+- 2026-08-21: VC-4 added
+- 2026-08-21: VC-5 added
+- 2026-08-21: VC-6 added
+- 2026-08-21: VC-7 added
+- 2026-08-21: VC-8 added
+- 2026-08-21: VC-9 added
+- 2026-08-21: VC-10 added
+- 2026-08-21: VC-11 added
+- 2026-08-21: VC-12 added
+- 2026-08-21: IMPL-1 added
+- 2026-08-21: IMPL-2 added
+- 2026-08-21: IMPL-3 added
+- 2026-08-21: IMPL-4 added
+- 2026-08-21: IMPL-5 added
+- 2026-08-21: IMPL-6 added
+- 2026-08-21: IMPL-7 added
+- 2026-08-21: IMPL-8 added
+- 2026-08-21: IMPL-9 added
+- 2026-08-21: IMPL-10 added
