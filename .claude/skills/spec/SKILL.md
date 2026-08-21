@@ -81,7 +81,11 @@ The rungs are ordered because each one makes the next honest: a question left op
 python3 scripts/spec.py dryrun <slug> --raised "<question the rehearsal surfaced>"
 ```
 
-These are the questions you only find by trying: the ones the spec never thought to answer. Resolve each, then rehearse again. When a walkthrough turns up nothing, record it and start work:
+These are the questions you only find by trying: the ones the spec never thought to answer. Resolve each, then rehearse again.
+
+**Part of the walkthrough is checking citations, not just gaps.** A `(KD-N)`/`(G-N)` reference inside an item's text is free prose — the tool never validates it, and item text is frozen the moment it's written. Decisions made after an item existed can leave its citation stale or pointing at the wrong one (e.g. an implementation item written against "no framework" later needing the decision that actually shaped its data format, added only once the dry run surfaced it). Re-read each implementation item's citations against the *current* Key Decisions while you walk through it. A wrong one can't be edited in place — raise it as a question and resolve it with a correction, the same as any other gap the rehearsal finds.
+
+When a walkthrough turns up nothing, record it and start work:
 
 ```
 python3 scripts/spec.py dryrun <slug> --clean "<what you walked through>"

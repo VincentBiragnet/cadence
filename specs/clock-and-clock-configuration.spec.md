@@ -31,6 +31,7 @@ _Edit via `scripts/spec.py`, never by hand._
 - **OQ-11** ~~How does an orchestrator hand JSON config to a newly spawned <cadence-clock>, given custom-element attributes are string-only and the config has numeric/optional fields?~~ → KD-13
 - **OQ-12** ~~Browsers gate Web Audio behind a user gesture; KD-5 has the clock auto-start with no click of its own — where does audio get unlocked?~~ → KD-14
 - **OQ-13** ~~How does a Playwright test observe that an oscillator 'started' at a given frequency, without capturing real audio output?~~ → KD-15
+- **OQ-14** ~~IMPL-3 cites KD-10, but the decision that actually specifies how config is handed over (a configure() method, not attributes) is KD-13 — a citation slip from before KD-13 existed, not a scope change~~ → KD-16
 
 ## Key Decisions
 - **KD-1** Duration in the JSON is a number of seconds (fractional allowed, e.g. 20.5) — matches how programs are authored and described elsewhere in Cadence ("20s leg raise"); the clock converts to milliseconds internally for its own timing loop (OQ-1 via discovery:duration-units-convention-in-timer-apps)
@@ -48,6 +49,7 @@ _Edit via `scripts/spec.py`, never by hand._
 - **KD-13** Config is handed over as a JS property, not an attribute: a public configure(config) method (and a .config setter as sugar for it) — attributes stay out of it entirely since they can't carry numbers or optional fields cleanly (OQ-11)
 - **KD-14** This component does not manage audio unlocking — that's the embedding/orchestrating page's responsibility (a session is always started by an explicit human action somewhere upstream, which is what unlocks the browser's AudioContext for everything spawned after it). Documented as a constraint on embedders, not solved here (OQ-12)
 - **KD-15** No AudioContext spying: the clock dispatches a 'cadence:beep' CustomEvent with {frequency, edge} in its detail whenever it starts a tone, on the same root element as cadence:start/cadence:complete. Tests assert on that event; it also becomes the hook the visual pulse (VC-10) listens to (OQ-13)
+- **KD-16** Confirmed a citation slip, not a scope change: IMPL-3's parenthetical should be read as (KD-13), not (KD-10) — item text is frozen so this stands as the correction rather than an edit. KD-10 still applies to IMPL-3 in spirit (no framework), just isn't the decision that shaped its JSON-handoff detail (OQ-14)
 
 ## Prior Art
 _No items yet._
@@ -141,3 +143,5 @@ _No items yet._
 - 2026-08-21: dry run clean — Walked IMPL-1 through IMPL-10 end to end: config handoff, audio-unlock boundary, and test observability were the only real gaps, now resolved as KD-13/14/15. No further gaps surfaced.
 - 2026-08-21: Status: Draft → Ready
 - 2026-08-21: Status: Ready → In Progress
+- 2026-08-21: OQ-14 added
+- 2026-08-21: KD-16 resolves OQ-14
