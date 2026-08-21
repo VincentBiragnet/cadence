@@ -1,6 +1,6 @@
 # Spec: Clock and clock configuration
 
-**Status:** Draft
+**Status:** In Progress
 **Description:** Clock and clock configuration
 
 _Edit via `scripts/spec.py`, never by hand._
@@ -28,6 +28,9 @@ _Edit via `scripts/spec.py`, never by hand._
 - **OQ-8** ~~Which JS/CSS framework, if any, and how does the app stay deployable as a plain static GitHub Pages page with no build step?~~ → KD-10
 - **OQ-9** ~~How is the elapsed/remaining toggle (KD-4) actually triggered — user interaction, or only programmatic, given the clock otherwise has no user-facing controls (KD-5)?~~ → KD-11
 - **OQ-10** ~~How are behavior-level verification criteria (bar fill, beep timing, DOM structure) actually run mechanically, given there's no framework or build step in the shipped page?~~ → KD-12
+- **OQ-11** ~~How does an orchestrator hand JSON config to a newly spawned <cadence-clock>, given custom-element attributes are string-only and the config has numeric/optional fields?~~ → KD-13
+- **OQ-12** ~~Browsers gate Web Audio behind a user gesture; KD-5 has the clock auto-start with no click of its own — where does audio get unlocked?~~ → KD-14
+- **OQ-13** ~~How does a Playwright test observe that an oscillator 'started' at a given frequency, without capturing real audio output?~~ → KD-15
 
 ## Key Decisions
 - **KD-1** Duration in the JSON is a number of seconds (fractional allowed, e.g. 20.5) — matches how programs are authored and described elsewhere in Cadence ("20s leg raise"); the clock converts to milliseconds internally for its own timing loop (OQ-1 via discovery:duration-units-convention-in-timer-apps)
@@ -42,6 +45,9 @@ _Edit via `scripts/spec.py`, never by hand._
 - **KD-10** No JS framework, no CSS framework: a vanilla Custom Element (<cadence-clock>) and a hand-written CSS file using custom properties, both loaded directly by a static index.html with no build step and no CDN dependency — nothing to bundle, nothing that can 404 on GitHub Pages, nothing to keep in sync with a build output (OQ-8)
 - **KD-11** Both: clicking/tapping the time text toggles elapsed/remaining for a person watching, and the same switch is exposed as a JS method/attribute so an orchestrating component can drive it too — a display toggle isn't the same as the start control KD-5 already ruled out (OQ-9)
 - **KD-12** Playwright, as a dev-only dependency (via npx, never shipped in the page) driving a real browser against the static HTML file — the only way to mechanically check animation-frame timing, computed layout, and actual Web Audio output rather than trusting the source code read right (OQ-10)
+- **KD-13** Config is handed over as a JS property, not an attribute: a public configure(config) method (and a .config setter as sugar for it) — attributes stay out of it entirely since they can't carry numbers or optional fields cleanly (OQ-11)
+- **KD-14** This component does not manage audio unlocking — that's the embedding/orchestrating page's responsibility (a session is always started by an explicit human action somewhere upstream, which is what unlocks the browser's AudioContext for everything spawned after it). Documented as a constraint on embedders, not solved here (OQ-12)
+- **KD-15** No AudioContext spying: the clock dispatches a 'cadence:beep' CustomEvent with {frequency, edge} in its detail whenever it starts a tone, on the same root element as cadence:start/cadence:complete. Tests assert on that event; it also becomes the hook the visual pulse (VC-10) listens to (OQ-13)
 
 ## Prior Art
 _No items yet._
@@ -126,3 +132,12 @@ _No items yet._
 - 2026-08-21: IMPL-8 added
 - 2026-08-21: IMPL-9 added
 - 2026-08-21: IMPL-10 added
+- 2026-08-21: OQ-11 raised by dry run
+- 2026-08-21: OQ-12 raised by dry run
+- 2026-08-21: OQ-13 raised by dry run
+- 2026-08-21: KD-13 resolves OQ-11
+- 2026-08-21: KD-14 resolves OQ-12
+- 2026-08-21: KD-15 resolves OQ-13
+- 2026-08-21: dry run clean — Walked IMPL-1 through IMPL-10 end to end: config handoff, audio-unlock boundary, and test observability were the only real gaps, now resolved as KD-13/14/15. No further gaps surfaced.
+- 2026-08-21: Status: Draft → Ready
+- 2026-08-21: Status: Ready → In Progress
