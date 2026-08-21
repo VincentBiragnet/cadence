@@ -1,6 +1,6 @@
 # Spec: Clock and clock configuration
 
-**Status:** In Progress
+**Status:** Done
 **Description:** Clock and clock configuration
 
 _Edit via `scripts/spec.py`, never by hand._
@@ -69,18 +69,18 @@ _No items yet._
 - [x] **IMPL-10** Minimal standalone demo page spawning a <cadence-clock> with sample JSON, deployable as-is to GitHub Pages (KD-6)
 
 ## Verification Criteria
-- [ ] **VC-1** {"durationSeconds": 5} runs for 5000ms ± one animation frame, measured by starting the clock and asserting the completion callback fires at ~5s
+- [x] **VC-1** {"durationSeconds": 5} runs for 5000ms ± one animation frame, measured by starting the clock and asserting the completion callback fires at ~5s → passed 2026-08-21 (attested: Spawned a fresh <cadence-clock> via document.createElement, called .configure({durationSeconds: 5, onComplete}) and measured elapsed time with performance.now() from configure() to callback firing. onComplete callback fired exactly once, at 5006.2ms after configure() was called (i.e. ~6ms after the 5000ms target, well within one requestAnimationFrame tick).)
 - [ ] **VC-2** ~~{"durationSeconds": 5} runs for 5000ms ± one animation frame, measured by starting the clock and asserting the completion callback fires at ~5s~~ → duplicate of VC-1 — same 'apply' retry bug
-- [ ] **VC-3** Spawning a clock with a 5s duration and an onComplete callback: the callback fires once, and a 'cadence:complete' listener on the root element fires once, both within one frame of each other, ~5s after start
-- [ ] **VC-4** Given {"durationSeconds": 5} with no frequencies at all, the clock runs to completion with zero oscillator starts (G-1, G-5) `npx playwright test tests/config.spec.js -g 'no frequency'`
-- [ ] **VC-5** The chrono text and the progress bar render as inline siblings on one line at a 400px viewport width and never wrap (G-2) `npx playwright test tests/layout.spec.js`
-- [ ] **VC-6** Given a startFrequency, an oscillator at exactly that frequency starts within one animation frame of t=0 (G-3) `npx playwright test tests/audio.spec.js -g start`
-- [ ] **VC-7** Given an endFrequency different from startFrequency, an oscillator at exactly that frequency starts within one animation frame of the duration elapsing, and the startFrequency tone is not reused (G-4) `npx playwright test tests/audio.spec.js -g end`
-- [ ] **VC-8** Given only an endFrequency (startFrequency omitted), no oscillator starts at t=0, and exactly one starts at completion, at the given frequency (G-1, G-5) `npx playwright test tests/audio.spec.js -g partial`
-- [ ] **VC-9** The bar carries role=progressbar with aria-valuenow/min/max kept current, and an aria-live=polite region announces only the start and complete text, never intermediate ticks (G-6) `npx playwright test tests/a11y.spec.js -g announcements`
-- [ ] **VC-10** Each beep is paired with a visual pulse on the bar/text so start and completion are perceivable without sound (G-6) `npx playwright test tests/a11y.spec.js -g visual-pulse`
-- [ ] **VC-11** Clicking the chrono text toggles between remaining and elapsed display, and calling the exposed toggle method/attribute does the same thing (G-2) `npx playwright test tests/toggle.spec.js`
-- [ ] **VC-12** Loading index.html triggers zero requests to any origin other than the page's own (no CDN script/style/font) (G-1) `npx playwright test tests/no-network.spec.js`
+- [x] **VC-3** Spawning a clock with a 5s duration and an onComplete callback: the callback fires once, and a 'cadence:complete' listener on the root element fires once, both within one frame of each other, ~5s after start → passed 2026-08-21 (attested: Same run as VC-1: attached a 'cadence:complete' event listener on the root <cadence-clock> element before calling .configure({durationSeconds: 5, onComplete}). Both the onComplete callback and the 'cadence:complete' event fired exactly once each (callbackCount=1, eventCount=1), at 5006.2ms and 5006.1ms respectively after configure() -- 0.1ms apart, well within one animation frame, and ~5s after start.)
+- [x] **VC-4** Given {"durationSeconds": 5} with no frequencies at all, the clock runs to completion with zero oscillator starts (G-1, G-5) `npx playwright test tests/config.spec.js -g 'no frequency'` → passed 2026-08-21 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/config.spec.js:3:5 › no frequency: completes with )
+- [x] **VC-5** The chrono text and the progress bar render as inline siblings on one line at a 400px viewport width and never wrap (G-2) `npx playwright test tests/layout.spec.js` → passed 2026-08-21 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/layout.spec.js:3:5 › chrono and bar sit side by si)
+- [x] **VC-6** Given a startFrequency, an oscillator at exactly that frequency starts within one animation frame of t=0 (G-3) `npx playwright test tests/audio.spec.js -g start` → passed 2026-08-21 (ran: exit 0 — Running 2 tests using 1 worker ✓ 1 tests/audio.spec.js:3:5 › start: a beep at startFrequen)
+- [x] **VC-7** Given an endFrequency different from startFrequency, an oscillator at exactly that frequency starts within one animation frame of the duration elapsing, and the startFrequency tone is not reused (G-4) `npx playwright test tests/audio.spec.js -g end` → passed 2026-08-21 (ran: exit 0 — Running 2 tests using 1 worker ✓ 1 tests/audio.spec.js:17:5 › end: a beep at endFrequency )
+- [x] **VC-8** Given only an endFrequency (startFrequency omitted), no oscillator starts at t=0, and exactly one starts at completion, at the given frequency (G-1, G-5) `npx playwright test tests/audio.spec.js -g partial` → passed 2026-08-21 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/audio.spec.js:34:5 › partial: only endFrequency gi)
+- [x] **VC-9** The bar carries role=progressbar with aria-valuenow/min/max kept current, and an aria-live=polite region announces only the start and complete text, never intermediate ticks (G-6) `npx playwright test tests/a11y.spec.js -g announcements` → passed 2026-08-21 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/a11y.spec.js:3:5 › announcements: aria-live only f)
+- [x] **VC-10** Each beep is paired with a visual pulse on the bar/text so start and completion are perceivable without sound (G-6) `npx playwright test tests/a11y.spec.js -g visual-pulse` → passed 2026-08-21 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/a11y.spec.js:25:5 › visual-pulse: a beep is paired)
+- [x] **VC-11** Clicking the chrono text toggles between remaining and elapsed display, and calling the exposed toggle method/attribute does the same thing (G-2) `npx playwright test tests/toggle.spec.js` → passed 2026-08-21 (ran: exit 0 — Running 2 tests using 1 worker ✓ 1 tests/toggle.spec.js:3:5 › clicking the chrono text tog)
+- [x] **VC-12** Loading index.html triggers zero requests to any origin other than the page's own (no CDN script/style/font) (G-1) `npx playwright test tests/no-network.spec.js` → passed 2026-08-21 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/no-network.spec.js:3:5 › loading the page makes ze)
 
 ## Changelog
 - 2026-08-21: Spec initialized.
@@ -154,3 +154,15 @@ _No items yet._
 - 2026-08-21: IMPL-3, IMPL-4, IMPL-5, IMPL-6, IMPL-7, IMPL-8 checked
 - 2026-08-21: IMPL-9 checked
 - 2026-08-21: IMPL-10 checked
+- 2026-08-21: VC-4 passed
+- 2026-08-21: VC-5 passed
+- 2026-08-21: VC-6 passed
+- 2026-08-21: VC-7 passed
+- 2026-08-21: VC-8 passed
+- 2026-08-21: VC-9 passed
+- 2026-08-21: VC-10 passed
+- 2026-08-21: VC-11 passed
+- 2026-08-21: VC-12 passed
+- 2026-08-21: VC-1 passed
+- 2026-08-21: VC-3 passed
+- 2026-08-22: Status: In Progress → Done
