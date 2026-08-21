@@ -10,8 +10,8 @@ python3 "$HARNESS/scripts/spec.py" scaffold "$WORK/proj" >/dev/null || exit 1
 git -C "$WORK/proj" init -q && git -C "$WORK/proj" add -A \
   && git -C "$WORK/proj" -c user.email=t@t -c user.name=t commit -qm init
 commit_all() { git -C "$WORK/proj" add -A; git -C "$WORK/proj" -c user.email=t@t -c user.name=t commit -qm x; }
-SPEC="python3 $WORK/proj/scripts/spec.py"
-FILE="$WORK/proj/specs/pick-a-datastore.spec.md"
+SPEC="python3 $WORK/proj/sdd/scripts/spec.py"
+FILE="$WORK/proj/sdd/specs/pick-a-datastore.spec.md"
 FAILED=0
 
 ok() { printf '  ok    %s\n' "$1"; }
@@ -74,7 +74,7 @@ echo "7. subspecs, one level deep"
 $SPEC add pick-a-datastore implementation 'Build the auth layer' >/dev/null   # IMPL-5
 $SPEC split pick-a-datastore IMPL-5 'Auth layer' >/dev/null
 grep_ok "parent item links to the subspec" '- [ ] **IMPL-5** Build the auth layer → spec:auth-layer'
-CHILD="$WORK/proj/specs/auth-layer.spec.md"
+CHILD="$WORK/proj/sdd/specs/auth-layer.spec.md"
 grep -qF -e '**Parent:** pick-a-datastore (IMPL-5)' "$CHILD" \
   && ok "child records its parent" || fail "child should record its parent"
 $SPEC add auth-layer implementation 'Hash passwords' >/dev/null
@@ -120,7 +120,7 @@ echo "10. discoveries: investigate a hard question, then fold it back"
 $SPEC add pick-a-datastore questions 'Which backup format?' >/dev/null   # OQ-3
 $SPEC discover pick-a-datastore OQ-3 'Backup formats' >/dev/null
 grep_ok "the question points at its discovery" '- **OQ-3** Which backup format? → discovery:backup-formats'
-DISC="$WORK/proj/specs/backup-formats.discovery.md"
+DISC="$WORK/proj/sdd/specs/backup-formats.discovery.md"
 [ -f "$DISC" ] && ok "written as .discovery.md" || fail "expected a .discovery.md file"
 grep -qF -e '**Discovery for:** pick-a-datastore (OQ-3)' "$DISC" \
   && ok "records the question it serves" || fail "expected a Discovery for header"
@@ -140,12 +140,26 @@ grep_ok "the proposal landed as a decision"  '**KD-5** Plain SQL dumps — resto
 grep_ok "the criterion landed too"           '**VC-3** Restore a dump on a clean machine in under an hour'
 grep_ok "the question is resolved, trail intact" '- **OQ-3** ~~Which backup format?~~ → discovery:backup-formats, KD-5'
 [ ! -f "$DISC" ] && ok "the discovery is gone from specs/" || fail "apply should archive the discovery"
-CAT="$WORK/proj/archive/catalog.md"
+CAT="$WORK/proj/sdd/archive/catalog.md"
 grep -qF -e '## backup-formats' "$CAT" && ok "catalogued by name" || fail "expected a catalog line"
 grep -qF -e 'Plain SQL dumps' "$CAT" \
   && fail "a discovery should get a bare catalog line, not a summary" || ok "no summary body for a discovery"
 $SPEC show --archived backup-formats | grep -q 'SOTA-1' \
   && ok "recoverable from git on request" || fail "the discovery should be readable via git"
+
+echo "10b. apply refuses before touching the parent, not after"
+$SPEC add pick-a-datastore questions 'Which cache?' >/dev/null   # OQ-4
+$SPEC discover pick-a-datastore OQ-4 'Cache choice' >/dev/null
+$SPEC add cache-choice decisions 'Redis' >/dev/null
+# deliberately NOT committed: apply must fail on the discovery's own git
+# state before it ever writes to pick-a-datastore.spec.md
+OUT="$($SPEC apply cache-choice 2>&1)"
+case "$OUT" in *"uncommitted changes"*) ok "apply refuses an uncommitted discovery";; *) fail "expected the uncommitted-changes refusal, got: $OUT";; esac
+KD_COUNT_BEFORE=$(grep -c '^- \*\*KD-' "$FILE")
+commit_all
+$SPEC apply cache-choice >/dev/null
+KD_COUNT_AFTER=$(grep -c '^- \*\*KD-' "$FILE")
+check "the failed attempt left no partial decision behind" "$KD_COUNT_AFTER" "$((KD_COUNT_BEFORE + 1))"
 
 echo "11. archiving is a move, and git holds the text"
 $SPEC status auth-layer Done >/dev/null 2>&1
@@ -174,7 +188,7 @@ OUT="$($SPEC archive uncommitted 'never committed' 2>&1)"
 case "$OUT" in *"uncommitted changes"*) ok "refuses to archive what git does not hold";; *) fail "expected an uncommitted refusal, got: $OUT";; esac
 
 echo "12. a spec that lost an item is rejected, and left alone"
-CORRUPT="$WORK/proj/specs/corrupt.spec.md"
+CORRUPT="$WORK/proj/sdd/specs/corrupt.spec.md"
 $SPEC new "Corrupt" >/dev/null
 $SPEC add corrupt questions 'Keep me' >/dev/null
 $SPEC add corrupt questions 'Delete me' >/dev/null
@@ -202,7 +216,7 @@ check "the spec is unharmed" "$($SPEC add hardening questions 'A real one')" "OQ
 echo "14. a deleted top ID is detected, and never reissued"
 $SPEC new "Ledger" >/dev/null
 for q in A B C; do $SPEC add ledger questions "$q" >/dev/null; done
-sed -i '/^- \*\*OQ-3\*\*/d' "$WORK/proj/specs/ledger.spec.md"
+sed -i '/^- \*\*OQ-3\*\*/d' "$WORK/proj/sdd/specs/ledger.spec.md"
 $SPEC list | grep -q 'broken IDs: OQ-3' && ok "deleting the highest ID is detected" || fail "expected OQ-3 flagged"
 OUT="$($SPEC repair ledger 2>&1)"
 case "$OUT" in *"OQ-3 was issued but is gone"*) ok "repair reports the loss";; *) fail "expected a loss report, got: $OUT";; esac
@@ -210,7 +224,7 @@ check "the number stays retired" "$($SPEC add ledger questions 'new one')" "OQ-4
 
 echo "15. repair rescues a spec no command could otherwise touch"
 $SPEC new "Wrecked" >/dev/null
-W="$WORK/proj/specs/wrecked.spec.md"
+W="$WORK/proj/sdd/specs/wrecked.spec.md"
 $SPEC add wrecked questions 'Genuine' >/dev/null
 sed -i 's/^- \*\*OQ-1\*\* Genuine$/- **OQ-1** Genuine\n- **OQ-9** forged/' "$W"
 OUT="$($SPEC add wrecked questions 'blocked' 2>&1)"
@@ -225,7 +239,7 @@ echo "16. concurrent writes do not lose items"
 $SPEC new "Parallel" >/dev/null
 for i in 1 2 3 4 5 6 7 8; do $SPEC add parallel questions "q$i" >/dev/null 2>&1 & done
 wait
-check "all eight survive" "$(grep -c '^- \*\*OQ-' "$WORK/proj/specs/parallel.spec.md")" "8"
+check "all eight survive" "$(grep -c '^- \*\*OQ-' "$WORK/proj/sdd/specs/parallel.spec.md")" "8"
 $SPEC list | grep parallel | grep -q 'broken' && fail "concurrent writes corrupted the ledger" || ok "ledger intact"
 
 echo "17. a failed criterion revokes Done, and waivers stay visible"
@@ -265,13 +279,13 @@ $SPEC resolve loop OQ-2 'In ./backups' >/dev/null
 $SPEC dryrun loop --clean 'dump, transfer, restore' >/dev/null
 $SPEC status loop "In Progress" >/dev/null && ok "a clean rehearsal opens the gate" || fail "In Progress should be allowed now"
 $SPEC add loop verification 'A dump restores (G-1)' --check 'true' >/dev/null
-grep -qF -e '**VC-1** A dump restores (G-1) `true`' "$WORK/proj/specs/loop.spec.md" \
+grep -qF -e '**VC-1** A dump restores (G-1) `true`' "$WORK/proj/sdd/specs/loop.spec.md" \
   && ok "the check command rides on the item" || fail "expected the command in the item text"
 OUT="$($SPEC verify loop VC-1 pass 'looks right to me' 2>&1)"
 case "$OUT" in *"not from your judgement"*) ok "a checkable criterion cannot be attested";; *) fail "expected a refusal, got: $OUT";; esac
 $SPEC verify loop VC-1 --run >/dev/null
-grep -qF -e '→ passed' "$WORK/proj/specs/loop.spec.md" && ok "running it records the verdict" || fail "expected a passed verdict"
-grep -qF -e 'ran: exit 0' "$WORK/proj/specs/loop.spec.md" \
+grep -qF -e '→ passed' "$WORK/proj/sdd/specs/loop.spec.md" && ok "running it records the verdict" || fail "expected a passed verdict"
+grep -qF -e 'ran: exit 0' "$WORK/proj/sdd/specs/loop.spec.md" \
   && ok "with evidence the agent did not write" || fail "expected the exit code as evidence"
 $SPEC next loop | grep -q 'complete and verified' && ok "then it offers Done" || fail "expected the Done rung"
 
@@ -298,7 +312,7 @@ fi
 echo "22. feedback mines changelogs for friction, below threshold does nothing"
 OUT="$($SPEC feedback pick-a-datastore 2>&1)"
 case "$OUT" in *"nothing to raise"*) ok "quiet spec produces no finding";; *) fail "expected no finding, got: $OUT";; esac
-[ -f "$WORK/proj/specs/harness-feedback.spec.md" ] && fail "should not create harness-feedback below threshold" \
+[ -f "$WORK/proj/sdd/specs/harness-feedback.spec.md" ] && fail "should not create harness-feedback below threshold" \
   || ok "no meta-spec created below threshold"
 
 echo "23. repeated dry-run cycles raise a finding on the harness's own meta-spec"
@@ -310,12 +324,12 @@ $SPEC resolve flaky-widget OQ-2 'a2' >/dev/null
 $SPEC dryrun flaky-widget --clean 'ok' >/dev/null
 OUT="$($SPEC feedback flaky-widget 2>&1)"
 case "$OUT" in *"raised OQ-1 on 'harness-feedback'"*) ok "friction crosses threshold and is raised";; *) fail "expected a finding, got: $OUT";; esac
-[ -f "$WORK/proj/specs/harness-feedback.spec.md" ] && ok "meta-spec created" || fail "meta-spec not created"
+[ -f "$WORK/proj/sdd/specs/harness-feedback.spec.md" ] && ok "meta-spec created" || fail "meta-spec not created"
 
 echo "24. feedback is idempotent — the same finding is not raised twice"
 OUT="$($SPEC feedback flaky-widget 2>&1)"
 case "$OUT" in *"already tracked as open questions"*) ok "rerun recognizes the finding is already open";; *) fail "expected idempotent skip, got: $OUT";; esac
-LOG_COUNT=$(grep -c 'raised by feedback' "$WORK/proj/specs/harness-feedback.spec.md")
+LOG_COUNT=$(grep -c 'raised by feedback' "$WORK/proj/sdd/specs/harness-feedback.spec.md")
 check "only one changelog entry from feedback" "$LOG_COUNT" "1"
 
 echo "25. the raised question follows the normal discover lifecycle"

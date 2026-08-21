@@ -39,13 +39,13 @@ renumbered — so the *why* behind the code stays readable as the project
 grows. Everything goes through one CLI:
 
 ```sh
-python3 scripts/spec.py next               # what to do now — start every turn here
-python3 scripts/spec.py new "<subject>"    # create a spec
-python3 scripts/spec.py list               # every spec: status, open counts
-python3 scripts/spec.py show <slug>        # read one back
+python3 sdd/scripts/spec.py next               # what to do now — start every turn here
+python3 sdd/scripts/spec.py new "<subject>"    # create a spec
+python3 sdd/scripts/spec.py list               # every spec: status, open counts
+python3 sdd/scripts/spec.py show <slug>        # read one back
 ```
 
-Run `python3 scripts/spec.py` with no arguments for the full command list,
+Run `python3 sdd/scripts/spec.py` with no arguments for the full command list,
 or see `.claude/skills/spec/SKILL.md` for the complete workflow (dry runs
 before implementing, discoveries for open-ended research, verification with
 evidence, and `feedback` for when the harness itself is causing friction).

@@ -5,7 +5,7 @@ description: Create and evolve specifications for any goal — legal, financial,
 
 # spec
 
-Specs live in `specs/<slug>.spec.md` (and discoveries in `specs/<slug>.discovery.md`) and are driven by `scripts/spec.py` from the project root. Every listed item carries a permanent ID (`OQ-3`, `KD-7`, `IMPL-2`, …). IDs are never reused or renumbered, and items are never deleted — anything that stops applying is struck through in place and points at what replaced it. Status is a single line in the header; its history lives in the changelog.
+Specs live in `sdd/specs/<slug>.spec.md` (and discoveries in `sdd/specs/<slug>.discovery.md`) and are driven by `sdd/scripts/spec.py` from the project root. Every listed item carries a permanent ID (`OQ-3`, `KD-7`, `IMPL-2`, …). IDs are never reused or renumbered, and items are never deleted — anything that stops applying is struck through in place and points at what replaced it. Status is a single line in the header; its history lives in the changelog.
 
 ## Rules
 
@@ -19,27 +19,27 @@ Specs live in `specs/<slug>.spec.md` (and discoveries in `specs/<slug>.discovery
 Run from the project root:
 
 ```
-python3 scripts/spec.py next [<slug>]                       # what to do now — start every turn here
-python3 scripts/spec.py new "<subject>"                     # create a spec, prints the slug
-python3 scripts/spec.py list                                # every spec: status, open counts
-python3 scripts/spec.py show <slug> [section]               # read it back
-python3 scripts/spec.py add <slug> <section> "<text>"       # append an item, prints its ID
-python3 scripts/spec.py strike <slug> <ID> "<reason>"       # strike in place
-python3 scripts/spec.py resolve <slug> <OQ-N> "<decision>"  # decision + strike the question
-python3 scripts/spec.py supersede <slug> <KD-N> "<what>"    # decision that replaces an older one
-python3 scripts/spec.py check <slug> <IMPL-N> [...]         # tick implementation items done
-python3 scripts/spec.py verify <slug> <VC-N> pass|fail "<evidence>"   # record a verdict
-python3 scripts/spec.py status <slug> [<status>]            # read or set the status
-python3 scripts/spec.py split <slug> <IMPL-N> "<subject>"   # give an item its own subspec
-python3 scripts/spec.py discover <slug> <OQ-N> "<subject>"  # open a discovery on a hard question
-python3 scripts/spec.py apply <discovery-slug>              # fold it back, then archive it
-python3 scripts/spec.py defer <slug> <ID> "<why>"           # set scope aside into Non-Goals
-python3 scripts/spec.py archive <slug> "<summary>"          # close it when Done
-python3 scripts/spec.py repair <slug>                       # recover a damaged document
-python3 scripts/spec.py dryrun <slug> --raised|--clean "…"   # rehearse before implementing
-python3 scripts/spec.py block <slug> <ID> "<why>"           # this one needs a human
-python3 scripts/spec.py unblock <slug> <ID> "<answer>"      # they answered; carry on
-python3 scripts/spec.py feedback [<slug>]                   # mine changelogs for friction on the harness itself
+python3 sdd/scripts/spec.py next [<slug>]                       # what to do now — start every turn here
+python3 sdd/scripts/spec.py new "<subject>"                     # create a spec, prints the slug
+python3 sdd/scripts/spec.py list                                # every spec: status, open counts
+python3 sdd/scripts/spec.py show <slug> [section]               # read it back
+python3 sdd/scripts/spec.py add <slug> <section> "<text>"       # append an item, prints its ID
+python3 sdd/scripts/spec.py strike <slug> <ID> "<reason>"       # strike in place
+python3 sdd/scripts/spec.py resolve <slug> <OQ-N> "<decision>"  # decision + strike the question
+python3 sdd/scripts/spec.py supersede <slug> <KD-N> "<what>"    # decision that replaces an older one
+python3 sdd/scripts/spec.py check <slug> <IMPL-N> [...]         # tick implementation items done
+python3 sdd/scripts/spec.py verify <slug> <VC-N> pass|fail "<evidence>"   # record a verdict
+python3 sdd/scripts/spec.py status <slug> [<status>]            # read or set the status
+python3 sdd/scripts/spec.py split <slug> <IMPL-N> "<subject>"   # give an item its own subspec
+python3 sdd/scripts/spec.py discover <slug> <OQ-N> "<subject>"  # open a discovery on a hard question
+python3 sdd/scripts/spec.py apply <discovery-slug>              # fold it back, then archive it
+python3 sdd/scripts/spec.py defer <slug> <ID> "<why>"           # set scope aside into Non-Goals
+python3 sdd/scripts/spec.py archive <slug> "<summary>"          # close it when Done
+python3 sdd/scripts/spec.py repair <slug>                       # recover a damaged document
+python3 sdd/scripts/spec.py dryrun <slug> --raised|--clean "…"   # rehearse before implementing
+python3 sdd/scripts/spec.py block <slug> <ID> "<why>"           # this one needs a human
+python3 sdd/scripts/spec.py unblock <slug> <ID> "<answer>"      # they answered; carry on
+python3 sdd/scripts/spec.py feedback [<slug>]                   # mine changelogs for friction on the harness itself
 ```
 
 Sections: `goals`, `non-goals`, `questions`, `decisions`, `prior-art`, `implementation`, `verification`.
@@ -59,7 +59,7 @@ Statuses: `Draft`, `Ready`, `In Progress`, `Done`.
 - **repair** — the way out of a document no other command will touch, when hand-editing has broken its ID ledger. It quarantines lines nothing issued under `## Damaged` (never deletes them), retires IDs that are gone, and lets work resume. It refuses to run on an intact document. Reach for this instead of hand-editing when you are stuck and nobody is available to ask.
 - **split** — when one implementation item is big enough to need its own spec. The item gets a `→ spec:<slug>` link and the child records its parent. **A subspec cannot be split again.** If you hit that error, do not work around it: it means the project is too big to start where you are. Say so, and either scope the work down or `defer` the part that doesn't fit.
 - **defer** — the counterpart to scoping down. It strikes the item and records it in Non-Goals with your reason, linked both ways. Use it whenever scope is dropped, so Non-Goals accumulates the documentation of what would complete the whole project rather than the scope being silently forgotten.
-- **archive** — for a spec that is `Done`, and only once it is committed to git (archiving deletes the file; git is what keeps it). Its summary goes to `archive/catalog.md` with the commit that holds it. Write the summary yourself, in the user's language: what was built, which decisions still bind, what was deferred. It is the only part later agents normally read, so it must stand alone. Pass `-` as the summary to write a multi-line one on stdin.
+- **archive** — for a spec that is `Done`, and only once it is committed to git (archiving deletes the file; git is what keeps it). Its summary goes to `sdd/archive/catalog.md` with the commit that holds it. Write the summary yourself, in the user's language: what was built, which decisions still bind, what was deferred. It is the only part later agents normally read, so it must stand alone. Pass `-` as the summary to write a multi-line one on stdin.
 
 ## Working the loop
 
@@ -78,7 +78,7 @@ The rungs are ordered because each one makes the next honest: a question left op
 `Ready → In Progress` is refused without a clean dry run. A dry run is you walking through the implementation *without doing it* — reading what you would change, thinking it through to the end — and filing every question the attempt surfaces:
 
 ```
-python3 scripts/spec.py dryrun <slug> --raised "<question the rehearsal surfaced>"
+python3 sdd/scripts/spec.py dryrun <slug> --raised "<question the rehearsal surfaced>"
 ```
 
 These are the questions you only find by trying: the ones the spec never thought to answer. Resolve each, then rehearse again.
@@ -88,7 +88,7 @@ These are the questions you only find by trying: the ones the spec never thought
 When a walkthrough turns up nothing, record it and start work:
 
 ```
-python3 scripts/spec.py dryrun <slug> --clean "<what you walked through>"
+python3 sdd/scripts/spec.py dryrun <slug> --clean "<what you walked through>"
 ```
 
 A clean dry run goes stale the moment another question is raised, so the cycle repeats until it comes back empty. The point is that a thin spec costs you a rehearsal, not a wrong implementation.
@@ -98,7 +98,7 @@ A clean dry run goes stale the moment another question is raised, so the cycle r
 If a question cannot be settled from the spec, the repo, or research — a commercial fact, a legal choice, a preference only the user holds — do not guess and do not invent a plausible answer. Block it:
 
 ```
-python3 scripts/spec.py block <slug> OQ-4 "<why no agent can decide this>"
+python3 sdd/scripts/spec.py block <slug> OQ-4 "<why no agent can decide this>"
 ```
 
 Then **carry on with everything that does not depend on it.** `next` skips blocked items and keeps offering the rest. Only when nothing else can proceed does it halt with exit 3.
@@ -110,10 +110,10 @@ A halt is not a failure of the work — it is a measurement of the spec. It mean
 Some open questions can't be answered in one step — they need research, comparison, or weighing options. `resolve` is for questions you can already answer. For the rest, propose a discovery, and open one when the user agrees:
 
 ```
-python3 scripts/spec.py discover pick-a-datastore OQ-3 "Backup formats"
+python3 sdd/scripts/spec.py discover pick-a-datastore OQ-3 "Backup formats"
 ```
 
-That writes `specs/backup-formats.discovery.md` — a separate document type with its own sections, and its own `add` vocabulary:
+That writes `sdd/specs/backup-formats.discovery.md` — a separate document type with its own sections, and its own `add` vocabulary:
 
 - `questions` — sub-questions the parent question raised (`OQ-N`)
 - `state-of-the-art` — what already exists, one item per finding, **with its source URL in the text** (`SOTA-N`)
@@ -140,17 +140,21 @@ Striking a criterion clears the gate, because requirements genuinely do become m
 - how to reach the artifact — the repo, the document, the file under test;
 - the instruction to report `pass` or `fail` plus the concrete evidence it observed.
 
-Do not send it your implementation notes, your reasoning, or your expectation of the result. Then record what came back, unedited:
+Do not send it your implementation notes, your reasoning, or your expectation of the result.
+
+**A `--check` command's exit code is only as trustworthy as its environment's fidelity to production.** A criterion can run mechanically, exit 0, and still not prove the real-world claim, if the tool running it quietly relaxes a restriction real users are actually subject to — a browser test runner that disables autoplay-gesture or permission-prompt policies for automation convenience is a real example, not a hypothetical one. Before trusting a green check that crosses a browser security/permission boundary (autoplay, geolocation, clipboard, notifications, camera/mic...), confirm the check's environment actually enforces that boundary rather than bypassing it — otherwise the criterion is proving something narrower than its text claims.
+
+Then record what came back, unedited:
 
 ```
-python3 scripts/spec.py verify <slug> VC-1 fail "lost the last 2 writes after kill -9"
+python3 sdd/scripts/spec.py verify <slug> VC-1 fail "lost the last 2 writes after kill -9"
 ```
 
 Evidence is mandatory and is the point of the command: a verdict nobody can re-check is not a verification. Record what was observed, not that it looked fine. **Report failures as they came back.** A failed criterion is the single most valuable thing this system captures — it stays in the record permanently, and a later pass appends to it rather than replacing it, so the whole history of the attempt survives. If you fix the problem, re-verify with a fresh subagent and record the new verdict.
 
 ## When the harness itself is the problem
 
-If a spec is fighting you — the same kind of question keeps needing a fresh dry-run cycle, criteria keep failing, items keep needing a human — that is signal about the harness, not just this spec. Run `feedback [<slug>]` (no slug scans every spec in the project). It reads what `save()` already wrote to each spec's own changelog — dry-run cycles, blocks, verify verdicts — no separate logging exists or is needed. When a pattern crosses a threshold, it raises an `OQ` on this project's own `harness-feedback` spec (created on first use) describing the friction concretely, and tells you the `discover` command to open on it. From there it's an ordinary spec: `discover` it, propose a fix (usually to `templates/spec_template.md` or to guidance in this skill), and `apply` it back. Re-running `feedback` is safe — it never raises the same finding twice.
+If a spec is fighting you — the same kind of question keeps needing a fresh dry-run cycle, criteria keep failing, items keep needing a human — that is signal about the harness, not just this spec. Run `feedback [<slug>]` (no slug scans every spec in the project). It reads what `save()` already wrote to each spec's own changelog — dry-run cycles, blocks, verify verdicts — no separate logging exists or is needed. When a pattern crosses a threshold, it raises an `OQ` on this project's own `harness-feedback` spec (created on first use) describing the friction concretely, and tells you the `discover` command to open on it. From there it's an ordinary spec: `discover` it, propose a fix (usually to `sdd/templates/spec_template.md` or to guidance in this skill), and `apply` it back. Re-running `feedback` is safe — it never raises the same finding twice.
 
 ## Archived specs
 

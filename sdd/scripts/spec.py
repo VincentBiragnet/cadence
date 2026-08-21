@@ -17,6 +17,12 @@ from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+# The harness's own machinery lives under sdd/, apart from the project's own
+# files (product code, its own scripts/templates, etc.) — REPO_ROOT is the
+# project itself, one level up. .claude/skills/ and .gitignore live there,
+# not under sdd/, since Claude Code only discovers skills at that fixed path.
+# --check commands also run from here: they're the project's own tests.
+REPO_ROOT = ROOT.parent
 TEMPLATE = ROOT / "templates" / "spec_template.md"
 DISCOVERY_TEMPLATE = ROOT / "templates" / "discovery_template.md"
 SPECS = ROOT / "specs"
@@ -240,6 +246,25 @@ def unpassed_criteria(lines: "list[str]") -> "list[Item]":
     return [i for i in parse_items(lines) if i.prefix == "VC" and not i.struck and not i.checked]
 
 
+def demote_if_now_stale(slug: str, lines: "list[str]") -> "list[str]":
+    """Done is a claim that every criterion passed; keep it from lying.
+
+    A newly unpassed criterion can arrive two ways — a fresh `fail`, or a
+    brand new VC appended (directly, or folded in from a discovery) while
+    the spec already reads Done. Both leave the header asserting something
+    that's no longer true until the next verify happens to notice, so this
+    demotes on the spot instead of waiting for someone to ask.
+    """
+    if read_status(lines) == STATUSES[-1] and unpassed_criteria(lines):
+        for i, line in enumerate(lines):
+            if STATUS_RE.match(line):
+                lines[i] = f"**Status:** {STATUSES[2]}"
+                break
+        print(f"warning: '{slug}' was {STATUSES[-1]}; an unpassed criterion means it is not — "
+              f"demoted to {STATUSES[2]}", file=sys.stderr)
+    return lines
+
+
 def uncovered_goals(lines: "list[str]") -> "list[str]":
     """Live goals that no live criterion refers to."""
     items = parse_items(lines)
@@ -397,7 +422,12 @@ def read_archived(slug: str) -> str:
     if not match:
         die(f"the catalog entry for '{slug}' records no commit")
     commit, rel = match.groups()
-    result = git("show", f"{commit}:{rel}")
+    # rel is relative to ROOT (sdd/), matching how assert_committed's `git
+    # status -- rel` resolves it under `-C ROOT`. But `git show rev:path`
+    # always resolves path from the repo root regardless of -C, so it needs
+    # ROOT's own offset from REPO_ROOT added back.
+    repo_rel = (ROOT.relative_to(REPO_ROOT) / rel).as_posix()
+    result = git("show", f"{commit}:{repo_rel}")
     if result.returncode:
         die(f"git could not read {rel} at {commit}:\n       {result.stderr.strip()}")
     return result.stdout
@@ -597,6 +627,8 @@ def cmd_add(args: "list[str]") -> None:
             die("the check command cannot contain a backtick")
         text = clean(f"{text} `{command.strip()}`", "item text")
     new, ident = append_item(old, heading, prefix, text, step=(prefix in CHECKABLE))
+    if prefix == "VC":
+        new = demote_if_now_stale(slug, new)
     save(path, old, new, f"{ident} added")
     print(ident)
 
@@ -821,6 +853,8 @@ def cmd_apply(args: "list[str]") -> None:
         heading, prefix = SECTIONS["verification"]
         parent_new, vc = append_item(parent_new, heading, prefix, proposal.text, step=True)
         applied.append(vc)
+    if criteria:
+        parent_new = demote_if_now_stale(parent_slug, parent_new)
 
     save(parent_path, parent_old, parent_new,
          f"{', '.join(applied)} applied from {DISCOVERY_LINK}{slug}")
@@ -913,7 +947,7 @@ def cmd_verify(args: "list[str]") -> None:
         if not command:
             die(f"{ident} carries no check command. Either attest it with evidence, or\n"
                 f"       state one when you add the criterion: add ... --check \"<command>\"")
-        result = subprocess.run(command, shell=True, cwd=str(ROOT),
+        result = subprocess.run(command, shell=True, cwd=str(REPO_ROOT),
                                 capture_output=True, text=True)
         verdict = "pass" if result.returncode == 0 else "fail"
         detail = sanitize(result.stdout + result.stderr)
@@ -929,13 +963,7 @@ def cmd_verify(args: "list[str]") -> None:
 
     item.checked = verdict == "pass"
     new = extend_pointer(old, item, f"{verdict}ed {today()} ({evidence})")
-    if verdict == "fail" and read_status(new) == STATUSES[-1]:
-        for i, line in enumerate(new):
-            if STATUS_RE.match(line):
-                new[i] = f"**Status:** {STATUSES[2]}"
-                break
-        print(f"warning: {slug} was {STATUSES[-1]}; a failed criterion means it is not.",
-              file=sys.stderr)
+    new = demote_if_now_stale(slug, new)
     save(path, old, new, f"{ident} {verdict}ed")
     print(f"{ident}: {verdict} ({evidence})")
     if read_status(new) != read_status(old):
@@ -1348,29 +1376,81 @@ def cmd_feedback(args: "list[str]") -> None:
     print(f"\ninvestigate with: spec.py discover {FEEDBACK_SLUG} {idents[0]} \"<what to look into>\"")
 
 
+# Harness machinery, relative to sdd/, kept apart from the project's own
+# files (SDD_FILES) — and the two things Claude Code / git require at a
+# fixed, non-configurable location, relative to the project root (ROOT_FILES).
+SDD_FILES = ["scripts/spec.py", "scripts/test_spec.sh", "templates/spec_template.md",
+             "templates/discovery_template.md", "README.md"]
+ROOT_FILES = [".claude/skills/spec/SKILL.md", ".claude/skills/harness-scaffold/SKILL.md",
+              ".gitignore"]
+
+
 def cmd_scaffold(args: "list[str]") -> None:
     if not args:
         die("usage: spec.py scaffold <target-dir>")
     target = Path(args[0]).expanduser().resolve()
-    if target == ROOT:
+    if target == REPO_ROOT:
         die("target is this harness itself")
-    for rel in ["scripts/spec.py", "scripts/test_spec.sh", "templates/spec_template.md",
-                "templates/discovery_template.md",
-                ".claude/skills/spec/SKILL.md", ".claude/skills/harness-scaffold/SKILL.md",
-                "README.md", ".gitignore"]:
-        src, dst = ROOT / rel, target / rel
+    for rel in SDD_FILES:
+        src, dst = ROOT / rel, target / "sdd" / rel
         if not src.exists():
             continue
         if dst.exists():
             die(f"{dst} already exists, refusing to overwrite")
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src, dst)
-    (target / "specs").mkdir(parents=True, exist_ok=True)
-    (target / "specs" / ".gitkeep").touch()
-    (target / "archive").mkdir(parents=True, exist_ok=True)
-    if not (target / "archive" / CATALOG.name).exists():
-        (target / "archive" / CATALOG.name).write_text(CATALOG_HEADER)
-    print(f"harness ready at {target}\nnext: python3 {target}/scripts/spec.py new \"<subject>\"")
+    for rel in ROOT_FILES:
+        src, dst = REPO_ROOT / rel, target / rel
+        if not src.exists():
+            continue
+        if dst.exists():
+            die(f"{dst} already exists, refusing to overwrite")
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, dst)
+    (target / "sdd" / "specs").mkdir(parents=True, exist_ok=True)
+    (target / "sdd" / "specs" / ".gitkeep").touch()
+    (target / "sdd" / "archive").mkdir(parents=True, exist_ok=True)
+    if not (target / "sdd" / "archive" / CATALOG.name).exists():
+        (target / "sdd" / "archive" / CATALOG.name).write_text(CATALOG_HEADER)
+    print(f"harness ready at {target}/sdd\nnext: python3 {target}/sdd/scripts/spec.py new \"<subject>\"")
+
+
+def cmd_update(args: "list[str]") -> None:
+    """Pull tooling fixes from a source harness checkout into this scaffolded
+    copy. Scaffolding is a one-way copy, so a fix made upstream (like this
+    command itself) never reaches a project scaffolded before it existed —
+    this is the way back. Only tooling files move; specs/ and archive/ (this
+    project's own content) are never touched.
+    """
+    if not args:
+        die("usage: spec.py update <path-to-a-harness-checkout>")
+    source = Path(args[0]).expanduser().resolve()
+    src_root = source / "sdd"
+    if not (src_root / "scripts" / "spec.py").exists():
+        die(f"'{source}' doesn't look like a harness checkout (no sdd/scripts/spec.py under it)")
+
+    changed = []
+    for rel in SDD_FILES:
+        src, dst = src_root / rel, ROOT / rel
+        if src.exists() and (not dst.exists() or src.read_bytes() != dst.read_bytes()):
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(src, dst)
+            changed.append(f"sdd/{rel}")
+    for rel in ROOT_FILES:
+        if rel == ".gitignore":
+            continue  # a project's own .gitignore accumulates its own entries
+        src, dst = source / rel, REPO_ROOT / rel
+        if src.exists() and (not dst.exists() or src.read_bytes() != dst.read_bytes()):
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(src, dst)
+            changed.append(rel)
+
+    if not changed:
+        print("already up to date")
+    else:
+        print("updated:\n  " + "\n  ".join(changed))
+        print("\nreview the diff before committing — nothing under sdd/specs/ or "
+              "sdd/archive/ was touched")
 
 
 COMMANDS = {
@@ -1380,7 +1460,7 @@ COMMANDS = {
     "discover": cmd_discover, "apply": cmd_apply,
     "defer": cmd_defer, "archive": cmd_archive, "repair": cmd_repair,
     "block": cmd_block, "unblock": cmd_unblock, "dryrun": cmd_dryrun, "next": cmd_next,
-    "feedback": cmd_feedback, "scaffold": cmd_scaffold,
+    "feedback": cmd_feedback, "scaffold": cmd_scaffold, "update": cmd_update,
 }
 
 USAGE = """spec.py — append-only specs with permanent item IDs
@@ -1412,6 +1492,7 @@ USAGE = """spec.py — append-only specs with permanent item IDs
   feedback [<slug>]                  mine changelogs for friction; raise it on 'harness-feedback'
   repair <slug>                      recover a damaged document; quarantines, never deletes
   scaffold <target-dir>              copy this harness into a new project
+  update <harness-checkout>          pull tooling fixes from a source harness; never touches specs/
 
 spec sections:      """ + ", ".join(SECTIONS) + """
 statuses:           """ + ", ".join(STATUSES) + """
