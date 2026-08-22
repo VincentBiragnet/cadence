@@ -1,6 +1,6 @@
 # Spec: Program
 
-**Status:** Draft
+**Status:** In Progress
 **Description:** Program
 
 _Edit via `scripts/spec.py`, never by hand._
@@ -23,6 +23,8 @@ _Edit via `scripts/spec.py`, never by hand._
 - **OQ-6** ~~When the user picks an entry and runs it, does its sequence-clock render inline in the program view (replacing the dropdown while it runs), navigate to a separate view, or something else? And after it completes, does the program return to the selection list, or something else?~~ → discovery:how-the-program-view-hands-off-to-a-running-sequence-and-back, KD-6, KD-7, KD-8, KD-9
 - **OQ-7** ~~Does the dropdown list every entry regardless of date, or is it filtered/sorted (e.g. only today's, or soonest-first)?~~ → KD-4
 - **OQ-8** ~~Accessibility parity with the other two components — does this need aria-live announcing entry selection/start/completion, and native semantic controls (select, button) for keyboard/screen-reader use — or is this deferred like everything else has been explicit about it?~~ → KD-10
+- **OQ-9** ~~IMPL-2 says each dropdown option is labelled with its planned datetime, but a raw ISO 8601 string ('2026-08-25T07:00:00') is not human-readable in a user-facing list — what's the actual display format?~~ → KD-11
+- **OQ-10** ~~KD-3's 'soonest upcoming entry' — does that mean soonest by plannedDatetime among ALL entries, or only among entries that don't already have an actualDatetime? Without excluding done ones, an already-completed entry could keep being re-suggested forever if its plannedDatetime happens to still be the earliest~~ → KD-12
 
 ## Key Decisions
 - **KD-1** A real calendar date+time, as an ISO 8601 string (e.g. "2026-08-25T07:00:00") — unambiguous, sortable as a plain string, and matches how every other timestamp in this codebase would naturally be written (OQ-1)
@@ -35,6 +37,8 @@ _Edit via `scripts/spec.py`, never by hand._
 - **KD-8** On the sequence's cadence:complete: record now() (ISO 8601) as that entry's actual datetime, discard the <cadence-sequence> element (a fresh one is created next time, no state to bleed between entries), and return to the list — recomputed (new suggested entry, the just-run one now shows its actual datetime) (OQ-6 via discovery:how-the-program-view-hands-off-to-a-running-sequence-and-back)
 - **KD-9** <cadence-program> dispatches its own 'cadence:entryComplete' event (detail: the entry and its new actual datetime) each time a run finishes — there's no single 'whole program complete', since entries are chosen freely rather than walked through in order (G-2) (OQ-6 via discovery:how-the-program-view-hands-off-to-a-running-sequence-and-back)
 - **KD-10** Same bar as the other components: native <select> and <button> elements (accessible by default, no custom widget to wire up), plus an aria-live region announcing when an entry starts and when it completes — not a continuous state, so no spam risk here anyway (OQ-8)
+- **KD-11** Human-readable, via the browser's own locale formatting (Date.toLocaleString()) for display; the raw ISO 8601 string stays the stored/exported value underneath — only the label a person reads is reformatted (OQ-9)
+- **KD-12** Among entries without an actualDatetime yet — a completed entry is never re-suggested regardless of how its plannedDatetime compares to the others (OQ-10)
 
 ## Prior Art
 _No items yet._
@@ -102,3 +106,10 @@ _No items yet._
 - 2026-08-22: VC-7 added
 - 2026-08-22: VC-8 added
 - 2026-08-22: VC-1 struck
+- 2026-08-22: OQ-9 raised by dry run
+- 2026-08-22: OQ-10 raised by dry run
+- 2026-08-22: KD-11 resolves OQ-9
+- 2026-08-22: KD-12 resolves OQ-10
+- 2026-08-22: dry run clean — Walked IMPL-1 through IMPL-10: two real gaps (dropdown label formatting, suggested-entry excluding done entries) surfaced and resolved as KD-11/KD-12. Also confirmed the Export/download mechanism needs testing under file:// as well as served, matching the standard already set for the other components — that's a testing-thoroughness note, not a design gap. Nothing else surfaced; the rest is already-decided patterns from the prior two components.
+- 2026-08-22: Status: Draft → Ready
+- 2026-08-22: Status: Ready → In Progress
