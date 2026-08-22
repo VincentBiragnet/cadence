@@ -187,3 +187,62 @@ cadence-sequence[data-pulse] .cds-time {
     outline: 2px solid var(--cdc-color-progress);
   }
 }
+
+/* cadence-program: a title, a picker (select + Start/Export/Load), or a
+   running cadence-sequence with a Back affordance — never both at once. */
+cadence-program {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cdc-space-2);
+  font-family: var(--cdc-font);
+}
+
+.cdp-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.cdp-list {
+  display: flex;
+  align-items: center;
+  gap: var(--cdc-space-2);
+  flex-wrap: wrap;
+}
+
+.cdp-select, .cdp-start, .cdp-export, .cdp-load-label {
+  font-family: var(--cdc-font);
+  font-size: 0.95rem;
+  padding: var(--cdc-space-1) var(--cdc-space-2);
+  border-radius: var(--cdc-radius);
+  border: 1px solid var(--cdc-color-track);
+  background: var(--cdc-color-bg);
+  color: inherit;
+}
+
+.cdp-start {
+  background: var(--cdc-color-progress);
+  color: var(--cdc-color-bg);
+  border: none;
+  cursor: pointer;
+}
+
+.cdp-load-label {
+  cursor: pointer;
+}
+
+.cdp-run {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--cdc-space-2);
+}
+
+.cdp-back {
+  font-family: var(--cdc-font);
+  background: none;
+  border: 1px solid var(--cdc-color-track);
+  color: inherit;
+  cursor: pointer;
+  padding: var(--cdc-space-1) var(--cdc-space-2);
+  border-radius: var(--cdc-radius);
+}

@@ -22,9 +22,16 @@
       <p>A whole program of blocks and steps, run end to end.</p>
       <cadence-sequence id="demo-sequence"></cadence-sequence>
     </section>
+
+    <section>
+      <h2>Program</h2>
+      <p>A title and a list of scheduled entries; pick one and run it.</p>
+      <cadence-program id="demo-program"></cadence-program>
+    </section>
   </main>
   <script src="js/cadence-clock.js"></script>
   <script src="js/cadence-sequence.js"></script>
+  <script src="js/cadence-program.js"></script>
   <script>
     // Real browsers require a user gesture before Web Audio produces sound
     // (KD-14) — spawning a clock straight from a page-load script, with no
@@ -52,6 +59,20 @@
         { repetitions: 1, steps: [
           { label: 'Cooldown', durationSeconds: 30, startFrequency: 660, endFrequency: 660 },
         ]},
+      ],
+    });
+
+    document.getElementById('demo-program').configure({
+      title: 'Week 1',
+      entries: [
+        { plannedDatetime: '2026-08-25T07:00:00', sequence: {
+          title: 'Monday circuit',
+          blocks: [{ repetitions: 1, steps: [{ label: 'Leg raise', durationSeconds: 5, startFrequency: 440 }] }],
+        }},
+        { plannedDatetime: '2026-08-27T07:00:00', sequence: {
+          title: 'Wednesday circuit',
+          blocks: [{ repetitions: 1, steps: [{ label: 'Crunch', durationSeconds: 5, endFrequency: 880 }] }],
+        }},
       ],
     });
   </script>

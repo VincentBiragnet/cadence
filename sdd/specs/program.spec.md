@@ -44,16 +44,16 @@ _Edit via `scripts/spec.py`, never by hand._
 _No items yet._
 
 ## Implementation Details
-- [ ] **IMPL-1** New js/cadence-program.js registering <cadence-program>; parse config { title, entries: [{ plannedDatetime, actualDatetime?, sequence: { title, blocks } }] } (G-1, KD-1)
-- [ ] **IMPL-2** Render: program title, a native <select> listing every entry unfiltered in given order (each option labelled with its planned datetime and sequence title, marking one done if it has an actualDatetime), pre-selected to the soonest-upcoming entry, a Start button, Export and Load (file input) controls (G-2, G-3, KD-3, KD-4, KD-5)
-- [ ] **IMPL-3** Entry launch: Start hides the list and mounts a fresh, visible <cadence-sequence> configured from the selected entry's sequence field, alongside a Back button (KD-6, KD-7)
-- [ ] **IMPL-4** Back handling: discards the running <cadence-sequence> without waiting for completion and restores the list exactly as it was — no actualDatetime recorded (KD-7)
-- [ ] **IMPL-5** Completion handling: on the running sequence's cadence:complete, record actualDatetime = new Date().toISOString() on that entry, discard the <cadence-sequence>, restore the list recomputed (new suggested entry, the just-run one now shows done), dispatch cadence:entryComplete on <cadence-program> (KD-2, KD-8, KD-9)
-- [ ] **IMPL-6** aria-live announcing 'Started <label>' and 'Completed <label>' only — not a continuous state (G-3, KD-10)
-- [ ] **IMPL-7** Export: serialize the current config (actualDatetime fields included) to JSON and trigger a browser download via a Blob + synthetic <a download> (KD-5)
-- [ ] **IMPL-8** Load: a file input reads a selected JSON file and calls configure() with the parsed object, fully replacing current state (KD-5)
-- [ ] **IMPL-9** Playwright test suite backing the verification criteria: config parsing, suggested-entry selection, launch/Back/complete hand-off, actualDatetime recording, export/load round-trip, accessibility
-- [ ] **IMPL-10** Demo page section spawning a <cadence-program> with a small multi-entry sample
+- [x] **IMPL-1** New js/cadence-program.js registering <cadence-program>; parse config { title, entries: [{ plannedDatetime, actualDatetime?, sequence: { title, blocks } }] } (G-1, KD-1)
+- [x] **IMPL-2** Render: program title, a native <select> listing every entry unfiltered in given order (each option labelled with its planned datetime and sequence title, marking one done if it has an actualDatetime), pre-selected to the soonest-upcoming entry, a Start button, Export and Load (file input) controls (G-2, G-3, KD-3, KD-4, KD-5)
+- [x] **IMPL-3** Entry launch: Start hides the list and mounts a fresh, visible <cadence-sequence> configured from the selected entry's sequence field, alongside a Back button (KD-6, KD-7)
+- [x] **IMPL-4** Back handling: discards the running <cadence-sequence> without waiting for completion and restores the list exactly as it was — no actualDatetime recorded (KD-7)
+- [x] **IMPL-5** Completion handling: on the running sequence's cadence:complete, record actualDatetime = new Date().toISOString() on that entry, discard the <cadence-sequence>, restore the list recomputed (new suggested entry, the just-run one now shows done), dispatch cadence:entryComplete on <cadence-program> (KD-2, KD-8, KD-9)
+- [x] **IMPL-6** aria-live announcing 'Started <label>' and 'Completed <label>' only — not a continuous state (G-3, KD-10)
+- [x] **IMPL-7** Export: serialize the current config (actualDatetime fields included) to JSON and trigger a browser download via a Blob + synthetic <a download> (KD-5)
+- [x] **IMPL-8** Load: a file input reads a selected JSON file and calls configure() with the parsed object, fully replacing current state (KD-5)
+- [x] **IMPL-9** Playwright test suite backing the verification criteria: config parsing, suggested-entry selection, launch/Back/complete hand-off, actualDatetime recording, export/load round-trip, accessibility
+- [x] **IMPL-10** Demo page section spawning a <cadence-program> with a small multi-entry sample
 
 ## Verification Criteria
 - [ ] **VC-1** ~~Picking an entry replaces the list with a visible, running <cadence-sequence> for that entry's config; clicking Back abandons it (no actual datetime recorded) and restores the list unchanged; letting it finish records an actual datetime, fires cadence:entryComplete, and restores the list showing that entry as done~~ → superseded by the more granular, mechanically-checked VC-4 (start), VC-5 (back), VC-6 (complete) — same ground, but each independently verifiable instead of one broad attested criterion
@@ -113,3 +113,4 @@ _No items yet._
 - 2026-08-22: dry run clean — Walked IMPL-1 through IMPL-10: two real gaps (dropdown label formatting, suggested-entry excluding done entries) surfaced and resolved as KD-11/KD-12. Also confirmed the Export/download mechanism needs testing under file:// as well as served, matching the standard already set for the other components — that's a testing-thoroughness note, not a design gap. Nothing else surfaced; the rest is already-decided patterns from the prior two components.
 - 2026-08-22: Status: Draft → Ready
 - 2026-08-22: Status: Ready → In Progress
+- 2026-08-22: IMPL-1, IMPL-2, IMPL-3, IMPL-4, IMPL-5, IMPL-6, IMPL-7, IMPL-8, IMPL-9, IMPL-10 checked
