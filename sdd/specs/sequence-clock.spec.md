@@ -1,6 +1,6 @@
 # Spec: Sequence clock
 
-**Status:** Done
+**Status:** In Progress
 **Description:** Sequence clock
 
 _Edit via `scripts/spec.py`, never by hand._
@@ -11,6 +11,7 @@ _Edit via `scripts/spec.py`, never by hand._
 - **G-3** Each step's timing/beep behavior is the atomic clock we already built (G-1 of clock-and-clock-configuration) — this component sequences it, it doesn't reimplement it
 - **G-4** Displays one big overall chrono: time remaining across the whole program, computed as the sum over every block of (that block's steps' durations, summed) × its répétitions
 - **G-5** Accessibility parity with the atomic clock: a visual pulse on every step beep, and aria-live announcing label/position changes only — never a continuous tick
+- **G-6** The current step's own atomic clock (its chrono + bar) is genuinely visible during a run, alongside the big aggregate chrono — not headless (supersedes KD-1)
 
 ## Non-Goals
 - **NG-1** Pause, skip, rewind, or any other transport control — this spec is only the sequential run-through and the aggregate chrono
@@ -28,15 +29,17 @@ _Edit via `scripts/spec.py`, never by hand._
 - **OQ-9** ~~Deriving the aggregate remaining time from one continuous timer since the sequence's own start (IMPL-4) will drift from reality: each step-to-step transition has a small real-world gap (the JS callback chain from one step's cadence:complete to the next step's configure()), so a single uninterrupted clock slowly diverges from the sum of actual step durations over a long program with many steps~~ → KD-9
 
 ## Key Decisions
-- **KD-1** Headless: the atomic clock's timing/beep logic is reused internally (its class, not a mounted <cadence-clock> element), but nothing per-step is rendered — only the current label and the one big aggregate chrono are shown (OQ-1)
+- **KD-1** ~~Headless: the atomic clock's timing/beep logic is reused internally (its class, not a mounted <cadence-clock> element), but nothing per-step is rendered — only the current label and the one big aggregate chrono are shown (OQ-1)~~ → superseded by KD-10
 - **KD-2** Yes: a position indicator alongside the label — which step and which repetition within the current block (e.g. 'step 2 of 3, rep 1 of 4') (OQ-2)
 - **KD-3** Toggle, same as the atomic clock (KD-4/KD-11): the big chrono switches between remaining and elapsed for the whole program (OQ-3)
 - **KD-4** An object, not a bare array: { title, blocks: [...] } — room for a program-level title alongside the block list (OQ-4)
 - **KD-5** An explicit start gesture, not auto-start — a real button/interaction on this component itself, which conveniently doubles as the audio-unlock gesture KD-14 pushed onto embedders (a multi-minute program is exactly the kind of thing a person deliberately starts) (OQ-5)
 - **KD-6** Mirrors the atomic clock: dispatches a completion event on its own root element plus calls an optional onComplete callback from config, same pattern as KD-8/KD-9 (OQ-6)
 - **KD-7** Yes, equivalent wiring at the sequence level: a visual pulse on the big chrono paired with every step beep (the headless clock's cadence:beep still fires and this component listens for it), and an aria-live region announcing the label/position text each time it changes — not on every tick, same non-spam rule as G-6 (OQ-7)
-- **KD-8** The hidden instance is excluded from the accessibility tree entirely (aria-hidden="true" on its container, in addition to display:none) — the sequence's own aria-live is the only one that should ever announce anything (OQ-8)
+- **KD-8** ~~The hidden instance is excluded from the accessibility tree entirely (aria-hidden="true" on its container, in addition to display:none) — the sequence's own aria-live is the only one that should ever announce anything (OQ-8)~~ → superseded by KD-11
 - **KD-9** Anchor to actual progress, not a single continuous timer: remaining = total − (durations of already-completed steps, by config) − current step's own elapsed (read from the hidden clock's internal state each frame). This self-corrects at every step boundary instead of accumulating scheduling overhead across a long program (OQ-9)
+- **KD-10** Visible, not headless: the atomic clock is mounted for real (not hidden) so its own chrono+bar shows the current step's own remaining time — the big number is the whole workout, the atomic clock is the current step, both on screen together. Misread the original question yesterday; the atomic clock's class/instance is still reused exactly as before, only the hide-it-from-view part was wrong (supersedes KD-1)
+- **KD-11** Now that the atomic clock is genuinely mounted (visible), its role=progressbar and visual pulse work exactly as they always did — no special-casing needed. Its own aria-live text ('Started'/'Complete', no label context) is redundant with and less informative than the sequence's own label+position announcement, so only that one inner element is silenced (aria-hidden on it specifically), not the whole instance (supersedes KD-8)
 
 ## Prior Art
 _No items yet._
@@ -62,6 +65,8 @@ _No items yet._
 - [x] **VC-6** A visual pulse fires alongside every step beep, and aria-live announces the label/position text only when it changes, never once per tick (G-5) `npx playwright test tests/sequence-a11y.spec.js` → passed 2026-08-22 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/sequence-a11y.spec.js:3:5 › a visual pulse fires w)
 - [x] **VC-7** At the end of the whole program, cadence:complete fires once on the <cadence-sequence> root and the onComplete callback fires once (G-2, G-4) `npx playwright test tests/sequence-complete.spec.js` → passed 2026-08-22 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/sequence-complete.spec.js:3:5 › cadence:complete a)
 - [x] **VC-8** The Start button click is what unlocks Web Audio for the run — the hidden per-step clock's AudioContext is 'running' (not stuck suspended) by the time the first beep fires `npx playwright test tests/sequence-audio-unlock.spec.js` → passed 2026-08-22 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/sequence-audio-unlock.spec.js:3:5 › the Start clic)
+- [ ] **VC-9** The atomic clock's own chrono text and progress bar are visible and reflect the current step's own remaining time (distinct from, and alongside, the big aggregate chrono) (G-6, KD-10) `npx playwright test tests/sequence-visible-clock.spec.js -g visible`
+- [ ] **VC-10** aria-live announces exactly one thing per step transition (the sequence's own label+position text) — the atomic clock's own redundant 'Started'/'Complete' announcement is silenced, not doubled up (G-5, KD-11) `npx playwright test tests/sequence-visible-clock.spec.js -g 'no duplicate'`
 
 ## Changelog
 - 2026-08-22: Spec initialized.
@@ -122,3 +127,8 @@ _No items yet._
 - 2026-08-22: VC-8 passed
 - 2026-08-22: VC-4 passed
 - 2026-08-22: Status: In Progress → Done
+- 2026-08-22: KD-10 supersedes KD-1
+- 2026-08-22: KD-11 supersedes KD-8
+- 2026-08-22: G-6 added
+- 2026-08-22: VC-9 added
+- 2026-08-22: VC-10 added
