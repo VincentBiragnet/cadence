@@ -27,11 +27,15 @@ the JSON is the only thing that changes.
 
 ## Status
 
-The first component is built: `<cadence-clock>`, a single reusable clock
-primitive — one step's worth of countdown, not yet a multi-step program
-(that's a later component). It's a vanilla Custom Element with no
-framework and no build step; see `CLAUDE.md` for the conventions that
-govern it and everything built after it.
+Three components are built, each a vanilla Custom Element with no
+framework and no build step (see `CLAUDE.md` for the conventions that
+govern all of them). Each is demoed live in `index.html`. Their specs are
+archived — `sdd/archive/catalog.md` has the full summary of each, and
+`spec.py show --archived <slug>` recovers the complete spec.
+
+### `<cadence-clock>` — one step
+
+The base primitive: a single countdown with an optional beep at each end.
 
 ```html
 <cadence-clock id="demo"></cadence-clock>
@@ -46,13 +50,73 @@ govern it and everything built after it.
 </script>
 ```
 
-It renders inline — a chrono (toggles elapsed/remaining, click the time
-or call `.toggleMode()`) alongside a bar that fills over the duration —
+Renders inline — a chrono (click the time or call `.toggleMode()` to
+switch elapsed/remaining) alongside a bar that fills over the duration —
 auto-starts the instant `configure()` is called, and signals its
 lifecycle as `cadence:start` / `cadence:beep` / `cadence:complete`
-CustomEvents on itself. See `index.html` for a working demo (the "Start
-demo" button exists because browsers require a user gesture before
-Web Audio will actually produce sound — see `CLAUDE.md`).
+CustomEvents on itself.
+
+### `<cadence-sequence>` — a whole workout
+
+A JSON program of blocks, each repeated some number of times, each
+holding one or more steps shaped exactly like the clock's own config
+plus a label:
+
+```html
+<cadence-sequence id="demo-sequence"></cadence-sequence>
+<script src="js/cadence-clock.js"></script>
+<script src="js/cadence-sequence.js"></script>
+<script>
+  document.getElementById('demo-sequence').configure({
+    title: 'Sample circuit',
+    blocks: [
+      { repetitions: 2, steps: [
+        { label: 'Leg raise', durationSeconds: 20, startFrequency: 440 },
+        { label: 'Rest', durationSeconds: 10 },
+      ]},
+    ],
+  });
+</script>
+```
+
+Runs every step in order, looping each block for its repetition count.
+Shows the current step's own atomic clock (its real chrono + bar) *and*
+one big aggregate chrono for the whole workout, together — plus a
+position indicator ("step 2 of 3, rep 1 of 4") and the current label. Has
+its own Start button (unlike the atomic clock, it doesn't auto-start —
+a multi-minute program gets a deliberate start gesture, which also
+unlocks audio for every beep that follows).
+
+### `<cadence-program>` — a schedule of workouts
+
+A title and a list of entries, each pairing a planned datetime with a
+sequence config:
+
+```html
+<cadence-program id="demo-program"></cadence-program>
+<script src="js/cadence-clock.js"></script>
+<script src="js/cadence-sequence.js"></script>
+<script src="js/cadence-program.js"></script>
+<script>
+  document.getElementById('demo-program').configure({
+    title: 'Week 1',
+    entries: [
+      { plannedDatetime: '2026-08-25T07:00:00', sequence: {
+        title: 'Monday circuit',
+        blocks: [{ repetitions: 1, steps: [{ label: 'Leg raise', durationSeconds: 5, startFrequency: 440 }] }],
+      }},
+    ],
+  });
+</script>
+```
+
+A dropdown lists every entry (pre-selected to the soonest one not yet
+run); picking one and starting it mounts a real running
+`<cadence-sequence>` in place of the list, with a Back button to abandon
+without recording anything. Finishing records the actual datetime the
+entry was really run — closing the planned-vs-actual loop — and fires
+`cadence:entryComplete`. No backend: an Export button downloads the
+current state as JSON, and Load reads one back in.
 
 Specs live under `sdd/specs/` and are tracked with the harness described
 below — start with `next` to see what's next.
