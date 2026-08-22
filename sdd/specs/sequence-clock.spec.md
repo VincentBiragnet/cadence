@@ -1,6 +1,6 @@
 # Spec: Sequence clock
 
-**Status:** In Progress
+**Status:** Done
 **Description:** Sequence clock
 
 _Edit via `scripts/spec.py`, never by hand._
@@ -65,8 +65,8 @@ _No items yet._
 - [x] **VC-6** A visual pulse fires alongside every step beep, and aria-live announces the label/position text only when it changes, never once per tick (G-5) `npx playwright test tests/sequence-a11y.spec.js` → passed 2026-08-22 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/sequence-a11y.spec.js:3:5 › a visual pulse fires w)
 - [x] **VC-7** At the end of the whole program, cadence:complete fires once on the <cadence-sequence> root and the onComplete callback fires once (G-2, G-4) `npx playwright test tests/sequence-complete.spec.js` → passed 2026-08-22 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/sequence-complete.spec.js:3:5 › cadence:complete a)
 - [x] **VC-8** The Start button click is what unlocks Web Audio for the run — the hidden per-step clock's AudioContext is 'running' (not stuck suspended) by the time the first beep fires `npx playwright test tests/sequence-audio-unlock.spec.js` → passed 2026-08-22 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/sequence-audio-unlock.spec.js:3:5 › the Start clic)
-- [ ] **VC-9** The atomic clock's own chrono text and progress bar are visible and reflect the current step's own remaining time (distinct from, and alongside, the big aggregate chrono) (G-6, KD-10) `npx playwright test tests/sequence-visible-clock.spec.js -g visible`
-- [ ] **VC-10** aria-live announces exactly one thing per step transition (the sequence's own label+position text) — the atomic clock's own redundant 'Started'/'Complete' announcement is silenced, not doubled up (G-5, KD-11) `npx playwright test tests/sequence-visible-clock.spec.js -g 'no duplicate'`
+- [x] **VC-9** The atomic clock's own chrono text and progress bar are visible and reflect the current step's own remaining time (distinct from, and alongside, the big aggregate chrono) (G-6, KD-10) `npx playwright test tests/sequence-visible-clock.spec.js -g visible` → passed 2026-08-22 (ran: exit 0 — Running 2 tests using 1 worker ✓ 1 tests/sequence-visible-clock.spec.js:3:5 › visible: the)
+- [x] **VC-10** aria-live announces exactly one thing per step transition (the sequence's own label+position text) — the atomic clock's own redundant 'Started'/'Complete' announcement is silenced, not doubled up (G-5, KD-11) `npx playwright test tests/sequence-visible-clock.spec.js -g 'no duplicate'` → passed 2026-08-22 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/sequence-visible-clock.spec.js:31:5 › no duplicate)
 
 ## Changelog
 - 2026-08-22: Spec initialized.
@@ -132,3 +132,6 @@ _No items yet._
 - 2026-08-22: G-6 added
 - 2026-08-22: VC-9 added
 - 2026-08-22: VC-10 added
+- 2026-08-22: VC-9 passed
+- 2026-08-22: VC-10 passed
+- 2026-08-22: Status: In Progress → Done
