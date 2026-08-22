@@ -26,13 +26,27 @@ test('export produces the current state as JSON; loading it back reproduces it',
   expect(exported.entries).toHaveLength(2);
   expect(exported.entries[0].actualDatetime).toBe('2030-01-01T00:05:00');
 
-  // Load that exact file back into a fresh instance and confirm identical state.
+  // Load into an instance that already holds a *different* program — IMPL-8
+  // says Load fully replaces current state, so this must load into
+  // something with prior state to actually exercise "replace, not merge."
   await page.evaluate(() => {
     const prog = document.createElement('cadence-program');
     prog.id = 'load-test';
     document.body.appendChild(prog);
+    prog.configure({
+      title: 'Stale prior program',
+      entries: [{ plannedDatetime: '1999-01-01T00:00:00', sequence: { title: 'Should be gone', blocks: [{ repetitions: 1, steps: [{ label: 'z', durationSeconds: 1 }] }] } }],
+    });
   });
   await page.setInputFiles('#load-test .cdp-load', path);
-  const reloaded = await page.evaluate(() => document.getElementById('load-test').config);
+  const [reloaded, optionTexts] = await page.evaluate(() => [
+    document.getElementById('load-test').config,
+    [...document.getElementById('load-test').querySelectorAll('.cdp-select option')].map((o) => o.textContent),
+  ]);
   expect(reloaded).toEqual(exported);
+  // The stale entry must be gone from the rendered list too, not just
+  // absent from .config — a merge bug could leave .config correct while
+  // the DOM still shows leftover options from the prior render.
+  expect(optionTexts.some((t) => t.includes('Should be gone'))).toBe(false);
+  expect(optionTexts).toHaveLength(2);
 });

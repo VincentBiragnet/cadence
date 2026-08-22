@@ -1,6 +1,6 @@
 # Spec: Program
 
-**Status:** In Progress
+**Status:** Done
 **Description:** Program
 
 _Edit via `scripts/spec.py`, never by hand._
@@ -57,13 +57,13 @@ _No items yet._
 
 ## Verification Criteria
 - [ ] **VC-1** ~~Picking an entry replaces the list with a visible, running <cadence-sequence> for that entry's config; clicking Back abandons it (no actual datetime recorded) and restores the list unchanged; letting it finish records an actual datetime, fires cadence:entryComplete, and restores the list showing that entry as done~~ → superseded by the more granular, mechanically-checked VC-4 (start), VC-5 (back), VC-6 (complete) — same ground, but each independently verifiable instead of one broad attested criterion
-- [ ] **VC-2** Given entries with different plannedDatetime values, the entry with the soonest upcoming one is pre-selected in the dropdown, regardless of its position in the JSON (G-1, G-2, KD-3) `npx playwright test tests/program-config.spec.js -g 'suggested'`
-- [ ] **VC-3** The dropdown lists every entry, unfiltered, in the exact order given in the JSON (G-1, KD-4) `npx playwright test tests/program-config.spec.js -g 'unfiltered'`
-- [ ] **VC-4** Clicking Start on a selected entry mounts a real, visible, running <cadence-sequence> configured from that entry's sequence field, and hides the list (G-2, KD-6) `npx playwright test tests/program-launch.spec.js -g start`
-- [ ] **VC-5** Clicking Back during a run discards the sequence and restores the list with no actualDatetime recorded on that entry (KD-7) `npx playwright test tests/program-launch.spec.js -g back`
-- [ ] **VC-6** Letting a run finish records actualDatetime (ISO 8601, close to now), fires cadence:entryComplete with that entry, restores the list, and the entry now shows as done (G-1, KD-2, KD-8, KD-9) `npx playwright test tests/program-launch.spec.js -g complete`
-- [ ] **VC-7** aria-live announces exactly 'started' and 'completed' text for a run, never a continuous update (G-3, KD-10) `npx playwright test tests/program-a11y.spec.js`
-- [ ] **VC-8** Export produces a JSON file whose entries match current state (including any actualDatetime), and loading that same file back via the file input reproduces the identical program state (KD-5) `npx playwright test tests/program-export-load.spec.js`
+- [x] **VC-2** Given entries with different plannedDatetime values, the entry with the soonest upcoming one is pre-selected in the dropdown, regardless of its position in the JSON (G-1, G-2, KD-3) `npx playwright test tests/program-config.spec.js -g 'suggested'` → passed 2026-08-22 (ran: exit 0 — Running 2 tests using 1 worker ✓ 1 tests/program-config.spec.js:3:5 › suggested: the soone)
+- [x] **VC-3** The dropdown lists every entry, unfiltered, in the exact order given in the JSON (G-1, KD-4) `npx playwright test tests/program-config.spec.js -g 'unfiltered'` → passed 2026-08-22 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/program-config.spec.js:36:5 › unfiltered: every en)
+- [x] **VC-4** Clicking Start on a selected entry mounts a real, visible, running <cadence-sequence> configured from that entry's sequence field, and hides the list (G-2, KD-6) `npx playwright test tests/program-launch.spec.js -g start` → passed 2026-08-22 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/program-launch.spec.js:3:5 › start: launching moun)
+- [x] **VC-5** Clicking Back during a run discards the sequence and restores the list with no actualDatetime recorded on that entry (KD-7) `npx playwright test tests/program-launch.spec.js -g back` → passed 2026-08-22 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/program-launch.spec.js:21:5 › back: abandons the r)
+- [x] **VC-6** Letting a run finish records actualDatetime (ISO 8601, close to now), fires cadence:entryComplete with that entry, restores the list, and the entry now shows as done (G-1, KD-2, KD-8, KD-9) `npx playwright test tests/program-launch.spec.js -g complete` → passed 2026-08-22 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/program-launch.spec.js:42:5 › complete: records ac)
+- [x] **VC-7** aria-live announces exactly 'started' and 'completed' text for a run, never a continuous update (G-3, KD-10) `npx playwright test tests/program-a11y.spec.js` → passed 2026-08-22 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/program-a11y.spec.js:3:5 › aria-live announces exa)
+- [x] **VC-8** Export produces a JSON file whose entries match current state (including any actualDatetime), and loading that same file back via the file input reproduces the identical program state (KD-5) `npx playwright test tests/program-export-load.spec.js` → passed 2026-08-22 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/program-export-load.spec.js:4:5 › export produces ), passed 2026-08-22 (ran: exit 0 — Running 1 test using 1 worker ✓ 1 tests/program-export-load.spec.js:4:5 › export produces )
 
 ## Changelog
 - 2026-08-22: Spec initialized.
@@ -114,3 +114,12 @@ _No items yet._
 - 2026-08-22: Status: Draft → Ready
 - 2026-08-22: Status: Ready → In Progress
 - 2026-08-22: IMPL-1, IMPL-2, IMPL-3, IMPL-4, IMPL-5, IMPL-6, IMPL-7, IMPL-8, IMPL-9, IMPL-10 checked
+- 2026-08-22: VC-2 passed
+- 2026-08-22: VC-3 passed
+- 2026-08-22: VC-4 passed
+- 2026-08-22: VC-5 passed
+- 2026-08-22: VC-6 passed
+- 2026-08-22: VC-7 passed
+- 2026-08-22: VC-8 passed
+- 2026-08-22: VC-8 passed
+- 2026-08-22: Status: In Progress → Done
