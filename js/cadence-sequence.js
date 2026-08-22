@@ -1,7 +1,9 @@
 // <cadence-sequence> — plays a JSON program of blocks/steps sequentially,
-// reusing the atomic <cadence-clock> (KD-1) internally, hidden, for each
-// step's own timing/beep. Only a title, a position indicator, the current
-// label, and one big aggregate chrono are ever shown.
+// reusing the atomic <cadence-clock> (KD-10) for each step's own timing/beep
+// — mounted for real, not headless, so its chrono+bar show the current
+// step's own remaining time. A title, a position indicator, the current
+// label, the step clock, and one big aggregate chrono for the whole
+// program are all shown together.
 //
 // Spawned and driven the same way as cadence-clock (KD-13):
 //   const seq = document.createElement('cadence-sequence');
@@ -62,7 +64,7 @@ class CadenceSequence extends HTMLElement {
     this._cursor = 0;
     this._mode = 'remaining';
     this._raf = null;
-    this._hidden = null;
+    this._stepClock = null;
   }
 
   connectedCallback() {
@@ -89,17 +91,17 @@ class CadenceSequence extends HTMLElement {
     this._startEl = this.querySelector('.cds-start');
     this._liveEl = this.querySelector('.cds-live');
 
-    // The reused per-step engine: hidden from view AND excluded from the
-    // accessibility tree (aria-hidden, not just display:none-on-itself),
-    // so its own aria-live/role=progressbar never leak through and
-    // double-announce alongside this component's own aria-live (KD-8).
-    const wrap = document.createElement('div');
-    wrap.style.display = 'none';
-    wrap.setAttribute('aria-hidden', 'true');
-    this._hidden = document.createElement('cadence-clock');
-    wrap.appendChild(this._hidden);
-    this.appendChild(wrap);
-    this._hidden.addEventListener('cadence:beep', (e) => {
+    // The reused per-step engine: mounted for real (KD-10, not headless) —
+    // its own chrono+bar shows the current step's own remaining time,
+    // alongside the big aggregate chrono below it. Its own aria-live text
+    // carries no label context and would duplicate this component's own
+    // announcement, so only that one inner element is silenced (KD-11);
+    // its bar, time display, and visual pulse all work exactly as they do
+    // standalone.
+    this._stepClock = document.createElement('cadence-clock');
+    this.insertBefore(this._stepClock, this._timeEl);
+    this._stepClock.querySelector('.cdc-live').setAttribute('aria-hidden', 'true');
+    this._stepClock.addEventListener('cadence:beep', (e) => {
       this._pulse();
       this.dispatchEvent(new CustomEvent('cadence:beep', { detail: e.detail }));
     });
@@ -157,7 +159,7 @@ class CadenceSequence extends HTMLElement {
   }
 
   _currentStepElapsedMs() {
-    return this._cursor < this._flat.length ? this._hidden.elapsedMs : 0;
+    return this._cursor < this._flat.length ? this._stepClock.elapsedMs : 0;
   }
 
   _begin() {
@@ -174,7 +176,7 @@ class CadenceSequence extends HTMLElement {
       `${entry.step.label || ''} — step ${entry.indexInBlock} of ${entry.countInBlock}, ` +
       `rep ${entry.repIndex} of ${entry.repCount}`
     );
-    this._hidden.configure({
+    this._stepClock.configure({
       durationSeconds: entry.step.durationSeconds,
       startFrequency: entry.step.startFrequency,
       endFrequency: entry.step.endFrequency,
