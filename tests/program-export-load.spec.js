@@ -1,17 +1,24 @@
 import { test, expect } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 
+// Rewritten onto week and day by KD-15. What this still covers beyond
+// schedule-export.spec.js is the *file* round trip: Load replaces the
+// current state rather than merging into it.
+
 test('export produces the current state as JSON; loading it back reproduces it', async ({ page }) => {
-  await page.goto('/index.html');
+  await page.goto('/tests/fixture.html');
+  page.on('dialog', (d) => d.accept()); // the stored program is part-run (KD-11)
+
   await page.evaluate(() => {
     const prog = document.createElement('cadence-program');
     prog.id = 'export-test';
     document.body.appendChild(prog);
     prog.configure({
       title: 'Round trip',
+      anchorDate: '2026-09-07',
       entries: [
-        { plannedDatetime: '2030-01-01T00:00:00', actualDatetime: '2030-01-01T00:05:00', sequence: { title: 'Done one', blocks: [{ repetitions: 1, steps: [{ label: 'x', durationSeconds: 1 }] }] } },
-        { plannedDatetime: '2030-02-01T00:00:00', sequence: { title: 'Not yet', blocks: [{ repetitions: 2, steps: [{ label: 'y', durationSeconds: 5, startFrequency: 440 }] }] } },
+        { week: 1, day: 1, expectedDate: '2026-09-07', actualDate: '2026-09-07', sequence: { title: 'Done one', blocks: [{ repetitions: 1, steps: [{ label: 'x', durationSeconds: 1 }] }] } },
+        { week: 2, day: 4, expectedDate: '2026-09-17', sequence: { title: 'Not yet', blocks: [{ repetitions: 2, steps: [{ label: 'y', durationSeconds: 5, startFrequency: 440 }] }] } },
       ],
     });
   });
@@ -24,18 +31,18 @@ test('export produces the current state as JSON; loading it back reproduces it',
   const exported = JSON.parse(readFileSync(path, 'utf8'));
   expect(exported.title).toBe('Round trip');
   expect(exported.entries).toHaveLength(2);
-  expect(exported.entries[0].actualDatetime).toBe('2030-01-01T00:05:00');
+  expect(exported.entries[0].actualDate).toBe('2026-09-07');
 
-  // Load into an instance that already holds a *different* program — IMPL-8
-  // says Load fully replaces current state, so this must load into
-  // something with prior state to actually exercise "replace, not merge."
+  // Load into an instance that already holds a *different* program — Load
+  // fully replaces current state, so this must load into something with
+  // prior state to actually exercise "replace, not merge."
   await page.evaluate(() => {
     const prog = document.createElement('cadence-program');
     prog.id = 'load-test';
     document.body.appendChild(prog);
     prog.configure({
       title: 'Stale prior program',
-      entries: [{ plannedDatetime: '1999-01-01T00:00:00', sequence: { title: 'Should be gone', blocks: [{ repetitions: 1, steps: [{ label: 'z', durationSeconds: 1 }] }] } }],
+      entries: [{ week: 1, day: 1, sequence: { title: 'Should be gone', blocks: [{ repetitions: 1, steps: [{ label: 'z', durationSeconds: 1 }] }] } }],
     });
   });
   await page.setInputFiles('#load-test .cdp-load', path);

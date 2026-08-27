@@ -1,12 +1,15 @@
 import { test, expect } from '@playwright/test';
 
+// Rewritten onto week and day by KD-15.
+
 test('aria-live announces exactly started/completed, never a continuous update', async ({ page }) => {
-  await page.goto('/index.html');
+  await page.goto('/tests/fixture.html');
   const announcements = await page.evaluate(async () => {
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure({
-      entries: [{ plannedDatetime: '2030-01-01T00:00:00', sequence: { title: 'X', blocks: [{ repetitions: 1, steps: [{ label: 'x', durationSeconds: 0.15 }] }] } }],
+      title: 'Announcing',
+      entries: [{ week: 1, day: 1, sequence: { title: 'X', blocks: [{ repetitions: 1, steps: [{ label: 'x', durationSeconds: 0.15 }] }] } }],
     });
     const seen = [];
     const observer = new MutationObserver(() => seen.push(prog.querySelector('.cdp-live').textContent));

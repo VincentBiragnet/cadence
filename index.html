@@ -25,13 +25,16 @@
 
     <section>
       <h2>Program</h2>
-      <p>A title and a list of scheduled entries; pick one and run it.</p>
+      <p>Eight weeks of bodyweight strength, three sessions a week. Positions
+         are authored as a week and a weekday; the dates appear once you start
+         the first session, and slide to follow you if you fall behind.</p>
       <cadence-program id="demo-program"></cadence-program>
     </section>
   </main>
   <script src="js/cadence-clock.js"></script>
   <script src="js/cadence-sequence.js"></script>
   <script src="js/cadence-program.js"></script>
+  <script src="js/example-program.js"></script>
   <script>
     // Real browsers require a user gesture before Web Audio produces sound
     // (KD-14) — spawning a clock straight from a page-load script, with no
@@ -62,19 +65,10 @@
       ],
     });
 
-    document.getElementById('demo-program').configure({
-      title: 'Week 1',
-      entries: [
-        { plannedDatetime: '2026-08-25T07:00:00', sequence: {
-          title: 'Monday circuit',
-          blocks: [{ repetitions: 1, steps: [{ label: 'Leg raise', durationSeconds: 5, startFrequency: 440 }] }],
-        }},
-        { plannedDatetime: '2026-08-27T07:00:00', sequence: {
-          title: 'Wednesday circuit',
-          blocks: [{ repetitions: 1, steps: [{ label: 'Crunch', durationSeconds: 5, endFrequency: 880 }] }],
-        }},
-      ],
-    });
+    // The eight-week program is authored with no dates at all — every entry
+    // is a week and a weekday (KD-2). Pressing Start on the first session
+    // anchors it to that day and lays out the rest (KD-12).
+    document.getElementById('demo-program').configure(window.CADENCE_EIGHT_WEEK);
   </script>
 </body>
 </html>

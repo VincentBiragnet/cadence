@@ -87,10 +87,10 @@ its own Start button (unlike the atomic clock, it doesn't auto-start —
 a multi-minute program gets a deliberate start gesture, which also
 unlocks audio for every beep that follows).
 
-### `<cadence-program>` — a schedule of workouts
+### `<cadence-program>` — a program of scheduled workouts
 
-A title and a list of entries, each pairing a planned datetime with a
-sequence config:
+A title and a list of entries. An entry says *where* it sits in the program —
+a week and a weekday — never when it happens:
 
 ```html
 <cadence-program id="demo-program"></cadence-program>
@@ -99,24 +99,50 @@ sequence config:
 <script src="js/cadence-program.js"></script>
 <script>
   document.getElementById('demo-program').configure({
-    title: 'Week 1',
+    title: 'Eight-week bodyweight strength',
     entries: [
-      { plannedDatetime: '2026-08-25T07:00:00', sequence: {
-        title: 'Monday circuit',
-        blocks: [{ repetitions: 1, steps: [{ label: 'Leg raise', durationSeconds: 5, startFrequency: 440 }] }],
+      { week: 1, day: 1, sequence: {          // day 1 is Monday, day 7 Sunday
+        title: 'Week 1 — Push',
+        blocks: [{ repetitions: 2, steps: [{ label: 'Push-up', durationSeconds: 20, startFrequency: 440 }] }],
       }},
+      { week: 1, day: 3, sequence: { /* … */ } },
     ],
   });
 </script>
 ```
 
-A dropdown lists every entry (pre-selected to the soonest one not yet
-run); picking one and starting it mounts a real running
-`<cadence-sequence>` in place of the list, with a Back button to abandon
-without recording anything. Finishing records the actual datetime the
-entry was really run — closing the planned-vs-actual loop — and fires
-`cadence:entryComplete`. No backend: an Export button downloads the
-current state as JSON, and Load reads one back in.
+**Dates are computed, never authored.** The first time you start any session,
+that day anchors the program: week 1 is laid across that same week, on the
+weekdays the author chose, and every entry gets an expected date. So the same
+JSON can be started in March or in October without editing a thing.
+
+**The schedule follows you.** Finishing a session records the day it really
+happened, and slides everything after it by however late you were — a Monday
+session done on Wednesday moves the rest of the program on by two days,
+keeping the intervals the author planned. Nothing is ever "missed": the next
+session is simply the next one you haven't run. You can also run sessions out
+of order; the ones you skipped stay where they are.
+
+The slide is asymmetric on purpose: it moves the program later whenever you
+finish late, but pulls it earlier only when every earlier session has already
+been done. Finishing ahead while something is still outstanding isn't really
+being ahead, and moving on would drag later sessions on top of the unrun ones.
+
+A dropdown lists every entry (pre-selected to the soonest one not yet run);
+picking one and starting it mounts a real running `<cadence-sequence>` in
+place of the list, with a Back button to abandon without recording anything.
+Finishing fires `cadence:entryComplete`.
+
+**No backend, but state does survive.** Run state is saved to `localStorage`
+on every change, so closing the tab between Monday and Wednesday loses
+nothing. Only one program is part-run at a time — loading another warns
+before it replaces one with real work in it. Export downloads the current
+state as JSON: the authored week/day shape *plus* the computed and actual
+dates, which means an export is itself a program and loads straight back in.
+
+`js/example-program.js` is the worked example — eight weeks, three sessions a
+week, work and rest intervals progressing from week 1 to week 8 — and it is
+what `index.html` runs.
 
 Specs live under `sdd/specs/` and are tracked with the harness described
 below — start with `next` to see what's next.
