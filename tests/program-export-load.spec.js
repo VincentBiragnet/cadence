@@ -25,7 +25,7 @@ test('export produces the current state as JSON; loading it back reproduces it',
 
   const [download] = await Promise.all([
     page.waitForEvent('download'),
-    page.click('#export-test .cdp-export'),
+    page.click('#export-test .cdp-more').then(() => page.click('#export-test .cdp-export')),
   ]);
   const path = await download.path();
   const exported = JSON.parse(readFileSync(path, 'utf8'));
@@ -48,7 +48,7 @@ test('export produces the current state as JSON; loading it back reproduces it',
   await page.setInputFiles('#load-test .cdp-load', path);
   const [reloaded, optionTexts] = await page.evaluate(() => [
     document.getElementById('load-test').config,
-    [...document.getElementById('load-test').querySelectorAll('.cdp-select option')].map((o) => o.textContent),
+    [...document.getElementById('load-test').querySelectorAll('.cdp-row')].map((o) => o.getAttribute('aria-label')),
   ]);
   expect(reloaded).toEqual(exported);
   // The stale entry must be gone from the rendered list too, not just

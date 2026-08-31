@@ -49,7 +49,7 @@ test('three milestones keep their dates through completions late and early, whil
   const after = await page.evaluate(async () => {
     const prog = document.getElementById('prog');
     const done = new Promise((r) => prog.addEventListener('cadence:entryComplete', r, { once: true }));
-    prog.querySelector('.cdp-select').value = '0';
+    prog.querySelectorAll('.cdp-row')[0].click();
     prog.querySelector('.cdp-start').click();
     prog.querySelector('cadence-sequence .cds-start').click();
     await done;

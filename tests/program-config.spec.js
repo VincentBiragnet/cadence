@@ -15,7 +15,7 @@ test('suggested: with no anchor yet, the first not-yet-run entry in authored ord
         { week: 1, day: 3, sequence: { title: 'B', blocks: [{ repetitions: 1, steps: [{ label: 'x', durationSeconds: 1 }] }] } },
       ],
     });
-    return prog.querySelector('.cdp-select').selectedOptions[0].textContent;
+    return prog.querySelector('.cdp-row[aria-selected=\"true\"]').getAttribute('aria-label');
   });
   expect(selected).toContain('A (first)');
 });
@@ -34,7 +34,7 @@ test('suggested: once anchored, the soonest expected date wins regardless of lis
         { week: 2, day: 1, expectedDate: '2026-09-14', sequence: { title: 'B', blocks: [{ repetitions: 1, steps: [{ label: 'x', durationSeconds: 1 }] }] } },
       ],
     });
-    return prog.querySelector('.cdp-select').selectedOptions[0].textContent;
+    return prog.querySelector('.cdp-row[aria-selected=\"true\"]').getAttribute('aria-label');
   });
   expect(selected).toContain('A (soonest)');
 });
@@ -52,7 +52,7 @@ test('suggested: an already-run entry is never re-suggested even if its date is 
         { week: 1, day: 5, expectedDate: '2026-09-11', sequence: { title: 'Not yet', blocks: [{ repetitions: 1, steps: [{ label: 'x', durationSeconds: 1 }] }] } },
       ],
     });
-    return prog.querySelector('.cdp-select').selectedOptions[0].textContent;
+    return prog.querySelector('.cdp-row[aria-selected=\"true\"]').getAttribute('aria-label');
   });
   expect(selected).toContain('Not yet');
 });
@@ -70,7 +70,7 @@ test('unfiltered: every entry is listed, in the exact order given in the JSON', 
         { week: 2, day: 1, sequence: { title: 'Second-week-third-listed', blocks: [{ repetitions: 1, steps: [{ label: 'x', durationSeconds: 1 }] }] } },
       ],
     });
-    return [...prog.querySelector('.cdp-select').options].map((o) => o.textContent);
+    return [...prog.querySelectorAll('.cdp-row')].map((o) => o.getAttribute('aria-label'));
   });
   expect(titles[0]).toContain('Third-week-first-listed');
   expect(titles[1]).toContain('First-week-second-listed');

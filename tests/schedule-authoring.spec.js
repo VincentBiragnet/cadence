@@ -17,7 +17,7 @@ test('a program whose JSON holds no date at all configures and lists every entry
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(program);
-    return [...prog.querySelector('.cdp-select').options].map((o) => o.textContent);
+    return [...prog.querySelectorAll('.cdp-row')].map((o) => o.getAttribute('aria-label'));
   }, PROGRAM);
 
   expect(labels).toHaveLength(3);

@@ -209,7 +209,7 @@ cadence-program {
   flex-wrap: wrap;
 }
 
-.cdp-select, .cdp-start, .cdp-drop, .cdp-export, .cdp-replan, .cdp-load-label {
+.cdp-start, .cdp-jump, .cdp-drop, .cdp-more, .cdp-export, .cdp-replan, .cdp-load-label {
   font-family: var(--cdc-font);
   font-size: 0.95rem;
   padding: var(--cdc-space-1) var(--cdc-space-2);
@@ -219,13 +219,67 @@ cadence-program {
   color: inherit;
 }
 
-/* The overrun is the one number that says the plan no longer fits (KD-1),
-   so it reads as a warning rather than as another label. */
-.cdp-overrun {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--cdc-color-progress);
+/* The list owns the screen and the controls dock beneath it (KD-14). A long
+   label must never widen the page: the row's text truncates inside a min-width
+   0 flex child, and on a wide screen the whole view is capped so a status icon
+   is not stranded a window away from its label. */
+.cdp-view { display: flex; flex-direction: column; max-width: 34rem; }
+
+.cdp-summary { font-size: 0.85rem; color: var(--cdc-color-muted, inherit); }
+.cdp-summary.cdp-over { font-weight: 600; color: var(--cdc-color-progress); }
+
+.cdp-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 60vh;
+  overflow-y: auto;
+  border: 1px solid var(--cdc-color-track);
+  border-radius: var(--cdc-radius);
 }
+
+.cdp-row {
+  display: flex;
+  align-items: center;
+  gap: var(--cdc-space-2);
+  padding: var(--cdc-space-1) var(--cdc-space-2);
+  min-height: 44px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--cdc-color-track);
+}
+.cdp-row:last-child { border-bottom: none; }
+.cdp-row[aria-selected="true"] { background: var(--cdc-color-track); }
+.cdp-row:focus-visible { outline: 2px solid var(--cdc-color-progress); outline-offset: -2px; }
+
+.cdp-row-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.cdp-row-lead { font-size: 0.75rem; opacity: 0.75; }
+.cdp-row-label,
+.cdp-row-lead { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cdp-row-icon { flex: none; }
+.cdp-row.stale .cdp-row-icon, .cdp-row.missed .cdp-row-icon { color: var(--cdc-color-progress); }
+
+/* KD-16: the divider anchors the scroll; every stale row is marked anyway. */
+.cdp-divider {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: var(--cdc-space-1) var(--cdc-space-2);
+  border-bottom: 1px solid var(--cdc-color-progress);
+}
+
+.cdp-bar { display: flex; flex-direction: column; gap: var(--cdc-space-1); padding-top: var(--cdc-space-2); }
+.cdp-next { font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cdp-actions { display: flex; gap: var(--cdc-space-2); align-items: center; }
+.cdp-start { flex: 1; }
+.cdp-menu { position: relative; }
+.cdp-pop {
+  position: absolute; right: 0; bottom: calc(100% + 4px); z-index: 5;
+  display: flex; flex-direction: column; gap: 2px; padding: 4px;
+  background: var(--cdc-color-bg); border: 1px solid var(--cdc-color-track);
+  border-radius: var(--cdc-radius); min-width: 12rem;
+}
+.cdp-pop[hidden] { display: none; }
+.cdp-pop button, .cdp-pop .cdp-load-label { border: none; text-align: left; }
 
 .cdp-start {
   background: var(--cdc-color-progress);

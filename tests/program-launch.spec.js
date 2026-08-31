@@ -16,7 +16,7 @@ test('start: launching mounts a real, visible, running cadence-sequence and hide
     prog.configure({ title: 'Launching', entries: [entry] });
     prog.querySelector('.cdp-start').click();
     return {
-      listHidden: prog.querySelector('.cdp-list').hidden,
+      listHidden: prog.querySelector('.cdp-view').hidden,
       runVisible: !prog.querySelector('.cdp-run').hidden,
       hasSequence: prog.querySelector('cadence-sequence') !== null,
     };
@@ -34,9 +34,9 @@ test('back: abandons the run with no actualDate recorded, restores the list unch
     prog.querySelector('cadence-sequence .cds-start').click(); // actually running now
     prog.querySelector('.cdp-back').click();
     return {
-      listVisible: !prog.querySelector('.cdp-list').hidden,
+      listVisible: !prog.querySelector('.cdp-view').hidden,
       sequenceGone: prog.querySelector('cadence-sequence') === null,
-      entryDone: prog.querySelector('.cdp-select').innerHTML.includes('(done'),
+      entryDone: prog.querySelector('.cdp-list').innerHTML.includes('done'),
       actualDateSet: !!prog.config.entries[0].actualDate,
       // The launch still anchored the program, even though the run was
       // abandoned — the anchor is the launch, not the completion (KD-12).
@@ -62,8 +62,8 @@ test('complete: records actualDate, fires cadence:entryComplete, restores the li
       events: events.length,
       actualDate: prog.config.entries[0].actualDate,
       anchorDate: prog.config.anchorDate,
-      listVisible: !prog.querySelector('.cdp-list').hidden,
-      entryDone: prog.querySelector('.cdp-select').innerHTML.includes('(done'),
+      listVisible: !prog.querySelector('.cdp-view').hidden,
+      entryDone: prog.querySelector('.cdp-list').innerHTML.includes('done'),
     };
   }, ENTRY('X', 0.15));
   expect(result.events).toBe(1);

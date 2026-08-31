@@ -1,0 +1,4228 @@
+{
+  "title": "10-Week Classical Guitar Foundations (recital-anchored)",
+  "entries": [
+    {
+      "week": 1,
+      "day": 1,
+      "label": "Chromatic 60",
+      "sequence": {
+        "title": "Week 1 Mon — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 6 @ 60bpm",
+                "durationSeconds": 64,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave A minor scale @ 60bpm",
+                "durationSeconds": 120,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 1 @ 60bpm",
+                "durationSeconds": 80,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Carcassi Op.60 No.1 (A section)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 1",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 1,
+      "day": 2,
+      "label": "Scales 60",
+      "sequence": {
+        "title": "Week 1 Tue — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 5 @ 60bpm",
+                "durationSeconds": 64,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave A minor scale @ 60bpm",
+                "durationSeconds": 120,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 2 @ 60bpm",
+                "durationSeconds": 80,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Carcassi Op.60 No.1 (A section)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 1",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 1,
+      "day": 3,
+      "label": "Arpeggios p-i-m-a",
+      "sequence": {
+        "title": "Week 1 Wed — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 4 @ 60bpm",
+                "durationSeconds": 64,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave A minor scale @ 60bpm",
+                "durationSeconds": 120,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 3 @ 60bpm",
+                "durationSeconds": 80,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Carcassi Op.60 No.1 (A section)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 1",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 1,
+      "day": 4,
+      "label": "Carcassi 1",
+      "sequence": {
+        "title": "Week 1 Thu — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 3 @ 60bpm",
+                "durationSeconds": 64,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave A minor scale @ 60bpm",
+                "durationSeconds": 120,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 1 @ 60bpm",
+                "durationSeconds": 80,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Carcassi Op.60 No.1 (A section)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 1",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 1,
+      "day": 5,
+      "label": "Sight-reading",
+      "sequence": {
+        "title": "Week 1 Fri — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 6 @ 60bpm",
+                "durationSeconds": 64,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave A minor scale @ 60bpm",
+                "durationSeconds": 120,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 2 @ 60bpm",
+                "durationSeconds": 80,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Carcassi Op.60 No.1 (A section)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 1",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 1,
+      "day": 6,
+      "label": "Scales + Carcassi 1",
+      "sequence": {
+        "title": "Week 1 Sat — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 5 @ 60bpm",
+                "durationSeconds": 64,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave A minor scale @ 60bpm",
+                "durationSeconds": 120,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 3 @ 60bpm",
+                "durationSeconds": 80,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Carcassi Op.60 No.1 (A section)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 1",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 2,
+      "day": 1,
+      "label": "Chromatic 64",
+      "sequence": {
+        "title": "Week 2 Mon — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 6 @ 64bpm",
+                "durationSeconds": 60,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave G major scale @ 64bpm",
+                "durationSeconds": 112.52,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 1 @ 64bpm",
+                "durationSeconds": 75,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Carcassi Op.60 No.1 (full)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 2",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 2,
+      "day": 2,
+      "label": "Scales 64",
+      "sequence": {
+        "title": "Week 2 Tue — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 5 @ 64bpm",
+                "durationSeconds": 60,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave G major scale @ 64bpm",
+                "durationSeconds": 112.52,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 2 @ 64bpm",
+                "durationSeconds": 75,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Carcassi Op.60 No.1 (full)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 2",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 2,
+      "day": 3,
+      "label": "Arpeggios p-i-m-a",
+      "sequence": {
+        "title": "Week 2 Wed — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 4 @ 64bpm",
+                "durationSeconds": 60,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave G major scale @ 64bpm",
+                "durationSeconds": 112.52,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 3 @ 64bpm",
+                "durationSeconds": 75,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Carcassi Op.60 No.1 (full)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 2",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 2,
+      "day": 4,
+      "label": "Carcassi 1",
+      "sequence": {
+        "title": "Week 2 Thu — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 3 @ 64bpm",
+                "durationSeconds": 60,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave G major scale @ 64bpm",
+                "durationSeconds": 112.52,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 1 @ 64bpm",
+                "durationSeconds": 75,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Carcassi Op.60 No.1 (full)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 2",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 2,
+      "day": 5,
+      "label": "Sight-reading",
+      "sequence": {
+        "title": "Week 2 Fri — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 6 @ 64bpm",
+                "durationSeconds": 60,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave G major scale @ 64bpm",
+                "durationSeconds": 112.52,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 2 @ 64bpm",
+                "durationSeconds": 75,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Carcassi Op.60 No.1 (full)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 2",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 2,
+      "day": 6,
+      "label": "Scales + Carcassi 1",
+      "sequence": {
+        "title": "Week 2 Sat — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 5 @ 64bpm",
+                "durationSeconds": 60,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave G major scale @ 64bpm",
+                "durationSeconds": 112.52,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 3 @ 64bpm",
+                "durationSeconds": 75,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Carcassi Op.60 No.1 (full)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 2",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 3,
+      "day": 1,
+      "label": "Chromatic 69",
+      "sequence": {
+        "title": "Week 3 Mon — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 6 @ 69bpm",
+                "durationSeconds": 55.64,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave E minor scale @ 69bpm",
+                "durationSeconds": 104.36,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 1 @ 69bpm",
+                "durationSeconds": 69.56,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sor Op.60 No.5",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 3",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 3,
+      "day": 2,
+      "label": "Scales 69",
+      "sequence": {
+        "title": "Week 3 Tue — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 5 @ 69bpm",
+                "durationSeconds": 55.64,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave E minor scale @ 69bpm",
+                "durationSeconds": 104.36,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 2 @ 69bpm",
+                "durationSeconds": 69.56,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sor Op.60 No.5",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 3",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 3,
+      "day": 3,
+      "label": "Arpeggios p-i-m-a",
+      "sequence": {
+        "title": "Week 3 Wed — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 4 @ 69bpm",
+                "durationSeconds": 55.64,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave E minor scale @ 69bpm",
+                "durationSeconds": 104.36,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 3 @ 69bpm",
+                "durationSeconds": 69.56,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sor Op.60 No.5",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 3",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 3,
+      "day": 4,
+      "label": "Sor 5",
+      "sequence": {
+        "title": "Week 3 Thu — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 3 @ 69bpm",
+                "durationSeconds": 55.64,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave E minor scale @ 69bpm",
+                "durationSeconds": 104.36,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 1 @ 69bpm",
+                "durationSeconds": 69.56,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sor Op.60 No.5",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 3",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 3,
+      "day": 5,
+      "label": "Sight-reading",
+      "sequence": {
+        "title": "Week 3 Fri — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 6 @ 69bpm",
+                "durationSeconds": 55.64,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave E minor scale @ 69bpm",
+                "durationSeconds": 104.36,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 2 @ 69bpm",
+                "durationSeconds": 69.56,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sor Op.60 No.5",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 3",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 3,
+      "day": 6,
+      "label": "Scales + Sor 5",
+      "sequence": {
+        "title": "Week 3 Sat — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 5 @ 69bpm",
+                "durationSeconds": 55.64,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave E minor scale @ 69bpm",
+                "durationSeconds": 104.36,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 3 @ 69bpm",
+                "durationSeconds": 69.56,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sor Op.60 No.5",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 3",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 4,
+      "day": 1,
+      "label": "Chromatic 73",
+      "sequence": {
+        "title": "Week 4 Mon — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 6 @ 73bpm",
+                "durationSeconds": 52.6,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave D major scale @ 73bpm",
+                "durationSeconds": 98.64,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 1 @ 73bpm",
+                "durationSeconds": 65.76,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sor Op.60 No.5 (tempo)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 4",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 4,
+      "day": 2,
+      "label": "Scales 73",
+      "sequence": {
+        "title": "Week 4 Tue — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 5 @ 73bpm",
+                "durationSeconds": 52.6,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave D major scale @ 73bpm",
+                "durationSeconds": 98.64,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 2 @ 73bpm",
+                "durationSeconds": 65.76,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sor Op.60 No.5 (tempo)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 4",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 4,
+      "day": 3,
+      "label": "Arpeggios p-i-m-a",
+      "sequence": {
+        "title": "Week 4 Wed — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 4 @ 73bpm",
+                "durationSeconds": 52.6,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave D major scale @ 73bpm",
+                "durationSeconds": 98.64,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 3 @ 73bpm",
+                "durationSeconds": 65.76,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sor Op.60 No.5 (tempo)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 4",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 4,
+      "day": 4,
+      "label": "Sor 5",
+      "sequence": {
+        "title": "Week 4 Thu — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 3 @ 73bpm",
+                "durationSeconds": 52.6,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave D major scale @ 73bpm",
+                "durationSeconds": 98.64,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 1 @ 73bpm",
+                "durationSeconds": 65.76,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sor Op.60 No.5 (tempo)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 4",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 4,
+      "day": 5,
+      "label": "Sight-reading",
+      "sequence": {
+        "title": "Week 4 Fri — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 6 @ 73bpm",
+                "durationSeconds": 52.6,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave D major scale @ 73bpm",
+                "durationSeconds": 98.64,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 2 @ 73bpm",
+                "durationSeconds": 65.76,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sor Op.60 No.5 (tempo)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 4",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 4,
+      "day": 6,
+      "label": "Scales + Sor 5",
+      "sequence": {
+        "title": "Week 4 Sat — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 5 @ 73bpm",
+                "durationSeconds": 52.6,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave D major scale @ 73bpm",
+                "durationSeconds": 98.64,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 3 @ 73bpm",
+                "durationSeconds": 65.76,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sor Op.60 No.5 (tempo)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 4",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 5,
+      "day": 1,
+      "label": "Chromatic 78",
+      "sequence": {
+        "title": "Week 5 Mon — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 6 @ 78bpm",
+                "durationSeconds": 49.24,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave C major scale @ 78bpm",
+                "durationSeconds": 92.32,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 1 @ 78bpm",
+                "durationSeconds": 61.52,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tarrega — Lagrima",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 5",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 5,
+      "day": 2,
+      "label": "Scales 78",
+      "sequence": {
+        "title": "Week 5 Tue — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 5 @ 78bpm",
+                "durationSeconds": 49.24,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave C major scale @ 78bpm",
+                "durationSeconds": 92.32,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 2 @ 78bpm",
+                "durationSeconds": 61.52,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tarrega — Lagrima",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 5",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 5,
+      "day": 3,
+      "label": "Arpeggios p-i-m-a",
+      "sequence": {
+        "title": "Week 5 Wed — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 4 @ 78bpm",
+                "durationSeconds": 49.24,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave C major scale @ 78bpm",
+                "durationSeconds": 92.32,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 3 @ 78bpm",
+                "durationSeconds": 61.52,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tarrega — Lagrima",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 5",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 5,
+      "day": 4,
+      "label": "Lagrima",
+      "sequence": {
+        "title": "Week 5 Thu — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 3 @ 78bpm",
+                "durationSeconds": 49.24,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave C major scale @ 78bpm",
+                "durationSeconds": 92.32,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 1 @ 78bpm",
+                "durationSeconds": 61.52,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tarrega — Lagrima",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 5",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 5,
+      "day": 5,
+      "label": "Sight-reading",
+      "sequence": {
+        "title": "Week 5 Fri — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 6 @ 78bpm",
+                "durationSeconds": 49.24,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave C major scale @ 78bpm",
+                "durationSeconds": 92.32,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 2 @ 78bpm",
+                "durationSeconds": 61.52,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tarrega — Lagrima",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 5",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 5,
+      "day": 6,
+      "label": "Scales + Lagrima",
+      "sequence": {
+        "title": "Week 5 Sat — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 5 @ 78bpm",
+                "durationSeconds": 49.24,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave C major scale @ 78bpm",
+                "durationSeconds": 92.32,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 3 @ 78bpm",
+                "durationSeconds": 61.52,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tarrega — Lagrima",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 5",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 6,
+      "day": 1,
+      "label": "Chromatic 82",
+      "sequence": {
+        "title": "Week 6 Mon — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 6 @ 82bpm",
+                "durationSeconds": 46.84,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave A minor scale @ 82bpm",
+                "durationSeconds": 87.8,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 1 @ 82bpm",
+                "durationSeconds": 58.52,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tarrega — Lagrima (memorized)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 6",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 6,
+      "day": 2,
+      "label": "Scales 82",
+      "sequence": {
+        "title": "Week 6 Tue — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 5 @ 82bpm",
+                "durationSeconds": 46.84,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave A minor scale @ 82bpm",
+                "durationSeconds": 87.8,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 2 @ 82bpm",
+                "durationSeconds": 58.52,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tarrega — Lagrima (memorized)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 6",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 6,
+      "day": 3,
+      "label": "Arpeggios p-i-m-a",
+      "sequence": {
+        "title": "Week 6 Wed — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 4 @ 82bpm",
+                "durationSeconds": 46.84,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave A minor scale @ 82bpm",
+                "durationSeconds": 87.8,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 3 @ 82bpm",
+                "durationSeconds": 58.52,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tarrega — Lagrima (memorized)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 6",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 6,
+      "day": 4,
+      "label": "Lagrima",
+      "sequence": {
+        "title": "Week 6 Thu — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 3 @ 82bpm",
+                "durationSeconds": 46.84,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave A minor scale @ 82bpm",
+                "durationSeconds": 87.8,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 1 @ 82bpm",
+                "durationSeconds": 58.52,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tarrega — Lagrima (memorized)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 6",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 6,
+      "day": 5,
+      "label": "Sight-reading",
+      "sequence": {
+        "title": "Week 6 Fri — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 6 @ 82bpm",
+                "durationSeconds": 46.84,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave A minor scale @ 82bpm",
+                "durationSeconds": 87.8,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 2 @ 82bpm",
+                "durationSeconds": 58.52,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tarrega — Lagrima (memorized)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 6",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 6,
+      "day": 6,
+      "label": "Scales + Lagrima",
+      "sequence": {
+        "title": "Week 6 Sat — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 5 @ 82bpm",
+                "durationSeconds": 46.84,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave A minor scale @ 82bpm",
+                "durationSeconds": 87.8,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 3 @ 82bpm",
+                "durationSeconds": 58.52,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tarrega — Lagrima (memorized)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 6",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 7,
+      "day": 1,
+      "label": "Chromatic 87",
+      "sequence": {
+        "title": "Week 7 Mon — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 6 @ 87bpm",
+                "durationSeconds": 44.12,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave G major scale @ 87bpm",
+                "durationSeconds": 82.76,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 1 @ 87bpm",
+                "durationSeconds": 55.16,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Bach — Bourree in Em (BWV 996)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 7",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 7,
+      "day": 2,
+      "label": "Scales 87",
+      "sequence": {
+        "title": "Week 7 Tue — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 5 @ 87bpm",
+                "durationSeconds": 44.12,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave G major scale @ 87bpm",
+                "durationSeconds": 82.76,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 2 @ 87bpm",
+                "durationSeconds": 55.16,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Bach — Bourree in Em (BWV 996)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 7",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 7,
+      "day": 3,
+      "label": "Arpeggios p-i-m-a",
+      "sequence": {
+        "title": "Week 7 Wed — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 4 @ 87bpm",
+                "durationSeconds": 44.12,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave G major scale @ 87bpm",
+                "durationSeconds": 82.76,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 3 @ 87bpm",
+                "durationSeconds": 55.16,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Bach — Bourree in Em (BWV 996)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 7",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 7,
+      "day": 4,
+      "label": "Bach Bourree",
+      "sequence": {
+        "title": "Week 7 Thu — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 3 @ 87bpm",
+                "durationSeconds": 44.12,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave G major scale @ 87bpm",
+                "durationSeconds": 82.76,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 1 @ 87bpm",
+                "durationSeconds": 55.16,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Bach — Bourree in Em (BWV 996)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 7",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 7,
+      "day": 5,
+      "label": "Sight-reading",
+      "sequence": {
+        "title": "Week 7 Fri — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 6 @ 87bpm",
+                "durationSeconds": 44.12,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave G major scale @ 87bpm",
+                "durationSeconds": 82.76,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 2 @ 87bpm",
+                "durationSeconds": 55.16,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Bach — Bourree in Em (BWV 996)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 7",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 7,
+      "day": 6,
+      "label": "Scales + Bach Bourree",
+      "sequence": {
+        "title": "Week 7 Sat — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 5 @ 87bpm",
+                "durationSeconds": 44.12,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave G major scale @ 87bpm",
+                "durationSeconds": 82.76,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 3 @ 87bpm",
+                "durationSeconds": 55.16,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Bach — Bourree in Em (BWV 996)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 7",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 8,
+      "day": 1,
+      "label": "Chromatic 91",
+      "sequence": {
+        "title": "Week 8 Mon — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 6 @ 91bpm",
+                "durationSeconds": 42.2,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave E minor scale @ 91bpm",
+                "durationSeconds": 79.12,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 1 @ 91bpm",
+                "durationSeconds": 52.76,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Bach — Bourree in Em (tempo)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 8",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 8,
+      "day": 2,
+      "label": "Scales 91",
+      "sequence": {
+        "title": "Week 8 Tue — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 5 @ 91bpm",
+                "durationSeconds": 42.2,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave E minor scale @ 91bpm",
+                "durationSeconds": 79.12,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 2 @ 91bpm",
+                "durationSeconds": 52.76,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Bach — Bourree in Em (tempo)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 8",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 8,
+      "day": 3,
+      "label": "Arpeggios p-i-m-a",
+      "sequence": {
+        "title": "Week 8 Wed — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 4 @ 91bpm",
+                "durationSeconds": 42.2,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave E minor scale @ 91bpm",
+                "durationSeconds": 79.12,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 3 @ 91bpm",
+                "durationSeconds": 52.76,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Bach — Bourree in Em (tempo)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 8",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 8,
+      "day": 4,
+      "label": "Bach Bourree",
+      "sequence": {
+        "title": "Week 8 Thu — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 3 @ 91bpm",
+                "durationSeconds": 42.2,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave E minor scale @ 91bpm",
+                "durationSeconds": 79.12,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 1 @ 91bpm",
+                "durationSeconds": 52.76,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Bach — Bourree in Em (tempo)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 8",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 8,
+      "day": 5,
+      "label": "Sight-reading",
+      "sequence": {
+        "title": "Week 8 Fri — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 6 @ 91bpm",
+                "durationSeconds": 42.2,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave E minor scale @ 91bpm",
+                "durationSeconds": 79.12,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 2 @ 91bpm",
+                "durationSeconds": 52.76,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Bach — Bourree in Em (tempo)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 8",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 8,
+      "day": 6,
+      "label": "Scales + Bach Bourree",
+      "sequence": {
+        "title": "Week 8 Sat — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 5 @ 91bpm",
+                "durationSeconds": 42.2,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave E minor scale @ 91bpm",
+                "durationSeconds": 79.12,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 3 @ 91bpm",
+                "durationSeconds": 52.76,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Bach — Bourree in Em (tempo)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 8",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 9,
+      "day": 1,
+      "label": "Chromatic 96",
+      "sequence": {
+        "title": "Week 9 Mon — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 6 @ 96bpm",
+                "durationSeconds": 40,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave D major scale @ 96bpm",
+                "durationSeconds": 75,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 1 @ 96bpm",
+                "durationSeconds": 50,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Albeniz — Asturias (opening)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 9",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 9,
+      "day": 2,
+      "label": "Scales 96",
+      "sequence": {
+        "title": "Week 9 Tue — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 5 @ 96bpm",
+                "durationSeconds": 40,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave D major scale @ 96bpm",
+                "durationSeconds": 75,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 2 @ 96bpm",
+                "durationSeconds": 50,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Albeniz — Asturias (opening)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 9",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 9,
+      "day": 3,
+      "label": "Arpeggios p-i-m-a",
+      "sequence": {
+        "title": "Week 9 Wed — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 4 @ 96bpm",
+                "durationSeconds": 40,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave D major scale @ 96bpm",
+                "durationSeconds": 75,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 3 @ 96bpm",
+                "durationSeconds": 50,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Albeniz — Asturias (opening)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 9",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 9,
+      "day": 4,
+      "label": "Asturias",
+      "sequence": {
+        "title": "Week 9 Thu — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 3 @ 96bpm",
+                "durationSeconds": 40,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave D major scale @ 96bpm",
+                "durationSeconds": 75,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 1 @ 96bpm",
+                "durationSeconds": 50,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Albeniz — Asturias (opening)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 9",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 9,
+      "day": 5,
+      "label": "Sight-reading",
+      "sequence": {
+        "title": "Week 9 Fri — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 6 @ 96bpm",
+                "durationSeconds": 40,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave D major scale @ 96bpm",
+                "durationSeconds": 75,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 2 @ 96bpm",
+                "durationSeconds": 50,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Albeniz — Asturias (opening)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 9",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 9,
+      "day": 6,
+      "label": "Scales + Asturias",
+      "sequence": {
+        "title": "Week 9 Sat — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 5 @ 96bpm",
+                "durationSeconds": 40,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave D major scale @ 96bpm",
+                "durationSeconds": 75,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 3 @ 96bpm",
+                "durationSeconds": 50,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Albeniz — Asturias (opening)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 9",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 10,
+      "day": 1,
+      "label": "Chromatic 100",
+      "sequence": {
+        "title": "Week 10 Mon — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 6 @ 100bpm",
+                "durationSeconds": 38.4,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave C major scale @ 100bpm",
+                "durationSeconds": 72,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 1 @ 100bpm",
+                "durationSeconds": 48,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tarrega — Recuerdos de la Alhambra (tremolo intro)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 10",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 10,
+      "day": 2,
+      "label": "Scales 100",
+      "sequence": {
+        "title": "Week 10 Tue — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 5 @ 100bpm",
+                "durationSeconds": 38.4,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave C major scale @ 100bpm",
+                "durationSeconds": 72,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 2 @ 100bpm",
+                "durationSeconds": 48,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tarrega — Recuerdos de la Alhambra (tremolo intro)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 10",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 10,
+      "day": 3,
+      "label": "Arpeggios p-i-m-a",
+      "sequence": {
+        "title": "Week 10 Wed — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 4 @ 100bpm",
+                "durationSeconds": 38.4,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave C major scale @ 100bpm",
+                "durationSeconds": 72,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 3 @ 100bpm",
+                "durationSeconds": 48,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tarrega — Recuerdos de la Alhambra (tremolo intro)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 10",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 10,
+      "day": 4,
+      "label": "Recuerdos",
+      "sequence": {
+        "title": "Week 10 Thu — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 3 @ 100bpm",
+                "durationSeconds": 38.4,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave C major scale @ 100bpm",
+                "durationSeconds": 72,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 1 @ 100bpm",
+                "durationSeconds": 48,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tarrega — Recuerdos de la Alhambra (tremolo intro)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 10",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 10,
+      "day": 5,
+      "label": "Sight-reading",
+      "sequence": {
+        "title": "Week 10 Fri — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 6 @ 100bpm",
+                "durationSeconds": 38.4,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave C major scale @ 100bpm",
+                "durationSeconds": 72,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 2 @ 100bpm",
+                "durationSeconds": 48,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tarrega — Recuerdos de la Alhambra (tremolo intro)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 10",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 10,
+      "day": 6,
+      "label": "Scales + Recuerdos",
+      "sequence": {
+        "title": "Week 10 Sat — chromatic, scales, arpeggios, repertoire, sight-reading",
+        "blocks": [
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Chromatic 1-2-3-4 asc/desc, string 5 @ 100bpm",
+                "durationSeconds": 38.4,
+                "startFrequency": 220
+              },
+              {
+                "label": "Shake out",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "2-octave C major scale @ 100bpm",
+                "durationSeconds": 72,
+                "startFrequency": 330,
+                "endFrequency": 440
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 20
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "p-i-m-a arpeggio pattern 3 @ 100bpm",
+                "durationSeconds": 48,
+                "startFrequency": 392
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tarrega — Recuerdos de la Alhambra (tremolo intro)",
+                "durationSeconds": 480,
+                "startFrequency": 523,
+                "endFrequency": 523
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Sight-reading — new excerpt, week 10",
+                "durationSeconds": 300,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 11,
+      "day": 1,
+      "milestone": true,
+      "date": "2026-11-22",
+      "title": "Studio recital",
+      "sequence": {
+        "title": "Studio recital — Recuerdos de la Alhambra (tremolo intro)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Perform: Recuerdos de la Alhambra",
+                "durationSeconds": 240,
+                "startFrequency": 523,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

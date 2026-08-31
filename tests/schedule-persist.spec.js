@@ -41,7 +41,7 @@ test('reloading restores the same dates and the same entry marked run', async ({
     return {
       anchorDate: prog.config.anchorDate,
       entries: prog.config.entries.map((e) => ({ expected: e.expectedDate, actual: e.actualDate || null })),
-      done: prog.querySelector('.cdp-select').options[0].textContent.includes('(done'),
+      done: prog.querySelectorAll('.cdp-row')[0].getAttribute('aria-label').includes('done'),
     };
   }, PROGRAM);
 

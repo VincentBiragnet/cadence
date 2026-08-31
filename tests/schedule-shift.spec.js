@@ -37,7 +37,7 @@ test('completing two days late moves every later date exactly two days on, inter
   const after = await page.evaluate(async () => {
     const prog = document.getElementById('prog');
     const done = new Promise((r) => prog.addEventListener('cadence:entryComplete', r, { once: true }));
-    prog.querySelector('.cdp-select').value = '0';
+    prog.querySelectorAll('.cdp-row')[0].click();
     prog.querySelector('.cdp-start').click();
     prog.querySelector('cadence-sequence .cds-start').click();
     await done;
@@ -68,7 +68,7 @@ test('an unrun entry earlier in the order keeps its date, and nothing is pulled 
     document.body.appendChild(prog);
     prog.configure(p);
     const done = new Promise((r) => prog.addEventListener('cadence:entryComplete', r, { once: true }));
-    prog.querySelector('.cdp-select').value = '2';   // week 2 day 1, out of order
+    prog.querySelectorAll('.cdp-row')[2].click();   // week 2 day 1, out of order
     prog.querySelector('.cdp-start').click();
     prog.querySelector('cadence-sequence .cds-start').click();
     await done;
@@ -94,7 +94,7 @@ test('finishing early with every earlier session done does pull the rest forward
     prog.configure(p);
     const run = async (index) => {
       const done = new Promise((r) => prog.addEventListener('cadence:entryComplete', r, { once: true }));
-      prog.querySelector('.cdp-select').value = String(index);
+      prog.querySelectorAll('.cdp-row')[index].click();
       prog.querySelector('.cdp-start').click();
       prog.querySelector('cadence-sequence .cds-start').click();
       await done;

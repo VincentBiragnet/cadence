@@ -24,29 +24,27 @@ test('sliding past the race reports the overrun in days, and compresses nothing'
     prog.id = 'prog';
     document.body.appendChild(prog);
     prog.configure(p);
-    return { text: prog.querySelector('.cdp-overrun').textContent, hidden: prog.querySelector('.cdp-overrun').hidden };
+    return { text: prog.querySelector('.cdp-summary').textContent };
   }, PROGRAM);
   // The plan fits to begin with, so there is nothing to say.
-  expect(fresh).toEqual({ text: '', hidden: true });
+  expect(fresh.text).not.toContain('past');
 
   await page.clock.setSystemTime(new Date('2026-09-18T09:00:00'));
   const after = await page.evaluate(async () => {
     const prog = document.getElementById('prog');
     const done = new Promise((r) => prog.addEventListener('cadence:entryComplete', r, { once: true }));
-    prog.querySelector('.cdp-select').value = '0';
+    prog.querySelectorAll('.cdp-row')[0].click();
     prog.querySelector('.cdp-start').click();
     prog.querySelector('cadence-sequence .cds-start').click();
     await done;
     return {
-      text: prog.querySelector('.cdp-overrun').textContent,
-      hidden: prog.querySelector('.cdp-overrun').hidden,
+      text: prog.querySelector('.cdp-summary').textContent,
       dates: prog.config.entries.map((e) => e.expectedDate),
     };
   });
 
   // Last session still to run is 2026-10-02, five days past the race.
-  expect(after.hidden).toBe(false);
-  expect(after.text).toBe('5 days past "Race" (2026-09-27)');
+  expect(after.text).toContain('5 days past "Race" (2026-09-27)');
   // Nothing was squeezed to fit: B and C are still exactly a week apart.
   const gap = (Date.parse(after.dates[2]) - Date.parse(after.dates[1])) / 86400000;
   expect(gap).toBe(7);
@@ -65,13 +63,13 @@ test('a dropped session is left out of the overrun (KD-19)', async ({ page }) =>
     prog.config.entries[1].expectedDate = '2026-10-05';
     prog.config.entries[2].expectedDate = '2026-10-12';
     prog._renderList();
-    const withBoth = prog.querySelector('.cdp-overrun').textContent;
+    const withBoth = prog.querySelector('.cdp-summary').textContent;
     // Drop the last one: the overrun should fall back to the one before it.
-    prog.querySelector('.cdp-select').value = '2';
+    prog.querySelectorAll('.cdp-row')[2].click();
     prog.querySelector('.cdp-drop').click();
-    return { withBoth, afterDrop: prog.querySelector('.cdp-overrun').textContent };
+    return { withBoth, afterDrop: prog.querySelector('.cdp-summary').textContent };
   }, PROGRAM);
 
-  expect(result.withBoth).toBe('15 days past "Race" (2026-09-27)');
-  expect(result.afterDrop).toBe('8 days past "Race" (2026-09-27)');
+  expect(result.withBoth).toContain('15 days past "Race" (2026-09-27)');
+  expect(result.afterDrop).toContain('8 days past "Race" (2026-09-27)');
 });

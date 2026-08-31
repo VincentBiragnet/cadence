@@ -41,7 +41,7 @@ test('the replanning prompt carries the contract, the state, the overrun and the
 
   const [download] = await Promise.all([
     page.waitForEvent('download'),
-    page.click('#prog .cdp-replan'),
+    page.click('#prog .cdp-more').then(() => page.click('#prog .cdp-replan')),
   ]);
   expect(download.suggestedFilename()).toBe('berlin-build-replanning-prompt.md');
   const text = readFileSync(await download.path(), 'utf8');
@@ -79,7 +79,7 @@ test('the plain JSON export survives alongside it, and is the one Load can read 
 
   const [download] = await Promise.all([
     page.waitForEvent('download'),
-    page.click('#prog .cdp-export'),
+    page.click('#prog .cdp-more').then(() => page.click('#prog .cdp-export')),
   ]);
   expect(download.suggestedFilename()).toBe('berlin-build.json');
   const parsed = JSON.parse(readFileSync(await download.path(), 'utf8'));

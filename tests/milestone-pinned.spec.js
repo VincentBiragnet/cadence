@@ -34,7 +34,7 @@ test('a session finished 18 days late moves every unrun session after it, and no
   const after = await page.evaluate(async () => {
     const prog = document.getElementById('prog');
     const done = new Promise((r) => prog.addEventListener('cadence:entryComplete', r, { once: true }));
-    prog.querySelector('.cdp-select').value = '0';
+    prog.querySelectorAll('.cdp-row')[0].click();
     prog.querySelector('.cdp-start').click();
     prog.querySelector('cadence-sequence .cds-start').click();
     await done;
@@ -61,7 +61,7 @@ test('completing the milestone itself moves nothing at all (KD-15)', async ({ pa
     prog.configure(p);
     const before = prog.config.entries.map((e) => e.expectedDate);
     const done = new Promise((r) => prog.addEventListener('cadence:entryComplete', r, { once: true }));
-    prog.querySelector('.cdp-select').value = '3'; // the milestone, run 27 days early
+    prog.querySelectorAll('.cdp-row')[3].click(); // the milestone, run 27 days early
     prog.querySelector('.cdp-start').click();
     prog.querySelector('cadence-sequence .cds-start').click();
     await done;

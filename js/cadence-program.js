@@ -79,43 +79,64 @@ class CadenceProgram extends HTMLElement {
   _render() {
     this.innerHTML = `
       <div class="cdp-title"></div>
-      <div class="cdp-list">
-        <select class="cdp-select"></select>
-        <button type="button" class="cdp-start">Start</button>
-        <button type="button" class="cdp-export">Export</button>
-        <button type="button" class="cdp-replan">Replanning prompt</button>
-        <label class="cdp-load-label">Load
-          <input type="file" class="cdp-load" accept="application/json">
-        </label>
-        <!-- KD-23: last, so the one irreversible control is never the
-             neighbour of the one pressed every day, in the tab order or
-             under a thumb. The confirmation is still the gate. -->
-        <button type="button" class="cdp-drop">Drop</button>
+      <div class="cdp-view">
+        <div class="cdp-summary"></div>
+        <ul class="cdp-list" role="listbox" tabindex="-1"></ul>
+        <div class="cdp-bar">
+          <div class="cdp-next"></div>
+          <div class="cdp-actions">
+            <button type="button" class="cdp-jump" aria-label="Back to the current step">&#8634;</button>
+            <button type="button" class="cdp-start">Start</button>
+            <div class="cdp-menu">
+              <button type="button" class="cdp-more" aria-haspopup="true" aria-expanded="false">More</button>
+              <div class="cdp-pop" hidden>
+                <button type="button" class="cdp-export">Export</button>
+                <button type="button" class="cdp-replan">Replanning prompt</button>
+                <label class="cdp-load-label">Load
+                  <input type="file" class="cdp-load" accept="application/json">
+                </label>
+                <button type="button" class="cdp-drop">Drop</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="cdp-run" hidden>
         <button type="button" class="cdp-back">Back</button>
       </div>
-      <div class="cdp-overrun" hidden></div>
       <div class="cdp-live" aria-live="polite"></div>
     `;
     this._titleEl = this.querySelector('.cdp-title');
+    this._viewEl = this.querySelector('.cdp-view');
+    this._summaryEl = this.querySelector('.cdp-summary');
     this._listEl = this.querySelector('.cdp-list');
-    this._selectEl = this.querySelector('.cdp-select');
+    this._nextEl = this.querySelector('.cdp-next');
+    this._jumpEl = this.querySelector('.cdp-jump');
     this._startEl = this.querySelector('.cdp-start');
+    this._moreEl = this.querySelector('.cdp-more');
+    this._popEl = this.querySelector('.cdp-pop');
     this._dropEl = this.querySelector('.cdp-drop');
     this._exportEl = this.querySelector('.cdp-export');
     this._replanEl = this.querySelector('.cdp-replan');
-    this._overrunEl = this.querySelector('.cdp-overrun');
     this._loadEl = this.querySelector('.cdp-load');
     this._runEl = this.querySelector('.cdp-run');
     this._backEl = this.querySelector('.cdp-back');
     this._liveEl = this.querySelector('.cdp-live');
+    this._selected = 0;
+    this._everSelected = false;
 
+    this._listEl.addEventListener('keydown', (e) => this._onKey(e));
+    this._listEl.addEventListener('click', (e) => {
+      const row = e.target.closest('.cdp-row');
+      if (row) this._select(this._rows().indexOf(row), true);
+    });
+    this._jumpEl.addEventListener('click', () => this._select(this._suggestedIndex(), true));
+    this._moreEl.addEventListener('click', () => this._toggleMenu());
     this._startEl.addEventListener('click', () => this._launch());
     this._backEl.addEventListener('click', () => this._abandon());
-    this._dropEl.addEventListener('click', () => this._drop());
-    this._exportEl.addEventListener('click', () => this._export());
-    this._replanEl.addEventListener('click', () => this._exportReplanningPrompt());
+    this._dropEl.addEventListener('click', () => { this._toggleMenu(false); this._drop(); });
+    this._exportEl.addEventListener('click', () => { this._toggleMenu(false); this._export(); });
+    this._replanEl.addEventListener('click', () => { this._toggleMenu(false); this._exportReplanningPrompt(); });
     this._loadEl.addEventListener('change', () => this._load());
   }
 
@@ -342,38 +363,164 @@ class CadenceProgram extends HTMLElement {
     return best;
   }
 
-  // KD-4: a dropped session reads as dropped wherever it appears, distinct
-  // from one merely never run.
-  _label(entry) {
-    const where = entry.milestone
-      ? `Milestone — ${entry.date}`
-      : `Week ${entry.week} ${CDP_DAY_NAMES[entry.day - 1]}${entry.expectedDate ? ` — ${entry.expectedDate}` : ''}`;
-    const status = entry.actualDate ? ` (done ${entry.actualDate})` : entry.dropped ? ' (dropped)' : '';
-    return `${where} — ${this._title(entry)}${status}`;
+  // KD-25: one short label per entry, falling back to a milestone's own
+  // title and then to the sequence's, so nothing authored earlier breaks.
+  _title(entry) {
+    return entry.label || entry.title || (entry.sequence && entry.sequence.title) || 'Untitled';
+  }
+
+  // KD-15, KD-18: a session whose date is behind today and which is neither
+  // run nor dropped is stale; a milestone in the same position is missed,
+  // because a date that cannot be caught up is a different fact.
+  // KD-29, KD-30: this is all the trailing icon says — that a row is a
+  // milestone is carried by the text it leads with.
+  _state(entry) {
+    if (entry.actualDate) return { icon: '\u2713', word: 'done', cls: 'done' };
+    if (entry.dropped) return { icon: '\u2298', word: 'dropped', cls: 'dropped' };
+    const when = entry.milestone ? entry.date : entry.expectedDate;
+    if (when && when < cdpToday()) {
+      return entry.milestone
+        ? { icon: '\u2715', word: 'missed', cls: 'missed' }
+        : { icon: '\u25F7', word: 'overdue', cls: 'stale' };
+    }
+    return { icon: '', word: '', cls: '' };
+  }
+
+  // G-3: the row says which session it is and when it is due. A milestone
+  // leads with the word, which is how a milestone is told apart now that the
+  // trailing icon says only what state the row is in (KD-29, KD-30).
+  _lead(entry) {
+    if (entry.milestone) return `Milestone \u2014 ${entry.date}`;
+    const when = entry.expectedDate ? ` \u2014 ${entry.expectedDate}` : '';
+    return `Week ${entry.week} ${CDP_DAY_NAMES[entry.day - 1]}${when}`;
+  }
+
+  // KD-31: the divider goes before the first row in list order whose date is
+  // not behind today. It anchors the scroll and claims nothing more — a past
+  // date further down carries its own mark, which is why KD-16 wants both.
+  // KD-27: a program with no dates yet has no today to mark.
+  _dividerIndex() {
+    const entries = this._config.entries;
+    if (!entries.some((e) => e.expectedDate || e.date)) return -1;
+    const today = cdpToday();
+    const at = entries.findIndex((e) => {
+      const when = e.milestone ? e.date : e.expectedDate;
+      return !when || when >= today;
+    });
+    return at === -1 ? entries.length : at;
   }
 
   _renderList() {
-    const suggested = this._suggestedIndex();
-    this._selectEl.innerHTML = this._config.entries
-      .map((e, i) => `<option value="${i}">${this._label(e)}</option>`)
-      .join('');
-    if (suggested !== -1) this._selectEl.value = String(suggested);
-    this._renderOverrun();
+    const divider = this._dividerIndex();
+    const rows = this._config.entries.map((e, i) => {
+      const state = this._state(e);
+      const name = `${this._lead(e)}, ${this._title(e)}${state.word ? `, ${state.word}` : ''}`;
+      const before = i === divider ? '<li class="cdp-divider" role="presentation" aria-hidden="true">Today</li>' : '';
+      return `${before}<li class="cdp-row ${state.cls}" role="option" id="${this._rowId(i)}"
+          tabindex="-1" aria-selected="false" aria-label="${name.replace(/"/g, '&quot;')}">
+          <span class="cdp-row-main"><span class="cdp-row-lead">${this._lead(e)}</span>
+          <span class="cdp-row-label">${this._title(e)}</span></span>
+          <span class="cdp-row-icon" aria-hidden="true">${state.icon}</span></li>`;
+    }).join('');
+    this._listEl.innerHTML = rows
+      + (divider === this._config.entries.length ? '<li class="cdp-divider" role="presentation" aria-hidden="true">Today</li>' : '');
+    this._listEl.setAttribute('aria-label', this._config.title || 'Program');
+
+    // Opening the view lands on the current step (KD-1); after that the
+    // selection is the user's, until what they had chosen is settled.
+    const stale = !this._everSelected
+      || this._selected >= this._config.entries.length
+      || this._settled(this._config.entries[this._selected] || {});
+    const wanted = stale ? this._suggestedIndex() : this._selected;
+    this._select(wanted === -1 ? 0 : wanted, false);
+    this._renderSummary();
   }
 
-  _renderOverrun() {
+  _rowId(i) {
+    return `${this.id || 'cdp'}-row-${i}`;
+  }
+
+  _rows() {
+    return [...this._listEl.querySelectorAll('.cdp-row')];
+  }
+
+  // KD-19: selection follows focus, so what is on screen and what Start and
+  // Drop act on cannot come apart. KD-11: moving the current step into view
+  // is done by focusing its row and letting the browser scroll it, which is
+  // the same mechanism assistive technology relies on.
+  _select(index, moveFocus) {
+    const rows = this._rows();
+    if (!rows.length) return;
+    this._selected = Math.max(0, Math.min(rows.length - 1, index));
+    rows.forEach((row, i) => {
+      const on = i === this._selected;
+      row.setAttribute('aria-selected', String(on));
+      row.tabIndex = on ? 0 : -1;
+    });
+    if (moveFocus) {
+      this._everSelected = true;
+      rows[this._selected].focus();
+    }
+    this._renderNext();
+  }
+
+  _entry() {
+    return this._config.entries[this._selected];
+  }
+
+  _renderNext() {
+    const entry = this._entry();
+    if (!entry) return;
+    const verb = entry.sequence ? 'Start will run' : 'Start will record';
+    this._startEl.textContent = entry.sequence ? 'Start' : 'Mark reached';
+    this._startEl.disabled = Boolean(entry.dropped);
+    this._dropEl.disabled = this._settled(entry);
+    this._nextEl.textContent = `${verb}: ${this._title(entry)}`;
+  }
+
+  _onKey(event) {
+    const last = this._rows().length - 1;
+    const moves = {
+      ArrowDown: this._selected + 1, ArrowUp: this._selected - 1, Home: 0, End: last,
+    };
+    if (!(event.key in moves)) return;
+    event.preventDefault();
+    this._select(moves[event.key], true);
+  }
+
+  _toggleMenu(force) {
+    const open = force === undefined ? this._popEl.hidden : force;
+    this._popEl.hidden = !open;
+    this._moreEl.setAttribute('aria-expanded', String(open));
+  }
+
+  // KD-7, KD-28: how much is done and where it is projected to land, with
+  // the overrun taking its place once there is one — at that point the
+  // finish is not the news.
+  _renderSummary() {
+    const entries = this._config.entries;
+    const done = entries.filter((e) => e.actualDate).length;
     const over = this._overrun();
-    this._overrunEl.textContent = over
-      ? `${over.days} day${over.days === 1 ? '' : 's'} past "${over.title}" (${over.date})`
-      : '';
-    this._overrunEl.hidden = !over;
+    if (over) {
+      this._summaryEl.textContent =
+        `${done} of ${entries.length} done \u00b7 ${over.days} day${over.days === 1 ? '' : 's'} past "${over.title}" (${over.date})`;
+      this._summaryEl.classList.add('cdp-over');
+      return;
+    }
+    // Nothing left to do and nothing dated yet are different things: an
+    // unanchored program has no dates and is not finished (KD-28).
+    const remaining = entries.filter((e) => !e.actualDate && !e.dropped);
+    const dates = remaining.map((e) => (e.milestone ? e.date : e.expectedDate)).filter(Boolean);
+    const finish = dates.length ? dates.reduce((a, b) => (a > b ? a : b)) : null;
+    this._summaryEl.classList.remove('cdp-over');
+    this._summaryEl.textContent = `${done} of ${entries.length} done`
+      + (finish ? ` \u00b7 finishes ${finish}` : (remaining.length ? '' : ' \u00b7 finished'));
   }
 
   // KD-6: any entry may be launched whatever its date and whatever is still
   // unrun before it.
   _launch() {
-    const index = Number(this._selectEl.value);
-    const entry = this._config.entries[index];
+    const entry = this._entry();
     this._anchor();
     // KD-22: a marker milestone has nothing to play — it is reached, not
     // performed — so Start records it where it stands rather than mounting a
@@ -382,7 +529,7 @@ class CadenceProgram extends HTMLElement {
       this._reach(entry);
       return;
     }
-    this._listEl.hidden = true;
+    this._viewEl.hidden = true;
     this._runEl.hidden = false;
 
     this._runningSeq = document.createElement('cadence-sequence');
@@ -397,7 +544,7 @@ class CadenceProgram extends HTMLElement {
   // recorded and nothing is rescheduled (KD-7).
   _abandon() {
     this._teardownRun();
-    this._listEl.hidden = false;
+    this._viewEl.hidden = false;
     this._renderList();
   }
 
@@ -434,7 +581,7 @@ class CadenceProgram extends HTMLElement {
     this._writeStored();
 
     this._teardownRun();
-    this._listEl.hidden = false;
+    this._viewEl.hidden = false;
     this._renderList();
     this._announce(`Completed ${entry.sequence.title || 'session'}`);
     this.dispatchEvent(new CustomEvent('cadence:entryComplete', { detail: { entry } }));
@@ -455,14 +602,14 @@ class CadenceProgram extends HTMLElement {
   // the dropped one stays in the program rather than being removed. KD-4:
   // the confirmation is the gate, which is why there is no undo.
   _drop() {
-    const entry = this._config.entries[Number(this._selectEl.value)];
+    const entry = this._entry();
     if (!entry || this._settled(entry)) return;
     // KD-25: a race really can be cancelled, so a milestone can be dropped —
     // but it is a fixed date going away, not a session being skipped, and the
     // one confirmation standing in front of it should say which.
     const ok = window.confirm(entry.milestone
-      ? `Cancel the milestone "${this._title(entry)}" on ${entry.date}? Its date stops being one the sessions can overrun, and this cannot be undone.`
-      : `Drop "${this._title(entry)}"? It stays in the program marked as dropped, nothing else moves, and this cannot be undone.`);
+      ? `"${this._title(entry)}" (${entry.date}) \u2014 cancel this milestone? Its date stops being one the sessions can overrun, and this cannot be undone.`
+      : `"${this._title(entry)}" \u2014 drop this session? It stays in the program marked as dropped, nothing else moves, and this cannot be undone.`);
     if (!ok) return;
     entry.dropped = true;
     this._writeStored();

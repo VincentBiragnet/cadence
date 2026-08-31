@@ -26,16 +26,16 @@ test('the confirmation names a milestone as a fixed date being cancelled, not a 
     prog.id = 'prog';
     document.body.appendChild(prog);
     prog.configure(p);
-    prog.querySelector('.cdp-select').value = '2'; // the milestone
+    prog.querySelectorAll('.cdp-row')[2].click(); // the milestone
     prog.querySelector('.cdp-drop').click();
-    return { dropped: Boolean(prog.config.entries[2].dropped), label: prog.querySelector('.cdp-select').options[2].textContent };
+    return { dropped: Boolean(prog.config.entries[2].dropped), label: prog.querySelectorAll('.cdp-row')[2].getAttribute('aria-label') };
   }, PROGRAM);
 
   expect(dialogs).toHaveLength(1);
-  expect(dialogs[0]).toContain('Cancel the milestone "Race" on 2026-09-20');
+  expect(dialogs[0]).toMatch(/^"Race" \(2026-09-20\) — cancel this milestone\?/); // KD-22: the name leads
   expect(dialogs[0]).not.toContain('nothing else moves'); // that is a session's wording
   expect(result.dropped).toBe(true);
-  expect(result.label).toContain('(dropped)');
+  expect(result.label).toContain('dropped');
 });
 
 test('a cancelled milestone is no longer something the sessions can overrun', async ({ page }) => {
@@ -51,14 +51,13 @@ test('a cancelled milestone is no longer something the sessions can overrun', as
     prog.config.entries[0].expectedDate = '2026-09-28';
     prog.config.entries[1].expectedDate = '2026-10-05';
     prog._renderList();
-    const before = prog.querySelector('.cdp-overrun').textContent;
+    const before = prog.querySelector('.cdp-summary').textContent;
 
-    prog.querySelector('.cdp-select').value = '2';
+    prog.querySelectorAll('.cdp-row')[2].click();
     prog.querySelector('.cdp-drop').click();
-    return { before, after: prog.querySelector('.cdp-overrun').textContent, hidden: prog.querySelector('.cdp-overrun').hidden };
+    return { before, after: prog.querySelector('.cdp-summary').textContent };
   }, PROGRAM);
 
-  expect(result.before).toBe('15 days past "Race" (2026-09-20)');
-  expect(result.after).toBe('');
-  expect(result.hidden).toBe(true);
+  expect(result.before).toContain('15 days past "Race" (2026-09-20)');
+  expect(result.after).not.toContain('past');
 });

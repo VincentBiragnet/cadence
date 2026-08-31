@@ -34,8 +34,8 @@ test('the race date lays the whole plan out backwards, before anything is run', 
       firstSession: e[0].expectedDate,
       lastMilestone: e[e.length - 1].expectedDate,
       everyEntryDated: e.every((x) => Boolean(x.expectedDate)),
-      firstLabel: prog.querySelector('.cdp-select').options[0].textContent,
-      milestoneLabel: prog.querySelector('.cdp-select').options[e.length - 1].textContent,
+      firstLabel: prog.querySelectorAll('.cdp-row')[0].getAttribute('aria-label'),
+      milestoneLabel: prog.querySelectorAll('.cdp-row')[e.length - 1].getAttribute('aria-label'),
     };
   }, berlin());
 
@@ -45,7 +45,7 @@ test('the race date lays the whole plan out backwards, before anything is run', 
   expect(result.lastMilestone).toBe('2026-09-27');
   expect(result.everyEntryDated).toBe(true);
   expect(result.firstLabel).toContain('2026-06-08');
-  expect(result.milestoneLabel).toContain('Milestone — 2026-09-27 — Berlin Marathon');
+  expect(result.milestoneLabel).toContain('Milestone — 2026-09-27, Berlin Marathon');
 
   const days = (Date.parse('2026-09-27') - Date.parse(result.firstSession)) / 86400000;
   expect(days).toBe(15 * 7 + 6);

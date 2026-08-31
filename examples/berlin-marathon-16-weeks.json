@@ -1,0 +1,3237 @@
+{
+  "title": "Berlin 2026 \u2014 16-week marathon build",
+  "entries": [
+    {
+      "week": 1,
+      "day": 1,
+      "label": "Easy",
+      "sequence": {
+        "title": "Week 1 \u2014 Easy run (AM)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (AM)",
+                "durationSeconds": 1860,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 1,
+      "day": 2,
+      "label": "Intervals x6",
+      "sequence": {
+        "title": "Week 1 \u2014 Track intervals",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 720,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 6,
+            "steps": [
+              {
+                "label": "400m @5k pace",
+                "durationSeconds": 120,
+                "startFrequency": 587,
+                "endFrequency": 784
+              },
+              {
+                "label": "Recovery jog",
+                "durationSeconds": 90
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 600,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 1,
+      "day": 4,
+      "label": "Tempo",
+      "sequence": {
+        "title": "Week 1 \u2014 Tempo run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 600,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tempo effort",
+                "durationSeconds": 960,
+                "startFrequency": 523,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 480,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 1,
+      "day": 5,
+      "label": "Easy shakeout",
+      "sequence": {
+        "title": "Week 1 \u2014 Easy run (shakeout)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (shakeout)",
+                "durationSeconds": 1860,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 1,
+      "day": 7,
+      "label": "Long run 12k",
+      "sequence": {
+        "title": "Week 1 \u2014 Long run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 300
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Long run \u2014 12km",
+                "durationSeconds": 4320,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 300
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 2,
+      "day": 1,
+      "label": "Easy",
+      "sequence": {
+        "title": "Week 2 \u2014 Easy run (AM)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (AM)",
+                "durationSeconds": 1980,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 2,
+      "day": 2,
+      "label": "Intervals x6",
+      "sequence": {
+        "title": "Week 2 \u2014 Track intervals",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 720,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 6,
+            "steps": [
+              {
+                "label": "400m @5k pace",
+                "durationSeconds": 120,
+                "startFrequency": 587,
+                "endFrequency": 784
+              },
+              {
+                "label": "Recovery jog",
+                "durationSeconds": 90
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 600,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 2,
+      "day": 4,
+      "label": "Tempo",
+      "sequence": {
+        "title": "Week 2 \u2014 Tempo run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 600,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tempo effort",
+                "durationSeconds": 1020,
+                "startFrequency": 523,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 480,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 2,
+      "day": 5,
+      "label": "Easy shakeout",
+      "sequence": {
+        "title": "Week 2 \u2014 Easy run (shakeout)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (shakeout)",
+                "durationSeconds": 1980,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 2,
+      "day": 7,
+      "label": "Long run 14k",
+      "sequence": {
+        "title": "Week 2 \u2014 Long run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 300
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Long run \u2014 14km",
+                "durationSeconds": 5040,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 300
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 3,
+      "day": 1,
+      "label": "Easy",
+      "sequence": {
+        "title": "Week 3 \u2014 Easy run (AM)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (AM)",
+                "durationSeconds": 2040,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 3,
+      "day": 2,
+      "label": "Intervals x6",
+      "sequence": {
+        "title": "Week 3 \u2014 Track intervals",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 720,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 6,
+            "steps": [
+              {
+                "label": "400m @5k pace",
+                "durationSeconds": 120,
+                "startFrequency": 587,
+                "endFrequency": 784
+              },
+              {
+                "label": "Recovery jog",
+                "durationSeconds": 90
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 600,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 3,
+      "day": 4,
+      "label": "Tempo",
+      "sequence": {
+        "title": "Week 3 \u2014 Tempo run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 600,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tempo effort",
+                "durationSeconds": 1080,
+                "startFrequency": 523,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 480,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 3,
+      "day": 5,
+      "label": "Easy shakeout",
+      "sequence": {
+        "title": "Week 3 \u2014 Easy run (shakeout)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (shakeout)",
+                "durationSeconds": 2040,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 3,
+      "day": 7,
+      "label": "Long run 16k",
+      "sequence": {
+        "title": "Week 3 \u2014 Long run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 300
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Long run \u2014 16km",
+                "durationSeconds": 5760,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 300
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 4,
+      "day": 1,
+      "label": "Easy",
+      "sequence": {
+        "title": "Week 4 \u2014 Easy run (AM)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (AM)",
+                "durationSeconds": 2160,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 4,
+      "day": 2,
+      "label": "Intervals x8",
+      "sequence": {
+        "title": "Week 4 \u2014 Track intervals",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 720,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 8,
+            "steps": [
+              {
+                "label": "800m @5k pace",
+                "durationSeconds": 180,
+                "startFrequency": 587,
+                "endFrequency": 784
+              },
+              {
+                "label": "Recovery jog",
+                "durationSeconds": 90
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 600,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 4,
+      "day": 4,
+      "label": "Tempo",
+      "sequence": {
+        "title": "Week 4 \u2014 Tempo run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 600,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tempo effort",
+                "durationSeconds": 1140,
+                "startFrequency": 523,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 480,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 4,
+      "day": 5,
+      "label": "Easy shakeout",
+      "sequence": {
+        "title": "Week 4 \u2014 Easy run (shakeout)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (shakeout)",
+                "durationSeconds": 2160,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 4,
+      "day": 7,
+      "label": "Long run 14k",
+      "sequence": {
+        "title": "Week 4 \u2014 Long run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 300
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Long run \u2014 14km",
+                "durationSeconds": 5040,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 300
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 5,
+      "day": 1,
+      "label": "Easy",
+      "sequence": {
+        "title": "Week 5 \u2014 Easy run (AM)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (AM)",
+                "durationSeconds": 2220,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 5,
+      "day": 2,
+      "label": "Intervals x8",
+      "sequence": {
+        "title": "Week 5 \u2014 Track intervals",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 720,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 8,
+            "steps": [
+              {
+                "label": "800m @5k pace",
+                "durationSeconds": 180,
+                "startFrequency": 587,
+                "endFrequency": 784
+              },
+              {
+                "label": "Recovery jog",
+                "durationSeconds": 90
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 600,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 5,
+      "day": 4,
+      "label": "Tempo",
+      "sequence": {
+        "title": "Week 5 \u2014 Tempo run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 600,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tempo effort",
+                "durationSeconds": 1200,
+                "startFrequency": 523,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 480,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 5,
+      "day": 5,
+      "label": "Easy shakeout",
+      "sequence": {
+        "title": "Week 5 \u2014 Easy run (shakeout)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (shakeout)",
+                "durationSeconds": 2220,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 5,
+      "day": 7,
+      "label": "Long run 18k",
+      "sequence": {
+        "title": "Week 5 \u2014 Long run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 300
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Long run \u2014 18km",
+                "durationSeconds": 6480,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 300
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 6,
+      "day": 1,
+      "label": "Easy",
+      "sequence": {
+        "title": "Week 6 \u2014 Easy run (AM)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (AM)",
+                "durationSeconds": 2340,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 6,
+      "day": 2,
+      "label": "Intervals x8",
+      "sequence": {
+        "title": "Week 6 \u2014 Track intervals",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 720,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 8,
+            "steps": [
+              {
+                "label": "800m @5k pace",
+                "durationSeconds": 180,
+                "startFrequency": 587,
+                "endFrequency": 784
+              },
+              {
+                "label": "Recovery jog",
+                "durationSeconds": 90
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 600,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 6,
+      "day": 4,
+      "label": "Tempo",
+      "sequence": {
+        "title": "Week 6 \u2014 Tempo run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 600,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tempo effort",
+                "durationSeconds": 1260,
+                "startFrequency": 523,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 480,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 6,
+      "day": 5,
+      "label": "Easy shakeout",
+      "sequence": {
+        "title": "Week 6 \u2014 Easy run (shakeout)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (shakeout)",
+                "durationSeconds": 2340,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 6,
+      "day": 7,
+      "label": "Long run 20k",
+      "sequence": {
+        "title": "Week 6 \u2014 Long run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 300
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Long run \u2014 20km",
+                "durationSeconds": 7200,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 300
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 7,
+      "day": 1,
+      "label": "Easy",
+      "sequence": {
+        "title": "Week 7 \u2014 Easy run (AM)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (AM)",
+                "durationSeconds": 2400,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 7,
+      "day": 2,
+      "label": "Intervals x8",
+      "sequence": {
+        "title": "Week 7 \u2014 Track intervals",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 720,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 8,
+            "steps": [
+              {
+                "label": "800m @5k pace",
+                "durationSeconds": 180,
+                "startFrequency": 587,
+                "endFrequency": 784
+              },
+              {
+                "label": "Recovery jog",
+                "durationSeconds": 90
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 600,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 7,
+      "day": 4,
+      "label": "Tempo",
+      "sequence": {
+        "title": "Week 7 \u2014 Tempo run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 600,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tempo effort",
+                "durationSeconds": 1320,
+                "startFrequency": 523,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 480,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 7,
+      "day": 5,
+      "label": "Easy shakeout",
+      "sequence": {
+        "title": "Week 7 \u2014 Easy run (shakeout)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (shakeout)",
+                "durationSeconds": 2400,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 7,
+      "day": 7,
+      "label": "Long run 16k",
+      "sequence": {
+        "title": "Week 7 \u2014 Long run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 300
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Long run \u2014 16km",
+                "durationSeconds": 5760,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 300
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 8,
+      "day": 1,
+      "label": "Easy",
+      "sequence": {
+        "title": "Week 8 \u2014 Easy run (AM)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (AM)",
+                "durationSeconds": 2520,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 8,
+      "day": 2,
+      "label": "Intervals x8",
+      "sequence": {
+        "title": "Week 8 \u2014 Track intervals",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 720,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 8,
+            "steps": [
+              {
+                "label": "800m @5k pace",
+                "durationSeconds": 180,
+                "startFrequency": 587,
+                "endFrequency": 784
+              },
+              {
+                "label": "Recovery jog",
+                "durationSeconds": 90
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 600,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 8,
+      "day": 4,
+      "label": "Tempo",
+      "sequence": {
+        "title": "Week 8 \u2014 Tempo run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 600,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tempo effort",
+                "durationSeconds": 1380,
+                "startFrequency": 523,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 480,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 8,
+      "day": 5,
+      "label": "Easy shakeout",
+      "sequence": {
+        "title": "Week 8 \u2014 Easy run (shakeout)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (shakeout)",
+                "durationSeconds": 2520,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 8,
+      "day": 7,
+      "label": "Long run 22k",
+      "sequence": {
+        "title": "Week 8 \u2014 Long run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 300
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Long run \u2014 22km",
+                "durationSeconds": 7920,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 300
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 9,
+      "day": 1,
+      "label": "Easy",
+      "sequence": {
+        "title": "Week 9 \u2014 Easy run (AM)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (AM)",
+                "durationSeconds": 2580,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 9,
+      "day": 2,
+      "label": "Intervals x8",
+      "sequence": {
+        "title": "Week 9 \u2014 Track intervals",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 720,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 8,
+            "steps": [
+              {
+                "label": "800m @5k pace",
+                "durationSeconds": 180,
+                "startFrequency": 587,
+                "endFrequency": 784
+              },
+              {
+                "label": "Recovery jog",
+                "durationSeconds": 90
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 600,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 9,
+      "day": 4,
+      "label": "Tempo",
+      "sequence": {
+        "title": "Week 9 \u2014 Tempo run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 600,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tempo effort",
+                "durationSeconds": 1440,
+                "startFrequency": 523,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 480,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 9,
+      "day": 5,
+      "label": "Easy shakeout",
+      "sequence": {
+        "title": "Week 9 \u2014 Easy run (shakeout)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (shakeout)",
+                "durationSeconds": 2580,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 9,
+      "day": 7,
+      "label": "Long run 24k",
+      "sequence": {
+        "title": "Week 9 \u2014 Long run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 300
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Long run \u2014 24km",
+                "durationSeconds": 8640,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 300
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 10,
+      "day": 1,
+      "label": "Easy",
+      "sequence": {
+        "title": "Week 10 \u2014 Easy run (AM)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (AM)",
+                "durationSeconds": 2700,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 10,
+      "day": 2,
+      "label": "Intervals x5",
+      "sequence": {
+        "title": "Week 10 \u2014 Track intervals",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 720,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 5,
+            "steps": [
+              {
+                "label": "1600m @10k pace",
+                "durationSeconds": 300,
+                "startFrequency": 587,
+                "endFrequency": 784
+              },
+              {
+                "label": "Recovery jog",
+                "durationSeconds": 120
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 600,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 10,
+      "day": 4,
+      "label": "Tempo",
+      "sequence": {
+        "title": "Week 10 \u2014 Tempo run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 600,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tempo effort",
+                "durationSeconds": 1500,
+                "startFrequency": 523,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 480,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 10,
+      "day": 5,
+      "label": "Easy shakeout",
+      "sequence": {
+        "title": "Week 10 \u2014 Easy run (shakeout)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (shakeout)",
+                "durationSeconds": 2700,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 10,
+      "day": 7,
+      "label": "Long run 18k",
+      "sequence": {
+        "title": "Week 10 \u2014 Long run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 300
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Long run \u2014 18km",
+                "durationSeconds": 6480,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 300
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 11,
+      "day": 1,
+      "label": "Easy",
+      "sequence": {
+        "title": "Week 11 \u2014 Easy run (AM)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (AM)",
+                "durationSeconds": 2700,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 11,
+      "day": 2,
+      "label": "Intervals x5",
+      "sequence": {
+        "title": "Week 11 \u2014 Track intervals",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 720,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 5,
+            "steps": [
+              {
+                "label": "1600m @10k pace",
+                "durationSeconds": 300,
+                "startFrequency": 587,
+                "endFrequency": 784
+              },
+              {
+                "label": "Recovery jog",
+                "durationSeconds": 120
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 600,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 11,
+      "day": 4,
+      "label": "Tempo",
+      "sequence": {
+        "title": "Week 11 \u2014 Tempo run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 600,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tempo effort",
+                "durationSeconds": 1560,
+                "startFrequency": 523,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 480,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 11,
+      "day": 5,
+      "label": "Easy shakeout",
+      "sequence": {
+        "title": "Week 11 \u2014 Easy run (shakeout)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (shakeout)",
+                "durationSeconds": 2700,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 11,
+      "day": 7,
+      "label": "Long run 27k",
+      "sequence": {
+        "title": "Week 11 \u2014 Long run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 300
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Long run \u2014 27km",
+                "durationSeconds": 9720,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 300
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 12,
+      "day": 1,
+      "label": "Easy",
+      "sequence": {
+        "title": "Week 12 \u2014 Easy run (AM)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (AM)",
+                "durationSeconds": 2700,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 12,
+      "day": 2,
+      "label": "Intervals x5",
+      "sequence": {
+        "title": "Week 12 \u2014 Track intervals",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 720,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 5,
+            "steps": [
+              {
+                "label": "1600m @10k pace",
+                "durationSeconds": 300,
+                "startFrequency": 587,
+                "endFrequency": 784
+              },
+              {
+                "label": "Recovery jog",
+                "durationSeconds": 120
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 600,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 12,
+      "day": 4,
+      "label": "Tempo",
+      "sequence": {
+        "title": "Week 12 \u2014 Tempo run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 600,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tempo effort",
+                "durationSeconds": 1620,
+                "startFrequency": 523,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 480,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 12,
+      "day": 5,
+      "label": "Easy shakeout",
+      "sequence": {
+        "title": "Week 12 \u2014 Easy run (shakeout)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (shakeout)",
+                "durationSeconds": 2700,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 12,
+      "day": 7,
+      "label": "Long run 20k",
+      "sequence": {
+        "title": "Week 12 \u2014 Long run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 300
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Long run \u2014 20km",
+                "durationSeconds": 7200,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 300
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 13,
+      "day": 1,
+      "label": "Easy",
+      "sequence": {
+        "title": "Week 13 \u2014 Easy run (AM)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (AM)",
+                "durationSeconds": 2700,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 13,
+      "day": 2,
+      "label": "Intervals x5",
+      "sequence": {
+        "title": "Week 13 \u2014 Track intervals",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 720,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 5,
+            "steps": [
+              {
+                "label": "1600m @10k pace",
+                "durationSeconds": 300,
+                "startFrequency": 587,
+                "endFrequency": 784
+              },
+              {
+                "label": "Recovery jog",
+                "durationSeconds": 120
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 600,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 13,
+      "day": 4,
+      "label": "Tempo",
+      "sequence": {
+        "title": "Week 13 \u2014 Tempo run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 600,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tempo effort",
+                "durationSeconds": 1680,
+                "startFrequency": 523,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 480,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 13,
+      "day": 5,
+      "label": "Easy shakeout",
+      "sequence": {
+        "title": "Week 13 \u2014 Easy run (shakeout)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (shakeout)",
+                "durationSeconds": 2700,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 13,
+      "day": 7,
+      "label": "Long run 32k",
+      "sequence": {
+        "title": "Week 13 \u2014 Long run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 300
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Long run \u2014 32km",
+                "durationSeconds": 11520,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 300
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 14,
+      "day": 1,
+      "label": "Easy",
+      "sequence": {
+        "title": "Week 14 \u2014 Easy run (AM)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (AM)",
+                "durationSeconds": 1500,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 14,
+      "day": 2,
+      "label": "Intervals x4",
+      "sequence": {
+        "title": "Week 14 \u2014 Track intervals",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 720,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "400m sharpening",
+                "durationSeconds": 120,
+                "startFrequency": 587,
+                "endFrequency": 784
+              },
+              {
+                "label": "Recovery jog",
+                "durationSeconds": 90
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 600,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 14,
+      "day": 4,
+      "label": "Tempo",
+      "sequence": {
+        "title": "Week 14 \u2014 Tempo run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 600,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tempo effort",
+                "durationSeconds": 900,
+                "startFrequency": 523,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 480,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 14,
+      "day": 5,
+      "label": "Easy shakeout",
+      "sequence": {
+        "title": "Week 14 \u2014 Easy run (shakeout)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (shakeout)",
+                "durationSeconds": 1500,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 14,
+      "day": 7,
+      "label": "Long run 21k",
+      "sequence": {
+        "title": "Week 14 \u2014 Long run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 300
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Long run \u2014 21km",
+                "durationSeconds": 7560,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 300
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 15,
+      "day": 1,
+      "label": "Easy",
+      "sequence": {
+        "title": "Week 15 \u2014 Easy run (AM)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (AM)",
+                "durationSeconds": 1500,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 15,
+      "day": 2,
+      "label": "Intervals x4",
+      "sequence": {
+        "title": "Week 15 \u2014 Track intervals",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 720,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "400m sharpening",
+                "durationSeconds": 120,
+                "startFrequency": 587,
+                "endFrequency": 784
+              },
+              {
+                "label": "Recovery jog",
+                "durationSeconds": 90
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 600,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 15,
+      "day": 4,
+      "label": "Tempo",
+      "sequence": {
+        "title": "Week 15 \u2014 Tempo run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 600,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tempo effort",
+                "durationSeconds": 900,
+                "startFrequency": 523,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 480,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 15,
+      "day": 5,
+      "label": "Easy shakeout",
+      "sequence": {
+        "title": "Week 15 \u2014 Easy run (shakeout)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (shakeout)",
+                "durationSeconds": 1500,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 15,
+      "day": 7,
+      "label": "Long run 14k",
+      "sequence": {
+        "title": "Week 15 \u2014 Long run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 300
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Long run \u2014 14km",
+                "durationSeconds": 5040,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 300
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 16,
+      "day": 1,
+      "label": "Easy",
+      "sequence": {
+        "title": "Week 16 \u2014 Easy run (AM)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (AM)",
+                "durationSeconds": 1500,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 16,
+      "day": 2,
+      "label": "Intervals x4",
+      "sequence": {
+        "title": "Week 16 \u2014 Track intervals",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 720,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "400m sharpening",
+                "durationSeconds": 120,
+                "startFrequency": 587,
+                "endFrequency": 784
+              },
+              {
+                "label": "Recovery jog",
+                "durationSeconds": 90
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 600,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 16,
+      "day": 4,
+      "label": "Tempo",
+      "sequence": {
+        "title": "Week 16 \u2014 Tempo run",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up jog",
+                "durationSeconds": 600,
+                "startFrequency": 440
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Tempo effort",
+                "durationSeconds": 900,
+                "startFrequency": 523,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down jog",
+                "durationSeconds": 480,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 16,
+      "day": 5,
+      "label": "Easy shakeout",
+      "sequence": {
+        "title": "Week 16 \u2014 Easy run (shakeout)",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up walk",
+                "durationSeconds": 180
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Easy run (shakeout)",
+                "durationSeconds": 1500,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down walk",
+                "durationSeconds": 180
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 16,
+      "day": 7,
+      "milestone": true,
+      "date": "2026-09-27",
+      "title": "Berlin Marathon",
+      "sequence": {
+        "title": "Berlin Marathon \u2014 42.2km",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Marathon \u2014 42.2km",
+                "durationSeconds": 13082,
+                "startFrequency": 440,
+                "endFrequency": 988
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

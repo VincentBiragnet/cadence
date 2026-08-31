@@ -171,6 +171,11 @@ over one already under way. Export downloads the current
 state as JSON: the authored week/day shape *plus* the computed and actual
 dates, which means an export is itself a program and loads straight back in.
 
+`examples/` holds whole programs you can load from the app: an eight-week
+strength block, a sixteen-week marathon build pinned to a race date, a
+ten-week guitar plan, and a twelve-week rehab protocol of 172 twice-daily
+sessions with its phase reviews as milestones.
+
 `js/example-program.js` is the worked example — eight weeks, three sessions a
 week, work and rest intervals progressing from week 1 to week 8 — and it is
 what `index.html` runs.

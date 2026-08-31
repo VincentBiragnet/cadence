@@ -1,0 +1,1512 @@
+{
+  "title": "Eight-week bodyweight strength",
+  "entries": [
+    {
+      "week": 1,
+      "day": 1,
+      "label": "Push \u00b7 20s x2",
+      "sequence": {
+        "title": "Week 1 \u2014 Push",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up",
+                "durationSeconds": 60,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 2,
+            "steps": [
+              {
+                "label": "Push-up",
+                "durationSeconds": 20,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 25
+              },
+              {
+                "label": "Pike push-up",
+                "durationSeconds": 20,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 25
+              },
+              {
+                "label": "Dip",
+                "durationSeconds": 20,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down",
+                "durationSeconds": 60,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 1,
+      "day": 3,
+      "label": "Legs \u00b7 20s x2",
+      "sequence": {
+        "title": "Week 1 \u2014 Legs",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up",
+                "durationSeconds": 60,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 2,
+            "steps": [
+              {
+                "label": "Squat",
+                "durationSeconds": 20,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 25
+              },
+              {
+                "label": "Lunge",
+                "durationSeconds": 20,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 25
+              },
+              {
+                "label": "Calf raise",
+                "durationSeconds": 20,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down",
+                "durationSeconds": 60,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 1,
+      "day": 5,
+      "label": "Core \u00b7 20s x2",
+      "sequence": {
+        "title": "Week 1 \u2014 Core",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up",
+                "durationSeconds": 60,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 2,
+            "steps": [
+              {
+                "label": "Plank",
+                "durationSeconds": 20,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 25
+              },
+              {
+                "label": "Leg raise",
+                "durationSeconds": 20,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 25
+              },
+              {
+                "label": "Crunch",
+                "durationSeconds": 20,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down",
+                "durationSeconds": 60,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 2,
+      "day": 1,
+      "label": "Push \u00b7 23s x2",
+      "sequence": {
+        "title": "Week 2 \u2014 Push",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up",
+                "durationSeconds": 60,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 2,
+            "steps": [
+              {
+                "label": "Push-up",
+                "durationSeconds": 23,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 24
+              },
+              {
+                "label": "Pike push-up",
+                "durationSeconds": 23,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 24
+              },
+              {
+                "label": "Dip",
+                "durationSeconds": 23,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down",
+                "durationSeconds": 60,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 2,
+      "day": 3,
+      "label": "Legs \u00b7 23s x2",
+      "sequence": {
+        "title": "Week 2 \u2014 Legs",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up",
+                "durationSeconds": 60,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 2,
+            "steps": [
+              {
+                "label": "Squat",
+                "durationSeconds": 23,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 24
+              },
+              {
+                "label": "Lunge",
+                "durationSeconds": 23,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 24
+              },
+              {
+                "label": "Calf raise",
+                "durationSeconds": 23,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down",
+                "durationSeconds": 60,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 2,
+      "day": 5,
+      "label": "Core \u00b7 23s x2",
+      "sequence": {
+        "title": "Week 2 \u2014 Core",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up",
+                "durationSeconds": 60,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 2,
+            "steps": [
+              {
+                "label": "Plank",
+                "durationSeconds": 23,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 24
+              },
+              {
+                "label": "Leg raise",
+                "durationSeconds": 23,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 24
+              },
+              {
+                "label": "Crunch",
+                "durationSeconds": 23,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down",
+                "durationSeconds": 60,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 3,
+      "day": 1,
+      "label": "Push \u00b7 26s x2",
+      "sequence": {
+        "title": "Week 3 \u2014 Push",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up",
+                "durationSeconds": 60,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 2,
+            "steps": [
+              {
+                "label": "Push-up",
+                "durationSeconds": 26,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 22
+              },
+              {
+                "label": "Pike push-up",
+                "durationSeconds": 26,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 22
+              },
+              {
+                "label": "Dip",
+                "durationSeconds": 26,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down",
+                "durationSeconds": 60,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 3,
+      "day": 3,
+      "label": "Legs \u00b7 26s x2",
+      "sequence": {
+        "title": "Week 3 \u2014 Legs",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up",
+                "durationSeconds": 60,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 2,
+            "steps": [
+              {
+                "label": "Squat",
+                "durationSeconds": 26,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 22
+              },
+              {
+                "label": "Lunge",
+                "durationSeconds": 26,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 22
+              },
+              {
+                "label": "Calf raise",
+                "durationSeconds": 26,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down",
+                "durationSeconds": 60,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 3,
+      "day": 5,
+      "label": "Core \u00b7 26s x2",
+      "sequence": {
+        "title": "Week 3 \u2014 Core",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up",
+                "durationSeconds": 60,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 2,
+            "steps": [
+              {
+                "label": "Plank",
+                "durationSeconds": 26,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 22
+              },
+              {
+                "label": "Leg raise",
+                "durationSeconds": 26,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 22
+              },
+              {
+                "label": "Crunch",
+                "durationSeconds": 26,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down",
+                "durationSeconds": 60,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 4,
+      "day": 1,
+      "label": "Push \u00b7 29s x3",
+      "sequence": {
+        "title": "Week 4 \u2014 Push",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up",
+                "durationSeconds": 60,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "Push-up",
+                "durationSeconds": 29,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 21
+              },
+              {
+                "label": "Pike push-up",
+                "durationSeconds": 29,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 21
+              },
+              {
+                "label": "Dip",
+                "durationSeconds": 29,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down",
+                "durationSeconds": 60,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 4,
+      "day": 3,
+      "label": "Legs \u00b7 29s x3",
+      "sequence": {
+        "title": "Week 4 \u2014 Legs",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up",
+                "durationSeconds": 60,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "Squat",
+                "durationSeconds": 29,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 21
+              },
+              {
+                "label": "Lunge",
+                "durationSeconds": 29,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 21
+              },
+              {
+                "label": "Calf raise",
+                "durationSeconds": 29,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down",
+                "durationSeconds": 60,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 4,
+      "day": 5,
+      "label": "Core \u00b7 29s x3",
+      "sequence": {
+        "title": "Week 4 \u2014 Core",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up",
+                "durationSeconds": 60,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "Plank",
+                "durationSeconds": 29,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 21
+              },
+              {
+                "label": "Leg raise",
+                "durationSeconds": 29,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 21
+              },
+              {
+                "label": "Crunch",
+                "durationSeconds": 29,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down",
+                "durationSeconds": 60,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 5,
+      "day": 1,
+      "label": "Push \u00b7 31s x3",
+      "sequence": {
+        "title": "Week 5 \u2014 Push",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up",
+                "durationSeconds": 60,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "Push-up",
+                "durationSeconds": 31,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 19
+              },
+              {
+                "label": "Pike push-up",
+                "durationSeconds": 31,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 19
+              },
+              {
+                "label": "Dip",
+                "durationSeconds": 31,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down",
+                "durationSeconds": 60,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 5,
+      "day": 3,
+      "label": "Legs \u00b7 31s x3",
+      "sequence": {
+        "title": "Week 5 \u2014 Legs",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up",
+                "durationSeconds": 60,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "Squat",
+                "durationSeconds": 31,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 19
+              },
+              {
+                "label": "Lunge",
+                "durationSeconds": 31,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 19
+              },
+              {
+                "label": "Calf raise",
+                "durationSeconds": 31,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down",
+                "durationSeconds": 60,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 5,
+      "day": 5,
+      "label": "Core \u00b7 31s x3",
+      "sequence": {
+        "title": "Week 5 \u2014 Core",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up",
+                "durationSeconds": 60,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "Plank",
+                "durationSeconds": 31,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 19
+              },
+              {
+                "label": "Leg raise",
+                "durationSeconds": 31,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 19
+              },
+              {
+                "label": "Crunch",
+                "durationSeconds": 31,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down",
+                "durationSeconds": 60,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 6,
+      "day": 1,
+      "label": "Push \u00b7 34s x3",
+      "sequence": {
+        "title": "Week 6 \u2014 Push",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up",
+                "durationSeconds": 60,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "Push-up",
+                "durationSeconds": 34,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 18
+              },
+              {
+                "label": "Pike push-up",
+                "durationSeconds": 34,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 18
+              },
+              {
+                "label": "Dip",
+                "durationSeconds": 34,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down",
+                "durationSeconds": 60,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 6,
+      "day": 3,
+      "label": "Legs \u00b7 34s x3",
+      "sequence": {
+        "title": "Week 6 \u2014 Legs",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up",
+                "durationSeconds": 60,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "Squat",
+                "durationSeconds": 34,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 18
+              },
+              {
+                "label": "Lunge",
+                "durationSeconds": 34,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 18
+              },
+              {
+                "label": "Calf raise",
+                "durationSeconds": 34,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down",
+                "durationSeconds": 60,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 6,
+      "day": 5,
+      "label": "Core \u00b7 34s x3",
+      "sequence": {
+        "title": "Week 6 \u2014 Core",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up",
+                "durationSeconds": 60,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 3,
+            "steps": [
+              {
+                "label": "Plank",
+                "durationSeconds": 34,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 18
+              },
+              {
+                "label": "Leg raise",
+                "durationSeconds": 34,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 18
+              },
+              {
+                "label": "Crunch",
+                "durationSeconds": 34,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down",
+                "durationSeconds": 60,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 7,
+      "day": 1,
+      "label": "Push \u00b7 37s x4",
+      "sequence": {
+        "title": "Week 7 \u2014 Push",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up",
+                "durationSeconds": 60,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Push-up",
+                "durationSeconds": 37,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 16
+              },
+              {
+                "label": "Pike push-up",
+                "durationSeconds": 37,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 16
+              },
+              {
+                "label": "Dip",
+                "durationSeconds": 37,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down",
+                "durationSeconds": 60,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 7,
+      "day": 3,
+      "label": "Legs \u00b7 37s x4",
+      "sequence": {
+        "title": "Week 7 \u2014 Legs",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up",
+                "durationSeconds": 60,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Squat",
+                "durationSeconds": 37,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 16
+              },
+              {
+                "label": "Lunge",
+                "durationSeconds": 37,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 16
+              },
+              {
+                "label": "Calf raise",
+                "durationSeconds": 37,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down",
+                "durationSeconds": 60,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 7,
+      "day": 5,
+      "label": "Core \u00b7 37s x4",
+      "sequence": {
+        "title": "Week 7 \u2014 Core",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up",
+                "durationSeconds": 60,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Plank",
+                "durationSeconds": 37,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 16
+              },
+              {
+                "label": "Leg raise",
+                "durationSeconds": 37,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 16
+              },
+              {
+                "label": "Crunch",
+                "durationSeconds": 37,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down",
+                "durationSeconds": 60,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 8,
+      "day": 1,
+      "label": "Push \u00b7 40s x4",
+      "sequence": {
+        "title": "Week 8 \u2014 Push",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up",
+                "durationSeconds": 60,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Push-up",
+                "durationSeconds": 40,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 15
+              },
+              {
+                "label": "Pike push-up",
+                "durationSeconds": 40,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 15
+              },
+              {
+                "label": "Dip",
+                "durationSeconds": 40,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down",
+                "durationSeconds": 60,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 8,
+      "day": 3,
+      "label": "Legs \u00b7 40s x4",
+      "sequence": {
+        "title": "Week 8 \u2014 Legs",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up",
+                "durationSeconds": 60,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Squat",
+                "durationSeconds": 40,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 15
+              },
+              {
+                "label": "Lunge",
+                "durationSeconds": 40,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 15
+              },
+              {
+                "label": "Calf raise",
+                "durationSeconds": 40,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down",
+                "durationSeconds": 60,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 8,
+      "day": 5,
+      "label": "Core \u00b7 40s x4",
+      "sequence": {
+        "title": "Week 8 \u2014 Core",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Warm-up",
+                "durationSeconds": 60,
+                "endFrequency": 660
+              }
+            ]
+          },
+          {
+            "repetitions": 4,
+            "steps": [
+              {
+                "label": "Plank",
+                "durationSeconds": 40,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 15
+              },
+              {
+                "label": "Leg raise",
+                "durationSeconds": 40,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              {
+                "label": "Rest",
+                "durationSeconds": 15
+              },
+              {
+                "label": "Crunch",
+                "durationSeconds": 40,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Cool-down",
+                "durationSeconds": 60,
+                "startFrequency": 660
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 9,
+      "day": 6,
+      "milestone": true,
+      "date": "2026-11-07",
+      "title": "Retest: max push-ups and plank hold",
+      "sequence": {
+        "title": "Retest",
+        "blocks": [
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Max push-ups",
+                "durationSeconds": 60,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Rest",
+                "durationSeconds": 120
+              }
+            ]
+          },
+          {
+            "repetitions": 1,
+            "steps": [
+              {
+                "label": "Max plank hold",
+                "durationSeconds": 120,
+                "startFrequency": 440,
+                "endFrequency": 880
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

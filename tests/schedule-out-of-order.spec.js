@@ -26,14 +26,14 @@ test('starting week 3 day 2 while week 1 is unrun runs it and leaves the skipped
     document.body.appendChild(prog);
     prog.configure(p);
     const done = new Promise((r) => prog.addEventListener('cadence:entryComplete', r, { once: true }));
-    prog.querySelector('.cdp-select').value = '4'; // week 3 day 2
+    prog.querySelectorAll('.cdp-row')[4].click(); // week 3 day 2
     prog.querySelector('.cdp-start').click();
     prog.querySelector('cadence-sequence .cds-start').click();
     const event = await done;
     return {
       ranTitle: event.detail.entry.sequence.title,
       run: prog.config.entries.map((e) => Boolean(e.actualDate)),
-      order: [...prog.querySelector('.cdp-select').options].map((o) => o.textContent.match(/Week \d \w+/)[0]),
+      order: [...prog.querySelectorAll('.cdp-row')].map((o) => o.getAttribute('aria-label').match(/Week \d \w+/)[0]),
     };
   }, PROGRAM);
 

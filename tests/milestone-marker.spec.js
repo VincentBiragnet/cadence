@@ -27,7 +27,7 @@ test('starting a marker records it as reached, mounts no clock and raises no err
     const seen = [];
     prog.addEventListener('cadence:entryComplete', (e) => seen.push(e.detail.entry.title));
     const before = prog.config.entries.map((e) => e.expectedDate);
-    prog.querySelector('.cdp-select').value = '1'; // the marker
+    prog.querySelectorAll('.cdp-row')[1].click(); // the marker
     prog.querySelector('.cdp-start').click();
     return {
       before,
@@ -38,7 +38,7 @@ test('starting a marker records it as reached, mounts no clock and raises no err
       runHidden: prog.querySelector('.cdp-run').hidden,
       announced: prog.querySelector('.cdp-live').textContent,
       events: seen,
-      label: prog.querySelector('.cdp-select').options[1].textContent,
+      label: prog.querySelectorAll('.cdp-row')[1].getAttribute('aria-label'),
     };
   }, PROGRAM);
 
@@ -49,7 +49,7 @@ test('starting a marker records it as reached, mounts no clock and raises no err
   expect(result.actual).toBe('2026-09-13');
   expect(result.announced).toBe('Reached Phase 1 review');
   expect(result.events).toEqual(['Phase 1 review']);
-  expect(result.label).toContain('(done 2026-09-13)');
+  expect(result.label).toContain('done');
   expect(result.after).toEqual(result.before); // a milestone moves nothing
 });
 
@@ -61,7 +61,7 @@ test('reaching a marker late still moves nothing (KD-15)', async ({ page }) => {
     document.body.appendChild(prog);
     prog.configure(p);
     const before = prog.config.entries.map((e) => e.expectedDate);
-    prog.querySelector('.cdp-select').value = '1';
+    prog.querySelectorAll('.cdp-row')[1].click();
     prog.querySelector('.cdp-start').click();
     return { before, after: prog.config.entries.map((e) => e.expectedDate), actual: prog.config.entries[1].actualDate };
   }, PROGRAM);
