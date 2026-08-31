@@ -104,3 +104,18 @@ test('a dropped session counts as settled, so a later early finish still pulls f
   // B was due 2026-09-09 and ran on the 7th: C and D each move back two days.
   expect(dates).toEqual(['2026-09-07', '2026-09-09', '2026-09-12', '2026-09-14']);
 });
+
+// VC-9 — the irreversible control is not the neighbour of the daily one
+// (KD-23).
+test('Drop is last in the control row, and never adjacent to Start', async ({ page }) => {
+  await page.goto('/tests/fixture.html');
+  const order = await page.evaluate((p) => {
+    const prog = document.createElement('cadence-program');
+    document.body.appendChild(prog);
+    prog.configure(p);
+    return [...prog.querySelector('.cdp-list').children].map((el) => el.className);
+  }, PROGRAM);
+
+  expect(order[order.length - 1]).toBe('cdp-drop');
+  expect(order.indexOf('cdp-drop') - order.indexOf('cdp-start')).toBeGreaterThan(1);
+});

@@ -38,6 +38,8 @@ _Edit via `scripts/spec.py`, never by hand._
 - **OQ-18** ~~A dropped session keeps a date but will never be run, so does it count when working out how far the sessions have overrun the milestone ahead of them~~ → KD-19
 - **OQ-19** ~~With several milestones only one of them can set the anchor, so which does: the earliest, which fixes where the program starts and lets later milestones be overrun, or the last, which guarantees the race lands right but can put the start in the past~~ → KD-20
 - **OQ-20** ~~KD-14 has a milestone program anchor every time it is configured, but recomputing the layout on each page load would wipe the drift that late completions have accumulated and leave the overrun of G-3 permanently reading zero: does anchoring at configure time apply only to a program not yet anchored~~ → KD-21
+- **OQ-21** ~~KD-8 allows a milestone with no sequence, but Start mounts a clock for whatever is selected and throws on one that has nothing to play, so how is a marker milestone recorded as reached~~ → KD-22
+- **OQ-22** ~~Drop is irreversible and sits immediately after Start in the control row and so in the tab order, next to the one control pressed every day: where should an irreversible control sit~~ → KD-23
 
 ## Key Decisions
 - **KD-1** The shift is allowed to carry sessions past a milestone and the overrun is shown, never compressed away: the overrun is the signal that replanning is needed, and hiding it would restore the dishonesty the milestone exists to remove (OQ-2)
@@ -61,6 +63,8 @@ _Edit via `scripts/spec.py`, never by hand._
 - **KD-19** A dropped session is left out of the overrun, which is measured from the last session still to be run before the milestone, since a dropped one will never take a day (OQ-18)
 - **KD-20** The earliest dated milestone sets the anchor, and every later one is checked against the layout with any shortfall reported as overrun, which is the signal KD-1 exists to give rather than something to design away (OQ-19)
 - **KD-21** Anchoring at configure time applies only to a program no entry of which carries a date yet, exactly as launching does: once anchored, the stored dates carry the accumulated drift and are never recomputed, which is what KD-14 meant by never being overridden (OQ-20)
+- **KD-22** Start records a marker milestone as reached there and then, dating it today and announcing it without mounting a clock, since a marker is reached rather than performed (KD-8, KD-15) (OQ-21)
+- **KD-23** Drop sits last in the control row, furthest from Start, so the irreversible control is never the neighbour of the daily one; the confirmation stays the gate but is no longer the only thing between a slipped press and lost work (KD-4) (OQ-22)
 
 ## Prior Art
 - **PA-1** Field-tested by three simulated users on real programs: a 16-week marathon plan with a fixed race date, a 12-week twice-daily ACL rehab protocol, and a 10-week guitar plan used on a phone across timezones
@@ -76,6 +80,8 @@ _Edit via `scripts/spec.py`, never by hand._
 - [x] **IMPL-6** Render a dropped session as dropped and never suggest it as the next one (KD-4)
 - [x] **IMPL-7** Build the replanning export: the schema contract, the current state with full sequences, the computed overrun and the ask, downloaded as one file (KD-6, KD-7)
 - [x] **IMPL-8** Make an explicit Load replace the whole stored state after a warning, while a page-load configure still restores what was stored (KD-5)
+- [x] **IMPL-9** Record a marker milestone on Start instead of mounting a sequence, and refuse a session that has no sequence to play (KD-22)
+- [x] **IMPL-10** Move Drop to the end of the control row so it neither neighbours Start nor follows it in the tab order (KD-23)
 
 ## Verification Criteria
 - [x] **VC-1** A session before a dated milestone completed eighteen days late moves every unrun session after it while the milestone keeps its date exactly (G-1, KD-1) `npx playwright test tests/milestone-pinned.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 2 tests using 1 worker ✓ 1 tests/milestone-pinned.spec.js:20:5 › a session finishe)
@@ -85,6 +91,8 @@ _Edit via `scripts/spec.py`, never by hand._
 - [x] **VC-5** Dropping a session and confirming marks it dropped, leaves every other date untouched, and stops it being suggested; declining the confirmation leaves the program exactly as it was (G-4, KD-3, KD-4) `npx playwright test tests/drop-session.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 3 tests using 1 worker ✓ 1 tests/drop-session.spec.js:29:5 › confirming a drop mar)
 - [x] **VC-6** The replanning export is one downloaded file carrying the schema contract, today's date, every session with its planned and actual dates and its full sequence, the milestones with their dates, the computed overrun, and the instruction to answer with JSON only (G-5, KD-6, KD-7) `npx playwright test tests/replanning-export.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 2 tests using 1 worker ✓ 1 tests/replanning-export.spec.js:19:5 › the replanning p)
 - [x] **VC-7** Loading a revised program over one part-run replaces the whole stored state including completion history once the warning is accepted, while reloading the page with no load still restores what was stored (G-6, KD-5) `npx playwright test tests/revision-load.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 3 tests using 1 worker ✓ 1 tests/revision-load.spec.js:49:5 › loading a revision o)
+- [x] **VC-8** Starting a milestone that carries no sequence records it as reached today, announces it, raises no page error and mounts no clock, while an ordinary session with no sequence is refused at configure time (KD-22, KD-8) `npx playwright test tests/milestone-marker.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 3 tests using 1 worker ✓ 1 tests/milestone-marker.spec.js:17:5 › starting a marker)
+- [x] **VC-9** Drop is the last control in the list row and Start is not adjacent to it in DOM order (KD-23) `npx playwright test tests/drop-session.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 4 tests using 1 worker ✓ 1 tests/drop-session.spec.js:29:5 › confirming a drop mar)
 
 ## Changelog
 - 2026-08-27: Spec initialized.
@@ -166,4 +174,16 @@ _Edit via `scripts/spec.py`, never by hand._
 - 2026-08-31: VC-5 passed
 - 2026-08-31: VC-6 passed
 - 2026-08-31: VC-7 passed
+- 2026-08-31: Status: In Progress → Done
+- 2026-08-31: OQ-21 added
+- 2026-08-31: KD-22 resolves OQ-21
+- 2026-08-31: IMPL-9 added
+- 2026-08-31: VC-8 added
+- 2026-08-31: OQ-22 added
+- 2026-08-31: KD-23 resolves OQ-22
+- 2026-08-31: IMPL-10 added
+- 2026-08-31: VC-9 added
+- 2026-08-31: IMPL-9, IMPL-10 checked
+- 2026-08-31: VC-8 passed
+- 2026-08-31: VC-9 passed
 - 2026-08-31: Status: In Progress → Done

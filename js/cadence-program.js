@@ -82,12 +82,15 @@ class CadenceProgram extends HTMLElement {
       <div class="cdp-list">
         <select class="cdp-select"></select>
         <button type="button" class="cdp-start">Start</button>
-        <button type="button" class="cdp-drop">Drop</button>
         <button type="button" class="cdp-export">Export</button>
         <button type="button" class="cdp-replan">Replanning prompt</button>
         <label class="cdp-load-label">Load
           <input type="file" class="cdp-load" accept="application/json">
         </label>
+        <!-- KD-23: last, so the one irreversible control is never the
+             neighbour of the one pressed every day, in the tab order or
+             under a thumb. The confirmation is still the gate. -->
+        <button type="button" class="cdp-drop">Drop</button>
       </div>
       <div class="cdp-run" hidden>
         <button type="button" class="cdp-back">Back</button>
@@ -159,6 +162,10 @@ class CadenceProgram extends HTMLElement {
         }
       } else if (e.date !== undefined) {
         throw new Error(`cadence-program: entry ${i} carries a date but is not a milestone`);
+      } else if (!e.sequence) {
+        // Only a milestone may have nothing to play (KD-8, KD-22); a session
+        // with no sequence would hide a broken program until it was started.
+        throw new Error(`cadence-program: entry ${i} needs a sequence to run`);
       }
     });
   }
@@ -352,6 +359,13 @@ class CadenceProgram extends HTMLElement {
     const index = Number(this._selectEl.value);
     const entry = this._config.entries[index];
     this._anchor();
+    // KD-22: a marker milestone has nothing to play — it is reached, not
+    // performed — so Start records it where it stands rather than mounting a
+    // clock over a config that does not exist.
+    if (!entry.sequence) {
+      this._reach(entry);
+      return;
+    }
     this._listEl.hidden = true;
     this._runEl.hidden = false;
 
@@ -407,6 +421,17 @@ class CadenceProgram extends HTMLElement {
     this._listEl.hidden = false;
     this._renderList();
     this._announce(`Completed ${entry.sequence.title || 'session'}`);
+    this.dispatchEvent(new CustomEvent('cadence:entryComplete', { detail: { entry } }));
+  }
+
+  // KD-8, KD-22: reaching a marker records the day it happened and nothing
+  // else — a milestone moves nothing, itself included (KD-15).
+  _reach(entry) {
+    if (this._settled(entry)) return;
+    entry.actualDate = cdpToday();
+    this._writeStored();
+    this._renderList();
+    this._announce(`Reached ${this._title(entry)}`);
     this.dispatchEvent(new CustomEvent('cadence:entryComplete', { detail: { entry } }));
   }
 
