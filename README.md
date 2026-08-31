@@ -180,6 +180,24 @@ sessions with its phase reviews as milestones.
 week, work and rest intervals progressing from week 1 to week 8 — and it is
 what `index.html` runs.
 
+## The page
+
+`index.html` is the app. It opens on whatever program is stored, and on
+nothing at all the first time: a load control, one paragraph saying what a
+program is, and — at the foot of the page, in normal flow and never folded
+away — the whole JSON contract, written to be read by a language model.
+
+That last part is the point of the layout. The intended workflow is to point
+a model at this page, ask it for a program, and load the JSON it gives back.
+A closed `<details>` would have been tidier and would have broken it: the
+contents of a collapsed disclosure are absent from a page's visible text, so
+a reader working on rendered text would never see the contract. It is demoted
+by position instead — last on the page, so a person never scrolls through it
+to reach anything, and a reader still finds it whole.
+
+A test parses the example the page prints and configures a real component
+with it, so the page cannot document a shape the validator rejects.
+
 Specs live under `sdd/specs/` and are tracked with the harness described
 below — start with `next` to see what's next.
 

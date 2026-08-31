@@ -308,3 +308,120 @@ cadence-program {
   padding: var(--cdc-space-1) var(--cdc-space-2);
   border-radius: var(--cdc-radius);
 }
+
+
+/* --- the page ------------------------------------------------------------
+   KD-4: monochrome, with the one accent spent only on state that matters.
+   The contract at the foot is set in a different register from the human
+   copy — that is what makes the page sober rather than merely plain. */
+
+.page {
+  max-width: 38rem;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3.5rem;
+}
+
+.page-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--cdc-space-2);
+  flex-wrap: wrap;
+  margin-bottom: 1.75rem;
+}
+
+.page h1 {
+  font-family: Georgia, "Times New Roman", ui-serif, serif;
+  font-weight: 500;
+  font-size: 1.7rem;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.lede { margin: 0.15rem 0 0; opacity: 0.7; }
+.intro { max-width: 34rem; }
+.muted { opacity: 0.7; font-size: 0.9rem; }
+
+.btn-quiet {
+  font: inherit;
+  padding: var(--cdc-space-1) var(--cdc-space-2);
+  min-height: 44px;
+  border: 1px solid var(--cdc-color-track);
+  border-radius: var(--cdc-radius);
+  background: var(--cdc-color-bg);
+  color: inherit;
+  cursor: pointer;
+}
+
+.btn-link {
+  font: inherit;
+  background: none;
+  border: none;
+  padding: 0.4rem 0;
+  color: inherit;
+  opacity: 0.7;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.parts { margin-top: 2.5rem; }
+.parts h2, .contract h2 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0 0 0.35rem;
+}
+.parts h3 {
+  font-size: 0.8rem;
+  font-weight: 600;
+  opacity: 0.7;
+  margin: 1.5rem 0 0.5rem;
+}
+
+/* A different kind of document, not a smaller version of the same one. */
+.contract {
+  margin-top: 3rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--cdc-color-track);
+  font-size: 0.92rem;
+}
+.contract h2 {
+  font-family: var(--cdc-font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  opacity: 0.75;
+}
+.contract dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.4rem 1rem;
+  margin: 1rem 0;
+}
+.contract dt {
+  font-family: var(--cdc-font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: 0.8rem;
+}
+.contract dd { margin: 0; opacity: 0.8; }
+.contract code {
+  font-family: var(--cdc-font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: 0.85em;
+}
+
+/* Wraps rather than scrolling sideways: a horizontally scrolling code block
+   inside a vertically scrolling page is a bad bargain on a touch screen. */
+.contract pre {
+  font-family: var(--cdc-font-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  border: 1px solid var(--cdc-color-track);
+  border-radius: var(--cdc-radius);
+  padding: 0.85rem;
+  margin: 1rem 0 0;
+}
+
+@media (max-width: 26rem) {
+  .contract dl { grid-template-columns: 1fr; gap: 0.15rem; }
+  .contract dd { margin-bottom: 0.6rem; }
+}

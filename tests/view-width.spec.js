@@ -10,9 +10,10 @@ test('sixty sessions with hundred-character titles do not widen a 390px page', a
   await page.goto('/index.html');
 
   const m = await page.evaluate((p) => {
-    const prog = document.getElementById('demo-program');
+    const prog = document.getElementById('program');
     localStorage.clear();
-    prog.configure(p);
+    prog.configure(p, { viaLoad: true });
+    prog.hidden = false;  // the page opens empty now, so show what we measure
     const rows = [...prog.querySelectorAll('.cdp-row')];
     return {
       innerWidth: window.innerWidth,
@@ -34,9 +35,10 @@ test('the same program does not stretch a row across a wide desktop window', asy
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto('/index.html');
   const width = await page.evaluate((p) => {
-    const prog = document.getElementById('demo-program');
+    const prog = document.getElementById('program');
     localStorage.clear();
-    prog.configure(p);
+    prog.configure(p, { viaLoad: true });
+    prog.hidden = false;  // the page opens empty now, so show what we measure
     return Math.round(prog.querySelector('.cdp-view').getBoundingClientRect().width);
   }, longTitled());
 

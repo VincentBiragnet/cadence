@@ -92,15 +92,13 @@ class CadenceProgram extends HTMLElement {
               <div class="cdp-pop" hidden>
                 <button type="button" class="cdp-export">Export</button>
                 <button type="button" class="cdp-replan">Replanning prompt</button>
-                <label class="cdp-load-label">Load
-                  <input type="file" class="cdp-load" accept="application/json">
-                </label>
                 <button type="button" class="cdp-drop">Drop</button>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <input type="file" class="cdp-load" accept="application/json" hidden>
       <div class="cdp-run" hidden>
         <button type="button" class="cdp-back">Back</button>
       </div>
@@ -147,6 +145,26 @@ class CadenceProgram extends HTMLElement {
     this._validate(config);
     if (!this._titleEl) this._render();
     this._adopt(config, options || {});
+  }
+
+  // KD-1, KD-7: the page opens whatever was left in progress by asking for
+  // it. Nothing happens on connecting, so a component mounted by a test is
+  // still blank until it is handed something.
+  restore() {
+    if (!this._titleEl) this._render();
+    const stored = this._readStored();
+    if (!stored) return false;
+    this._config = stored;
+    this._titleEl.textContent = stored.title || '';
+    this._renderList();
+    return true;
+  }
+
+  // KD-6: the visible Load control lives in the page header, so the element
+  // exposes the file dialogue rather than drawing a button for it.
+  chooseFile() {
+    if (!this._titleEl) this._render();
+    this._loadEl.click();
   }
 
   set config(value) { this.configure(value); }
@@ -709,7 +727,10 @@ Answer with a single JSON object and nothing else — no commentary, no code fen
     const file = this._loadEl.files[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = () => this.configure(JSON.parse(reader.result), { viaLoad: true });
+    reader.onload = () => {
+      this.configure(JSON.parse(reader.result), { viaLoad: true });
+      this.dispatchEvent(new CustomEvent('cadence:programLoaded', { bubbles: true }));
+    };
     reader.readAsText(file);
     this._loadEl.value = ''; // so selecting the same file again still fires change
   }

@@ -7,50 +7,149 @@
   <link rel="stylesheet" href="css/theme.css">
 </head>
 <body>
-  <main>
-    <h1>Cadence</h1>
+  <div class="page">
+    <!-- KD-6: Load is chrome. It sits here in both states and never moves. -->
+    <header class="page-head">
+      <div>
+        <h1>Cadence</h1>
+        <p class="lede">A clock that walks through a timed program.</p>
+      </div>
+      <button type="button" id="load" class="btn-quiet">Load .json</button>
+    </header>
 
-    <section>
-      <h2>Atomic clock</h2>
-      <p>A single step, spawned with a JSON config.</p>
-      <button type="button" id="start">Start demo</button>
-      <cadence-clock id="demo"></cadence-clock>
+    <!-- KD-1: nothing is configured on load, so with nothing stored this is
+         what a first visit actually looks like. -->
+    <section id="empty">
+      <p class="intro">A program is a JSON file: a title, and a list of entries that each say
+        which week and weekday they belong to rather than what date they fall on.</p>
+      <p><button type="button" id="try" class="btn-link">Try the eight-week example</button></p>
     </section>
 
-    <section>
-      <h2>Sequence</h2>
-      <p>A whole program of blocks and steps, run end to end.</p>
+    <cadence-program id="program" hidden></cadence-program>
+    <p id="format-link" hidden><a class="btn-link" href="#format">Program format &#8595;</a></p>
+
+    <section class="parts">
+      <h2>The parts</h2>
+      <p class="muted">A program is built from these two, and they run on their own.</p>
+
+      <h3>One step</h3>
+      <button type="button" id="start" class="btn-quiet">Start a 20-second step</button>
+      <cadence-clock id="demo"></cadence-clock>
+
+      <h3>A sequence of them</h3>
       <cadence-sequence id="demo-sequence"></cadence-sequence>
     </section>
 
-    <section>
-      <h2>Program</h2>
-      <p>Eight weeks of bodyweight strength, three sessions a week. Positions
-         are authored as a week and a weekday; the dates appear once you start
-         the first session, and slide to follow you if you fall behind.</p>
-      <cadence-program id="demo-program"></cadence-program>
+    <!-- KD-2: the contract is last, and never folded. A reader that works on
+         visible text drops the contents of a closed disclosure entirely. -->
+    <section id="format" class="contract">
+      <h2>For a language model</h2>
+      <p>Read this section and answer with one JSON object and nothing else. It is the whole
+        contract: anything not described here is rejected.</p>
+
+      <dl>
+        <dt>title</dt>
+        <dd>a name for the program.</dd>
+
+        <dt>entries</dt>
+        <dd>the sessions, in the order they should be done.</dd>
+
+        <dt>week</dt>
+        <dd>which week the entry belongs to, counting from 1.</dd>
+
+        <dt>day</dt>
+        <dd>1 is Monday, 7 is Sunday. Never a date &mdash; Cadence works the dates out itself.</dd>
+
+        <dt>label</dt>
+        <dd>the short line the list shows. Keep it under about 25 characters and make each one
+          recognisable at a glance.</dd>
+
+        <dt>sequence</dt>
+        <dd>what actually runs: <code>title</code> and <code>blocks</code>. Each block has
+          <code>repetitions</code> and <code>steps</code>; each step has a <code>label</code>,
+          a <code>durationSeconds</code> (fractions allowed), and optionally
+          <code>startFrequency</code> and <code>endFrequency</code> in hertz, which beep at the
+          two ends of the step.</dd>
+
+        <dt>milestone</dt>
+        <dd>a fixed point, such as a race or a review: <code>"milestone": true</code> with a
+          <code>date</code> of the form YYYY-MM-DD and a <code>title</code>. Only a milestone
+          may carry a date. Its <code>sequence</code> is optional &mdash; leave it out for
+          something that is only reached and recorded rather than performed.</dd>
+      </dl>
+
+      <p>The first milestone anchors the whole program backwards from its date, so the plan lands
+        where the event really is. Sessions slide when you finish late; a milestone never moves.</p>
+
+      <pre id="contract-example">{
+  "title": "Eight-week strength",
+  "entries": [
+    {
+      "week": 1,
+      "day": 1,
+      "label": "Push · 20s x2",
+      "sequence": {
+        "title": "Week 1 — Push",
+        "blocks": [
+          {
+            "repetitions": 2,
+            "steps": [
+              {
+                "label": "Push-up",
+                "durationSeconds": 20,
+                "startFrequency": 440,
+                "endFrequency": 880
+              },
+              { "label": "Rest", "durationSeconds": 25 }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "week": 9,
+      "day": 6,
+      "milestone": true,
+      "date": "2026-11-07",
+      "title": "Retest"
+    }
+  ]
+}</pre>
     </section>
-  </main>
+  </div>
+
   <script src="js/cadence-clock.js"></script>
   <script src="js/cadence-sequence.js"></script>
   <script src="js/cadence-program.js"></script>
   <script src="js/example-program.js"></script>
   <script>
-    // Real browsers require a user gesture before Web Audio produces sound
-    // (KD-14) — spawning a clock straight from a page-load script, with no
-    // interaction at all, is the one guaranteed way to keep it silent. A
-    // real embedder always has an explicit "start" moment upstream; these
-    // buttons stand in for that so the demo actually demonstrates the beep.
+    const program = document.getElementById('program');
+    const empty = document.getElementById('empty');
+    const formatLink = document.getElementById('format-link');
+
+    // KD-7: the page asks. The element never reaches into storage by itself.
+    function show(hasProgram) {
+      program.hidden = !hasProgram;
+      formatLink.hidden = !hasProgram;
+      empty.hidden = hasProgram;
+    }
+    show(program.restore());
+
+    document.getElementById('load').addEventListener('click', () => program.chooseFile());
+    document.getElementById('try').addEventListener('click', () => {
+      program.configure(window.CADENCE_EIGHT_WEEK, { viaLoad: true });
+      show(true);
+    });
+    program.addEventListener('cadence:programLoaded', () => show(true));
+
+    // Real browsers need a gesture before Web Audio makes a sound, so the
+    // demonstrations below start from a press rather than on page load.
     document.getElementById('start').addEventListener('click', () => {
       document.getElementById('demo').configure({
-        durationSeconds: 20,
-        startFrequency: 440,
-        endFrequency: 880,
+        durationSeconds: 20, startFrequency: 440, endFrequency: 880,
       });
     });
 
-    // cadence-sequence renders its own Start button (KD-5) — configure()
-    // just loads the program, it doesn't begin the run.
     document.getElementById('demo-sequence').configure({
       title: 'Sample circuit',
       blocks: [
@@ -64,11 +163,6 @@
         ]},
       ],
     });
-
-    // The eight-week program is authored with no dates at all — every entry
-    // is a week and a weekday (KD-2). Pressing Start on the first session
-    // anchors it to that day and lays out the rest (KD-12).
-    document.getElementById('demo-program').configure(window.CADENCE_EIGHT_WEEK);
   </script>
 </body>
 </html>
