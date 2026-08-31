@@ -55,8 +55,14 @@ grep_ok "both transitions logged" '- 2'
 $SPEC status pick-a-datastore Draft >/dev/null \
   && ok "status can move backwards" || fail "status should allow going back"
 check "reads back" "$($SPEC status pick-a-datastore)" "Draft"
-OUT="$($SPEC status pick-a-datastore "In Progress" 2>&1)"
+OUT="$($SPEC status pick-a-datastore "In Progress" 2>&1)"; RC=$?
 case "$OUT" in *"not cleared to implement"*) ok "In Progress needs a clean dry run";; *) fail "expected the dry-run gate, got: $OUT";; esac
+# A traceback echoes the source line it died on, so a crash inside this very
+# message would still contain the words above. Refuse the message unless it
+# arrived by the front door.
+case "$OUT" in *Traceback*) fail "the gate crashed rather than reporting: $OUT";; *) ok "and reports it rather than crashing";; esac
+[ "$RC" = 1 ] && ok "the gate exits 1" || fail "expected exit 1 from the dry-run gate, got $RC"
+case "$OUT" in *pick-a-datastore*) ok "the gate names the spec";; *) fail "expected the slug in the gate message, got: $OUT";; esac
 $SPEC resolve pick-a-datastore OQ-2 'No offline mode' >/dev/null
 $SPEC dryrun pick-a-datastore --clean 'walked the migration through' >/dev/null
 $SPEC status pick-a-datastore "In Progress" >/dev/null \
@@ -146,6 +152,24 @@ grep -qF -e 'Plain SQL dumps' "$CAT" \
   && fail "a discovery should get a bare catalog line, not a summary" || ok "no summary body for a discovery"
 $SPEC show --archived backup-formats | grep -q 'SOTA-1' \
   && ok "recoverable from git on request" || fail "the discovery should be readable via git"
+
+echo "10a. an archive entry from before a layout move (e.g. the sdd/ reorg) still reads"
+# Simulate a catalog entry written when ROOT sat directly at the project root
+# (no sdd/ offset yet) — the layout this project's own history actually went
+# through once. Bypass spec.py entirely: commit a file at the bare (pre-reorg)
+# path, then hand-append a catalog line naming that commit and bare path,
+# exactly what an old archive_doc call would have produced.
+echo '# Discovery: Old Layout' > "$WORK/proj/old-layout.discovery.md"
+git -C "$WORK/proj" add old-layout.discovery.md
+git -C "$WORK/proj" -c user.email=t@t -c user.name=t commit -qm "archive old-layout (pre-reorg path)"
+OLD_COMMIT="$(git -C "$WORK/proj" rev-parse HEAD)"
+git -C "$WORK/proj" rm -q old-layout.discovery.md
+git -C "$WORK/proj" -c user.email=t@t -c user.name=t commit -qm "remove old-layout from the tree"
+printf '\n## old-layout\n**Archived:** 2020-01-01 · **discovery** · **Commit:** %s `old-layout.discovery.md`\n' \
+  "$OLD_COMMIT" >> "$WORK/proj/sdd/archive/catalog.md"
+$SPEC show --archived old-layout 2>&1 | grep -q 'Old Layout' \
+  && ok "falls back to the pre-reorg path when today's offset doesn't exist at that commit" \
+  || fail "expected the pre-reorg fallback to recover it"
 
 echo "10b. apply refuses before touching the parent, not after"
 $SPEC add pick-a-datastore questions 'Which cache?' >/dev/null   # OQ-4

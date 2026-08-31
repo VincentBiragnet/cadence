@@ -1073,7 +1073,8 @@ def read_status(lines: "list[str]") -> str:
 def cmd_status(args: "list[str]") -> None:
     if not args:
         die(f"usage: spec.py status <slug> [{' | '.join(STATUSES)}]")
-    path, old = load(args[0], strict=len(args) > 1)
+    slug = args[0]
+    path, old = load(slug, strict=len(args) > 1)
     current = read_status(old)
     if len(args) == 1:
         print(current)
