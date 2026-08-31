@@ -41,6 +41,7 @@ _Edit via `scripts/spec.py`, never by hand._
 - **OQ-21** ~~KD-8 allows a milestone with no sequence, but Start mounts a clock for whatever is selected and throws on one that has nothing to play, so how is a marker milestone recorded as reached~~ → KD-22
 - **OQ-22** ~~Drop is irreversible and sits immediately after Start in the control row and so in the tab order, next to the one control pressed every day: where should an irreversible control sit~~ → KD-23
 - **OQ-23** ~~KD-14 anchors a milestone program when it is configured, so anchorDate exists before anything is run, and the part-run warning treats an anchor as work and claims things are recorded as done when nothing is: what actually counts as work worth warning about~~ → KD-24
+- **OQ-24** ~~A milestone can be dropped, since a race really can be cancelled, but it drops with the same wording and the same single confirmation as a routine session: what should dropping a milestone say and do differently~~ → KD-25
 
 ## Key Decisions
 - **KD-1** The shift is allowed to carry sessions past a milestone and the overrun is shown, never compressed away: the overrun is the signal that replanning is needed, and hiding it would restore the dishonesty the milestone exists to remove (OQ-2)
@@ -67,6 +68,7 @@ _Edit via `scripts/spec.py`, never by hand._
 - **KD-22** Start records a marker milestone as reached there and then, dating it today and announcing it without mounting a clock, since a marker is reached rather than performed (KD-8, KD-15) (OQ-21)
 - **KD-23** Drop sits last in the control row, furthest from Start, so the irreversible control is never the neighbour of the daily one; the confirmation stays the gate but is no longer the only thing between a slipped press and lost work (KD-4) (OQ-22)
 - **KD-24** Work worth warning about is a session completed or dropped, or a schedule that cannot be recomputed, which means an anchor on a program with no milestone; a milestone program that has only been anchored risks nothing, since its dates come back from the milestone, and the warning names what is really at stake rather than always claiming recorded work (OQ-23)
+- **KD-25** Dropping a milestone stays possible and stays one confirmation, but the confirmation names it as a fixed date being cancelled rather than a session being skipped, and a dropped milestone stops being something the sessions can overrun, since a cancelled date is no longer a deadline (KD-19) (OQ-24)
 
 ## Prior Art
 - **PA-1** Field-tested by three simulated users on real programs: a 16-week marathon plan with a fixed race date, a 12-week twice-daily ACL rehab protocol, and a 10-week guitar plan used on a phone across timezones
@@ -85,6 +87,7 @@ _Edit via `scripts/spec.py`, never by hand._
 - [x] **IMPL-9** Record a marker milestone on Start instead of mounting a sequence, and refuse a session that has no sequence to play (KD-22)
 - [x] **IMPL-10** Move Drop to the end of the control row so it neither neighbours Start nor follows it in the tab order (KD-23)
 - [x] **IMPL-11** Count only completed or dropped sessions, or an anchor on a milestone-free program, as work at risk, and word the replacement warning after what is actually there (KD-24)
+- [x] **IMPL-12** Word the drop confirmation for a milestone as cancelling a fixed date, and leave a dropped milestone out of the overrun (KD-25)
 
 ## Verification Criteria
 - [x] **VC-1** A session before a dated milestone completed eighteen days late moves every unrun session after it while the milestone keeps its date exactly (G-1, KD-1) `npx playwright test tests/milestone-pinned.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 2 tests using 1 worker ✓ 1 tests/milestone-pinned.spec.js:20:5 › a session finishe)
@@ -97,6 +100,7 @@ _Edit via `scripts/spec.py`, never by hand._
 - [x] **VC-8** Starting a milestone that carries no sequence records it as reached today, announces it, raises no page error and mounts no clock, while an ordinary session with no sequence is refused at configure time (KD-22, KD-8) `npx playwright test tests/milestone-marker.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 3 tests using 1 worker ✓ 1 tests/milestone-marker.spec.js:17:5 › starting a marker)
 - [x] **VC-9** Drop is the last control in the list row and Start is not adjacent to it in DOM order (KD-23) `npx playwright test tests/drop-session.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 4 tests using 1 worker ✓ 1 tests/drop-session.spec.js:29:5 › confirming a drop mar)
 - [x] **VC-10** A freshly configured milestone program that has never been run is replaced without a warning, while one holding a completed or dropped session warns and names what is recorded (KD-24) `npx playwright test tests/schedule-replace-warning.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 5 tests using 1 worker ✓ 1 tests/schedule-replace-warning.spec.js:23:5 › declining)
+- [x] **VC-11** Dropping a milestone is confirmed in wording that names it as a fixed date being cancelled, and once dropped the sessions after it are no longer reported as overrunning it (KD-25) `npx playwright test tests/milestone-drop.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 2 tests using 1 worker ✓ 1 tests/milestone-drop.spec.js:18:5 › the confirmation na)
 
 ## Changelog
 - 2026-08-27: Spec initialized.
@@ -197,4 +201,11 @@ _Edit via `scripts/spec.py`, never by hand._
 - 2026-08-31: VC-10 added
 - 2026-08-31: IMPL-11 checked
 - 2026-08-31: VC-10 passed
+- 2026-08-31: Status: In Progress → Done
+- 2026-08-31: OQ-24 added
+- 2026-08-31: KD-25 resolves OQ-24
+- 2026-08-31: IMPL-12 added
+- 2026-08-31: VC-11 added
+- 2026-08-31: IMPL-12 checked
+- 2026-08-31: VC-11 passed
 - 2026-08-31: Status: In Progress → Done

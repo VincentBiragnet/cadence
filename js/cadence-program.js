@@ -312,7 +312,8 @@ class CadenceProgram extends HTMLElement {
     const entries = this._config.entries;
     for (let i = 0; i < entries.length; i += 1) {
       const m = entries[i];
-      if (!m.milestone) continue;
+      // KD-25: a cancelled date is not a deadline, so nothing can overrun it.
+      if (!m.milestone || m.dropped) continue;
       let last = null;
       entries.slice(0, i).forEach((e) => {
         if (e.milestone || this._settled(e) || !e.expectedDate) return;
@@ -456,9 +457,12 @@ class CadenceProgram extends HTMLElement {
   _drop() {
     const entry = this._config.entries[Number(this._selectEl.value)];
     if (!entry || this._settled(entry)) return;
-    const ok = window.confirm(
-      `Drop "${this._title(entry)}"? It stays in the program marked as dropped, nothing else moves, and this cannot be undone.`
-    );
+    // KD-25: a race really can be cancelled, so a milestone can be dropped —
+    // but it is a fixed date going away, not a session being skipped, and the
+    // one confirmation standing in front of it should say which.
+    const ok = window.confirm(entry.milestone
+      ? `Cancel the milestone "${this._title(entry)}" on ${entry.date}? Its date stops being one the sessions can overrun, and this cannot be undone.`
+      : `Drop "${this._title(entry)}"? It stays in the program marked as dropped, nothing else moves, and this cannot be undone.`);
     if (!ok) return;
     entry.dropped = true;
     this._writeStored();

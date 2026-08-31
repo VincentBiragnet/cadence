@@ -10,6 +10,7 @@ _Edit via `scripts/spec.py`, never by hand._
 - **G-2** The picker is a list of every session that scrolls up and down, opening already positioned on the current step
 - **G-3** A row says at a glance which session it is, when it is due and what state it is in, without being read character by character
 - **G-4** The view says where the program as a whole stands: how much is done, when it is projected to finish, and any overrun against a milestone
+- **G-5** A session whose date has passed without being run or dropped reads as stale at a glance, so a backlog is visible without reading every date
 
 ## Non-Goals
 - **NG-1** The scheduling model itself, which the two previous specs settled and this one only displays
@@ -23,9 +24,13 @@ _Edit via `scripts/spec.py`, never by hand._
 - **OQ-5** ~~A 107-character title cannot fit 390px on one line, so is it truncated, wrapped over two lines, or does an entry gain a short label of its own for the list to show~~ → KD-4
 - **OQ-6** ~~Does the list move itself back to the current step after every completion and drop, or only when the view is first opened~~ → KD-6
 - **OQ-7** ~~A native select brings keyboard control and screen reader semantics for nothing, so what replaces them once it is a list of elements~~ → discovery:accessible-listbox-patterns, KD-8, KD-9, KD-10, KD-11, KD-12
-- **OQ-8** Where do Start, Drop, Export and the replanning prompt sit once the list is the tall thing on the page, given a phone shows about one screenful
+- **OQ-8** ~~Where do Start, Drop, Export and the replanning prompt sit once the list is the tall thing on the page, given a phone shows about one screenful~~ → KD-14
 - **OQ-9** ~~How do a milestone, a dropped session and a session already done read differently from an ordinary one in a row, without relying on colour alone~~ → KD-13
 - **OQ-10** ~~Is the projected finish the last session's expected date, and what does it say when a milestone is already overrun~~ → KD-7
+- **OQ-11** ~~Is a session stale the moment its date is behind today, or only once the next one is also due, given a session done in the evening rather than the morning is not a backlog~~ → KD-15
+- **OQ-12** ~~Does the list mark where today falls, as a divider between what is behind and what is ahead, or does the stale mark on each row carry it alone~~ → KD-16
+- **OQ-13** ~~Stale is a fourth row state after done, dropped and milestone, and those three took the icon at the end of the row: does stale take an icon too, and what carries it in the row's accessible name~~ → KD-17
+- **OQ-14** ~~A milestone whose date has passed unreached is stale in a stronger sense than a session, since it cannot be caught up: does it read differently~~ → KD-18
 
 ## Key Decisions
 - **KD-1** A list of every session that scrolls up and down in place of the native select, opening positioned on the current step, which is the first unrun one or whatever the stored state was left on (OQ-1)
@@ -41,12 +46,18 @@ _Edit via `scripts/spec.py`, never by hand._
 - **KD-11** Positioning on the current step is done by focusing its row and letting the user agent scroll it into view, rather than by computing a scroll offset, which is the same mechanism assistive technology relies on (OQ-7 via discovery:accessible-listbox-patterns)
 - **KD-12** Typeahead is not provided: the list positions itself on the step you want and the short labels repeat across weeks, so typing a letter would jump between look-alike rows rather than help (OQ-7 via discovery:accessible-listbox-patterns)
 - **KD-13** A small icon at the end of the row marks a milestone, a dropped session and a done one, and the same distinction is carried in the row's accessible name, so it never rests on the icon alone any more than on colour alone (KD-9) (OQ-9)
+- **KD-14** The list owns the screen and the controls sit in a bar docked beneath it: Start within thumb reach, the program-level actions and Drop behind a More menu, with a line in that same bar naming the session Start would run and a control that jumps the list back to the current step (OQ-8)
+- **KD-15** A session is stale once its date is strictly behind today and it is neither run nor dropped, so one still due today is never stale and an evening session is not a backlog by lunchtime (OQ-11)
+- **KD-16** Both: a divider marks where today falls, which anchors the scroll, and each stale row carries its own mark, which survives the divider being off screen (OQ-12)
+- **KD-17** Stale takes the same trailing slot as the other three, which is free because a stale session is by definition neither done nor dropped, and the row's accessible name ends in overdue (OQ-13)
+- **KD-18** A milestone whose date has passed unreached reads as missed rather than overdue, because a date that cannot be caught up is a different fact from a session waiting to be done (OQ-14)
 
 ## Prior Art
 - **PA-1** Measured on the current build at 390 by 844: the shipped eight-week example fits, but a sixty-session program with a milestone gives a 107-character label, an 843px select and an 851px page that scrolls sideways
 - **PA-2** A native select takes its width from its longest option, and .cdp-select sets no max-width and no min-width, so a flex row wraps but never shrinks it
 - **PA-3** The label grows over a program's life: no date before anchoring, then the expected date, then a done or dropped suffix, so the overflow worsens with use
 - **PA-4** Three simulated users hit this: sixteen weeks of marathon training, one hundred and sixty-eight rehab sessions, and sixty guitar practices on a phone in hotel rooms
+- **PA-5** None of the three prototypes had any notion of a passed date: a grep across all three for today, overdue, stale or late found nothing, and a session missed three weeks ago rendered identically to one three weeks away
 
 ## Implementation Details
 _No items yet._
@@ -88,3 +99,14 @@ _No items yet._
 - 2026-08-31: OQ-7 opened discovery:accessible-listbox-patterns
 - 2026-08-31: KD-8, KD-9, KD-10, KD-11, KD-12, VC-1, VC-2, VC-3 applied from discovery:accessible-listbox-patterns
 - 2026-08-31: KD-13 resolves OQ-9
+- 2026-08-31: G-5 added
+- 2026-08-31: PA-5 added
+- 2026-08-31: OQ-11 added
+- 2026-08-31: OQ-12 added
+- 2026-08-31: OQ-13 added
+- 2026-08-31: OQ-14 added
+- 2026-08-31: KD-14 resolves OQ-8
+- 2026-08-31: KD-15 resolves OQ-11
+- 2026-08-31: KD-16 resolves OQ-12
+- 2026-08-31: KD-17 resolves OQ-13
+- 2026-08-31: KD-18 resolves OQ-14
