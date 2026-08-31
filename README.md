@@ -128,6 +128,35 @@ finish late, but pulls it earlier only when every earlier session has already
 been done. Finishing ahead while something is still outstanding isn't really
 being ahead, and moving on would drag later sessions on top of the unrun ones.
 
+**Milestones are pinned.** An entry can be a milestone — a race, a clinical
+review, a recital — carrying a real date it never moves off:
+
+```js
+{ week: 16, day: 7, milestone: true, date: '2026-09-27',
+  title: 'Berlin Marathon', sequence: { /* optional — omit for a marker */ } }
+```
+
+`date` is legal only on a milestone; ordinary sessions stay purely positional.
+A dated milestone **anchors the program backwards from itself**, so the plan is
+laid out to land on the real date and every session has a date the moment the
+program is loaded, before anything is run. A program can carry any number of
+them; the earliest sets the anchor.
+
+Sessions slide around milestones, never through them. When they slide past
+one, the app says by how much — `5 days past "Race" (2026-09-27)` — rather than
+compressing the plan or quietly moving the date. That overrun is the signal
+that the plan needs re-planning.
+
+**Dropping.** A session you're never going to do can be dropped, behind a
+confirmation. It stays in the program marked dropped, nothing else moves, and
+it is never suggested again. There is no undo — the confirmation is the gate.
+
+**Re-planning through an LLM.** When the plan no longer fits, the *Replanning
+prompt* button downloads a single markdown file holding the schema to answer
+in, the whole record including what was already done and dropped, and the
+overrun in days. Paste it into any LLM, and load the JSON it gives back. The
+app never calls a model itself — it has no key and no backend.
+
 A dropdown lists every entry (pre-selected to the soonest one not yet run);
 picking one and starting it mounts a real running `<cadence-sequence>` in
 place of the list, with a Back button to abandon without recording anything.
@@ -135,8 +164,10 @@ Finishing fires `cadence:entryComplete`.
 
 **No backend, but state does survive.** Run state is saved to `localStorage`
 on every change, so closing the tab between Monday and Wednesday loses
-nothing. Only one program is part-run at a time — loading another warns
-before it replaces one with real work in it. Export downloads the current
+nothing. Reopening the app restores what you'd done; *loading* a file is an
+explicit act and replaces the stored program outright, history included, after
+a warning that says so — which is what lets a re-planned program come back in
+over one already under way. Export downloads the current
 state as JSON: the authored week/day shape *plus* the computed and actual
 dates, which means an export is itself a program and loads straight back in.
 

@@ -30,6 +30,12 @@
 const CDP_STORAGE_KEY = 'cadence-program';
 const CDP_MS_PER_DAY = 86400000;
 const CDP_DAY_NAMES = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const CDP_DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+// Days from the Monday of week 1 to this entry's authored position.
+function cdpOffset(entry) {
+  return (entry.week - 1) * 7 + (entry.day - 1);
+}
 
 // KD-16: a date is a YYYY-MM-DD string and arithmetic happens on a whole
 // number of days, never on a local Date — a local Date crossing a
@@ -76,7 +82,9 @@ class CadenceProgram extends HTMLElement {
       <div class="cdp-list">
         <select class="cdp-select"></select>
         <button type="button" class="cdp-start">Start</button>
+        <button type="button" class="cdp-drop">Drop</button>
         <button type="button" class="cdp-export">Export</button>
+        <button type="button" class="cdp-replan">Replanning prompt</button>
         <label class="cdp-load-label">Load
           <input type="file" class="cdp-load" accept="application/json">
         </label>
@@ -84,13 +92,17 @@ class CadenceProgram extends HTMLElement {
       <div class="cdp-run" hidden>
         <button type="button" class="cdp-back">Back</button>
       </div>
+      <div class="cdp-overrun" hidden></div>
       <div class="cdp-live" aria-live="polite"></div>
     `;
     this._titleEl = this.querySelector('.cdp-title');
     this._listEl = this.querySelector('.cdp-list');
     this._selectEl = this.querySelector('.cdp-select');
     this._startEl = this.querySelector('.cdp-start');
+    this._dropEl = this.querySelector('.cdp-drop');
     this._exportEl = this.querySelector('.cdp-export');
+    this._replanEl = this.querySelector('.cdp-replan');
+    this._overrunEl = this.querySelector('.cdp-overrun');
     this._loadEl = this.querySelector('.cdp-load');
     this._runEl = this.querySelector('.cdp-run');
     this._backEl = this.querySelector('.cdp-back');
@@ -98,17 +110,19 @@ class CadenceProgram extends HTMLElement {
 
     this._startEl.addEventListener('click', () => this._launch());
     this._backEl.addEventListener('click', () => this._abandon());
+    this._dropEl.addEventListener('click', () => this._drop());
     this._exportEl.addEventListener('click', () => this._export());
+    this._replanEl.addEventListener('click', () => this._exportReplanningPrompt());
     this._loadEl.addEventListener('change', () => this._load());
   }
 
   // The public JS entry point. Stored run state wins over the config it is
   // handed when they are the same program (KD-8) — that is what makes a
   // page reload resume rather than restart.
-  configure(config) {
+  configure(config, options) {
     this._validate(config);
     if (!this._titleEl) this._render();
-    this._adopt(config);
+    this._adopt(config, options || {});
   }
 
   set config(value) { this.configure(value); }
@@ -133,16 +147,61 @@ class CadenceProgram extends HTMLElement {
       if (!Number.isInteger(e.day) || e.day < 1 || e.day > 7) {
         throw new Error(`cadence-program: entry ${i} needs a day from 1 (Monday) to 7 (Sunday)`);
       }
+      // KD-9: a milestone is pinned to a real date — without one there is
+      // nothing to pin and it is simply a session. KD-13: it carries its own
+      // title, since a marker milestone has no sequence to take one from.
+      if (e.milestone) {
+        if (!CDP_DATE.test(e.date || '')) {
+          throw new Error(`cadence-program: entry ${i} is a milestone and needs a date of the form YYYY-MM-DD`);
+        }
+        if (!e.title && !(e.sequence && e.sequence.title)) {
+          throw new Error(`cadence-program: entry ${i} is a milestone and needs a title`);
+        }
+      } else if (e.date !== undefined) {
+        throw new Error(`cadence-program: entry ${i} carries a date but is not a milestone`);
+      }
     });
+  }
+
+  _earliestMilestone() {
+    return this._config.entries
+      .filter((e) => e.milestone)
+      .sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0))[0] || null;
+  }
+
+  _title(entry) {
+    return entry.title || (entry.sequence && entry.sequence.title) || 'Untitled';
+  }
+
+  // A session is settled once it has been run or dropped: KD-12 puts a drop
+  // alongside a completion for the backward-shift gate, because a dropped
+  // session is resolved — just not by doing it — and counting it as
+  // outstanding would disable every later pull-forward for good.
+  _settled(entry) {
+    return Boolean(entry.actualDate || entry.dropped);
   }
 
   // KD-11: only one program is part-run at a time, so taking on a different
   // one replaces what is stored — and says so first, since that discards
   // real work. Declining keeps the stored program, which is the whole point
   // of asking.
-  _adopt(config) {
+  _adopt(config, options) {
     const stored = this._readStored();
-    if (stored && stored.title === config.title) {
+    // KD-5: a Load is an explicit act, so it replaces the whole stored state,
+    // history included, once the warning is accepted — that is what lets a
+    // replanned program come back in over one already in progress. A
+    // page-load configure is not an act of intent, so it still restores what
+    // was stored; otherwise reopening the app would wipe your progress.
+    if (options.viaLoad) {
+      if (stored && this._isPartRun(stored) && !window.confirm(
+        `Loading "${config.title || 'this program'}" replaces "${stored.title || 'the stored program'}" entirely, including everything already recorded as done. Continue?`
+      )) {
+        this._config = stored;
+      } else {
+        this._config = config;
+        this._writeStored();
+      }
+    } else if (stored && stored.title === config.title) {
       this._config = stored;
     } else if (stored && this._isPartRun(stored)) {
       const ok = window.confirm(
@@ -155,6 +214,9 @@ class CadenceProgram extends HTMLElement {
       this._writeStored();
     }
     this._titleEl.textContent = this._config.title || '';
+    // KD-14: a milestone anchors the program the moment it is configured,
+    // not when something is first launched, so the dates exist up front.
+    if (this._earliestMilestone()) this._anchor();
     this._renderList();
   }
 
@@ -184,29 +246,71 @@ class CadenceProgram extends HTMLElement {
     }
   }
 
-  // KD-1, KD-10, KD-12: the day of the first launch anchors the program,
-  // and week 1 is that day's *own* week — so an entry whose weekday has
-  // already passed is simply due now (KD-5) rather than a week away.
-  // KD-19: a program that already carries dates arrived anchored.
+  // Two ways in. With no milestone, the day of the first launch anchors the
+  // program and week 1 is that day's *own* week, so an entry whose weekday
+  // has already passed is simply due now rather than a week away (KD-1,
+  // KD-10, KD-12 of the scheduling spec).
+  //
+  // With a milestone, the earliest one anchors the program *backwards* from
+  // its own date (KD-14, KD-20): the plan is laid so that milestone lands
+  // where it really is, which means every session carries a date the moment
+  // the program is configured, before anything has been run. Later
+  // milestones keep their own dates rather than the layout's — dates win
+  // over authored positions, and nothing is rescaled to fit (KD-18).
+  //
+  // KD-21: this runs only for a program nothing has dated yet. Once
+  // anchored, the stored dates carry the drift that late completions have
+  // accumulated, and recomputing would erase it — along with the overrun
+  // that drift is there to show.
   _anchor() {
     if (this._config.entries.some((e) => e.expectedDate)) return;
-    const today = cdpToday();
-    const anchor = cdpToDayNumber(today);
-    const monday = anchor - (cdpIsoDay(anchor) - 1);
-    this._config.anchorDate = today;
+    const milestone = this._earliestMilestone();
+    let monday;
+    if (milestone) {
+      monday = cdpToDayNumber(milestone.date) - cdpOffset(milestone);
+      this._config.anchorDate = cdpFromDayNumber(monday);
+    } else {
+      const today = cdpToday();
+      const anchor = cdpToDayNumber(today);
+      monday = anchor - (cdpIsoDay(anchor) - 1);
+      this._config.anchorDate = today;
+    }
     this._config.entries.forEach((e) => {
-      e.expectedDate = cdpFromDayNumber(monday + (e.week - 1) * 7 + (e.day - 1));
+      e.expectedDate = e.milestone ? e.date : cdpFromDayNumber(monday + cdpOffset(e));
     });
     this._writeStored();
   }
 
-  // KD-13: unanchored, there are no dates to compare, so the order is the
-  // authored one. Anchored, the soonest expected date among the unrun.
+  // KD-1: sessions are allowed to slide past a milestone and the overrun is
+  // shown rather than compressed away — it is the signal that the plan needs
+  // replanning, and hiding it would restore the dishonesty the milestone
+  // exists to remove. KD-19: a dropped session is left out, since it will
+  // never take a day. Reports the first milestone that is overrun.
+  _overrun() {
+    const entries = this._config.entries;
+    for (let i = 0; i < entries.length; i += 1) {
+      const m = entries[i];
+      if (!m.milestone) continue;
+      let last = null;
+      entries.slice(0, i).forEach((e) => {
+        if (e.milestone || this._settled(e) || !e.expectedDate) return;
+        if (!last || e.expectedDate > last) last = e.expectedDate;
+      });
+      if (last && last > m.date) {
+        return { title: this._title(m), date: m.date, days: cdpToDayNumber(last) - cdpToDayNumber(m.date) };
+      }
+    }
+    return null;
+  }
+
+  // KD-13 of the scheduling spec: unanchored, there are no dates to compare,
+  // so the order is the authored one. Anchored, the soonest expected date
+  // among the unrun. KD-4: a dropped session is never suggested.
   _suggestedIndex() {
     const entries = this._config.entries;
     let best = -1;
     entries.forEach((e, i) => {
-      if (e.actualDate) return;
+      if (this._settled(e)) return;
       if (best === -1) { best = i; return; }
       if (e.expectedDate && entries[best].expectedDate && e.expectedDate < entries[best].expectedDate) {
         best = i;
@@ -215,12 +319,14 @@ class CadenceProgram extends HTMLElement {
     return best;
   }
 
+  // KD-4: a dropped session reads as dropped wherever it appears, distinct
+  // from one merely never run.
   _label(entry) {
-    const title = (entry.sequence && entry.sequence.title) || 'Untitled';
-    const where = `Week ${entry.week} ${CDP_DAY_NAMES[entry.day - 1]}`;
-    const when = entry.expectedDate ? ` — ${entry.expectedDate}` : '';
-    const done = entry.actualDate ? ` (done ${entry.actualDate})` : '';
-    return `${where}${when} — ${title}${done}`;
+    const where = entry.milestone
+      ? `Milestone — ${entry.date}`
+      : `Week ${entry.week} ${CDP_DAY_NAMES[entry.day - 1]}${entry.expectedDate ? ` — ${entry.expectedDate}` : ''}`;
+    const status = entry.actualDate ? ` (done ${entry.actualDate})` : entry.dropped ? ' (dropped)' : '';
+    return `${where} — ${this._title(entry)}${status}`;
   }
 
   _renderList() {
@@ -229,6 +335,15 @@ class CadenceProgram extends HTMLElement {
       .map((e, i) => `<option value="${i}">${this._label(e)}</option>`)
       .join('');
     if (suggested !== -1) this._selectEl.value = String(suggested);
+    this._renderOverrun();
+  }
+
+  _renderOverrun() {
+    const over = this._overrun();
+    this._overrunEl.textContent = over
+      ? `${over.days} day${over.days === 1 ? '' : 's'} past "${over.title}" (${over.date})`
+      : '';
+    this._overrunEl.hidden = !over;
   }
 
   // KD-6: any entry may be launched whatever its date and whatever is still
@@ -270,12 +385,18 @@ class CadenceProgram extends HTMLElement {
     const index = entries.indexOf(entry);
     let delta = entry.expectedDate ? cdpToDayNumber(today) - cdpToDayNumber(entry.expectedDate) : 0;
 
-    if (delta < 0 && !entries.slice(0, index).every((e) => e.actualDate)) delta = 0;
+    if (delta < 0 && !entries.slice(0, index).every((e) => this._settled(e))) delta = 0;
+    // KD-15: a milestone neither moves nor moves anything else. Running the
+    // race a day late does not slide the plan behind it — being pinned is
+    // the whole of what a milestone is.
+    if (entry.milestone) delta = 0;
 
     entry.actualDate = today;
     if (delta !== 0) {
       entries.forEach((e, i) => {
-        if (i > index && !e.actualDate && e.expectedDate) {
+        // KD-2, KD-15: a milestone is never shifted, in either direction.
+        // A settled session is not shifted either: it is already resolved.
+        if (i > index && !e.milestone && !this._settled(e) && e.expectedDate) {
           e.expectedDate = cdpFromDayNumber(cdpToDayNumber(e.expectedDate) + delta);
         }
       });
@@ -287,6 +408,22 @@ class CadenceProgram extends HTMLElement {
     this._renderList();
     this._announce(`Completed ${entry.sequence.title || 'session'}`);
     this.dispatchEvent(new CustomEvent('cadence:entryComplete', { detail: { entry } }));
+  }
+
+  // KD-3: dropping moves nothing — every later session keeps its date, and
+  // the dropped one stays in the program rather than being removed. KD-4:
+  // the confirmation is the gate, which is why there is no undo.
+  _drop() {
+    const entry = this._config.entries[Number(this._selectEl.value)];
+    if (!entry || this._settled(entry)) return;
+    const ok = window.confirm(
+      `Drop "${this._title(entry)}"? It stays in the program marked as dropped, nothing else moves, and this cannot be undone.`
+    );
+    if (!ok) return;
+    entry.dropped = true;
+    this._writeStored();
+    this._renderList();
+    this._announce(`Dropped ${this._title(entry)}`);
   }
 
   _teardownRun() {
@@ -303,23 +440,85 @@ class CadenceProgram extends HTMLElement {
     this._liveEl.textContent = text;
   }
 
-  // KD-7: the authored shape plus what running it produced, so an export is
-  // itself a program and loads straight back in.
-  _export() {
-    const blob = new Blob([JSON.stringify(this._config, null, 2)], { type: 'application/json' });
+  _slug() {
+    return (this._config.title || 'program')
+      .trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'program';
+  }
+
+  _download(text, filename, type) {
+    const blob = new Blob([text], { type });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${(this._config.title || 'program').trim().replace(/\s+/g, '-').toLowerCase()}.json`;
+    a.download = filename;
     a.click();
     URL.revokeObjectURL(url);
+  }
+
+  // KD-7 of the scheduling spec: the authored shape plus what running it
+  // produced, so an export is itself a program and loads straight back in.
+  // KD-16: this stays, beside the replanning prompt — it is the backup, and
+  // the only one of the two that Load can read.
+  _export() {
+    this._download(JSON.stringify(this._config, null, 2), `${this._slug()}.json`, 'application/json');
+  }
+
+  // KD-5, KD-6, KD-7: one file to paste into an LLM, carrying the schema it
+  // must answer in, the whole record including what was already done, and
+  // the overrun that says why a replan is needed. The app never calls a
+  // model itself (NG-1) — the loop is export, paste, load the answer back.
+  _exportReplanningPrompt() {
+    const over = this._overrun();
+    const entries = this._config.entries;
+    const state = entries.map((e, i) => {
+      const what = e.milestone ? 'MILESTONE (fixed)' : 'session';
+      const stand = e.actualDate ? `done ${e.actualDate}` : e.dropped ? 'dropped, not to be rescheduled' : 'not yet done';
+      return `${i + 1}. week ${e.week} day ${e.day} — ${what} — planned ${e.expectedDate || 'unscheduled'} — ${stand} — ${this._title(e)}`;
+    }).join('\n');
+
+    const text = `# Replanning request — ${this._config.title || 'program'}
+
+Today is ${cdpToday()}.
+
+## The problem
+
+${over
+  ? `The sessions still to be done run ${over.days} day${over.days === 1 ? '' : 's'} past "${over.title}", which is fixed to ${over.date} and cannot move. The plan no longer fits.`
+  : 'The plan currently fits, and is being replanned for another reason.'}
+
+## Where the program stands
+
+${state}
+
+## The program in full
+
+The complete current state, including every session's exercises and timings:
+
+\`\`\`json
+${JSON.stringify(this._config, null, 2)}
+\`\`\`
+
+## What to send back
+
+Rewrite the sessions that are **not yet done** so they fit before every milestone, keeping the intent of the original plan: the same kind of work, a sensible progression into the milestone, and enough recovery between sessions. Leave the sessions already done exactly as they are, and do not reschedule anything marked dropped.
+
+Answer with a single JSON object and nothing else — no commentary, no code fence. It must follow this shape:
+
+- \`title\`: string.
+- \`entries\`: array, in the order they should be done.
+- A session entry: \`{ "week": 1, "day": 1, "sequence": { ... } }\` — \`week\` counts from 1, \`day\` is 1 for Monday through 7 for Sunday. A session entry must **not** carry a date of any kind.
+- A milestone entry: \`{ "week": 16, "day": 7, "milestone": true, "date": "YYYY-MM-DD", "title": "...", "sequence": { ... } }\` — \`date\` is allowed **only** here, \`title\` is required, and \`sequence\` is optional (leave it out for something that is only reached, not performed). Keep every existing milestone on its existing date.
+- \`sequence\`: \`{ "title": "...", "blocks": [ { "repetitions": 2, "steps": [ { "label": "...", "durationSeconds": 20, "startFrequency": 440, "endFrequency": 880 } ] } ] }\`. \`durationSeconds\` may be fractional; the two frequencies are optional beeps.
+- Carry \`actualDate\` and \`dropped\` through unchanged on the entries that have them. Leave \`expectedDate\` out entirely — Cadence computes the dates itself from the milestones.
+`;
+    this._download(text, `${this._slug()}-replanning-prompt.md`, 'text/markdown');
   }
 
   _load() {
     const file = this._loadEl.files[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = () => this.configure(JSON.parse(reader.result));
+    reader.onload = () => this.configure(JSON.parse(reader.result), { viaLoad: true });
     reader.readAsText(file);
     this._loadEl.value = ''; // so selecting the same file again still fires change
   }

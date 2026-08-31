@@ -209,7 +209,7 @@ cadence-program {
   flex-wrap: wrap;
 }
 
-.cdp-select, .cdp-start, .cdp-export, .cdp-load-label {
+.cdp-select, .cdp-start, .cdp-drop, .cdp-export, .cdp-replan, .cdp-load-label {
   font-family: var(--cdc-font);
   font-size: 0.95rem;
   padding: var(--cdc-space-1) var(--cdc-space-2);
@@ -217,6 +217,14 @@ cadence-program {
   border: 1px solid var(--cdc-color-track);
   background: var(--cdc-color-bg);
   color: inherit;
+}
+
+/* The overrun is the one number that says the plan no longer fits (KD-1),
+   so it reads as a warning rather than as another label. */
+.cdp-overrun {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--cdc-color-progress);
 }
 
 .cdp-start {
