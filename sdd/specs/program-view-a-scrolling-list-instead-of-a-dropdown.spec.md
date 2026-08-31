@@ -1,6 +1,6 @@
 # Spec: Program view: a scrolling list instead of a dropdown
 
-**Status:** Draft
+**Status:** Ready
 **Description:** Program view: a scrolling list instead of a dropdown
 
 _Edit via `scripts/spec.py`, never by hand._
@@ -31,6 +31,13 @@ _Edit via `scripts/spec.py`, never by hand._
 - **OQ-12** ~~Does the list mark where today falls, as a divider between what is behind and what is ahead, or does the stale mark on each row carry it alone~~ → KD-16
 - **OQ-13** ~~Stale is a fourth row state after done, dropped and milestone, and those three took the icon at the end of the row: does stale take an icon too, and what carries it in the row's accessible name~~ → KD-17
 - **OQ-14** ~~A milestone whose date has passed unreached is stale in a stronger sense than a session, since it cannot be caught up: does it read differently~~ → KD-18
+- **OQ-15** IMPL-9 says four existing tests drive the select, but fourteen files hold thirty-four references to cdp-select: what actually happens to them, and does the listbox keep a stable hook that a test can drive the way value and click did
+- **OQ-16** The list is hidden while a session runs and the running clock takes its place, so what becomes of the docked bar during a run: does Start turn into something else, does the bar go with the list, or does Back move into it
+- **OQ-17** KD-4 gives an entry a short label for the list, but a milestone already carries a title of its own from the previous spec: are those the same field, and which one does a milestone's row show
+- **OQ-18** Tapping a row selects it and Start is separate, but with a roving tabindex the arrow keys move focus: does arrowing to a row also select it, or can the focused row and the row Start would run be different ones → discovery:selection-following-focus
+- **OQ-19** Staleness is computed against today on a page that may sit open for days, so does the view recompute as the day turns, and what makes it notice
+- **OQ-20** The divider marks where today falls, so where does it go when every session is already behind, when every one is still ahead, and when the program has not been anchored and no session has a date at all
+- **OQ-21** The projected finish is the last session's expected date, but the last entry may be a milestone, or dropped, or already done: which entry actually supplies it
 
 ## Key Decisions
 - **KD-1** A list of every session that scrolls up and down in place of the native select, opening positioned on the current step, which is the first unrun one or whatever the stored state was left on (OQ-1)
@@ -60,12 +67,26 @@ _Edit via `scripts/spec.py`, never by hand._
 - **PA-5** None of the three prototypes had any notion of a passed date: a grep across all three for today, overdue, stale or late found nothing, and a session missed three weeks ago rendered identically to one three weeks away
 
 ## Implementation Details
-_No items yet._
+- [ ] **IMPL-1** Replace the select with a listbox: one focusable row per entry, roving tabindex, arrow keys and Home and End, labelled by the program title (KD-8, KD-9, KD-10)
+- [ ] **IMPL-2** Give an entry an optional short label and show it in the row with the entry's date, never the sequence title (KD-4)
+- [ ] **IMPL-3** Mark each row's state with a trailing icon and carry the same word in its accessible name (KD-13, KD-17, KD-18)
+- [ ] **IMPL-4** Compute staleness against today and render the divider between what is behind and what is ahead (KD-15, KD-16)
+- [ ] **IMPL-5** Move the current step into view by focusing its row, on opening and after every completion and drop (KD-6, KD-11)
+- [ ] **IMPL-6** Dock the control bar beneath the list: Start, the line naming what it would run, the jump to the current step, and a More menu holding Drop, Export, the replanning prompt and Load (KD-14)
+- [ ] **IMPL-7** Show how much of the program is done and its projected finish, giving way to the overrun when there is one (KD-7)
+- [ ] **IMPL-8** Constrain the list so a long label cannot widen the page, and cap its width on a desktop viewport (G-1)
+- [ ] **IMPL-9** Rewrite the four existing program tests that drive the select onto the listbox
 
 ## Verification Criteria
 - [ ] **VC-1** The list exposes role=listbox with every row role=option and exactly one row carrying aria-selected true at any time
 - [ ] **VC-2** In a sixty-session program the arrow keys move the focused row one at a time, Home and End reach the first and last, and each newly focused row is inside the scrolled viewport without any scroll code of our own
 - [ ] **VC-3** Opening the view, and completing or dropping a session, each leave the current step focused and within the visible area of the list
+- [ ] **VC-4** With sixty sessions whose titles run past a hundred characters, a 390px viewport reports no horizontal overflow and the layout viewport stays 390 (G-1) `npx playwright test tests/view-width.spec.js`
+- [ ] **VC-5** The list holds one row per entry in authored order, the last row is the last entry with nothing after it, and opening the view leaves the current step in view (G-2, KD-2) `npx playwright test tests/view-list.spec.js`
+- [ ] **VC-6** A row shows the entry's short label and its date and never the full sequence title, and its accessible name ends with its state (G-3, KD-4, KD-13) `npx playwright test tests/view-row.spec.js`
+- [ ] **VC-7** The view states how many sessions are done out of the total and the date the program is projected to finish, and says the overrun in its place once a milestone is overrun (G-4, KD-7) `npx playwright test tests/view-summary.spec.js`
+- [ ] **VC-8** A session dated before today and neither run nor dropped is marked stale with overdue in its accessible name, a divider sits between the last past row and the first row still ahead, and a milestone whose date passed unreached reads as missed (G-5, KD-15, KD-16, KD-17, KD-18) `npx playwright test tests/view-stale.spec.js`
+- [ ] **VC-9** Start sits in the docked bar and is still reachable with the list scrolled to its end, Drop is reachable only through the More menu, the bar names the session Start would run, and the jump control returns the list to the current step (KD-14) `npx playwright test tests/view-controls.spec.js`
 
 ## Changelog
 - 2026-08-31: Spec initialized.
@@ -110,3 +131,27 @@ _No items yet._
 - 2026-08-31: KD-16 resolves OQ-12
 - 2026-08-31: KD-17 resolves OQ-13
 - 2026-08-31: KD-18 resolves OQ-14
+- 2026-08-31: VC-4 added
+- 2026-08-31: VC-5 added
+- 2026-08-31: VC-6 added
+- 2026-08-31: VC-7 added
+- 2026-08-31: VC-8 added
+- 2026-08-31: VC-9 added
+- 2026-08-31: IMPL-1 added
+- 2026-08-31: IMPL-2 added
+- 2026-08-31: IMPL-3 added
+- 2026-08-31: IMPL-4 added
+- 2026-08-31: IMPL-5 added
+- 2026-08-31: IMPL-6 added
+- 2026-08-31: IMPL-7 added
+- 2026-08-31: IMPL-8 added
+- 2026-08-31: IMPL-9 added
+- 2026-08-31: Status: Draft → Ready
+- 2026-08-31: OQ-15 raised by dry run
+- 2026-08-31: OQ-16 raised by dry run
+- 2026-08-31: OQ-17 raised by dry run
+- 2026-08-31: OQ-18 raised by dry run
+- 2026-08-31: OQ-19 raised by dry run
+- 2026-08-31: OQ-20 raised by dry run
+- 2026-08-31: OQ-21 raised by dry run
+- 2026-08-31: OQ-18 opened discovery:selection-following-focus
