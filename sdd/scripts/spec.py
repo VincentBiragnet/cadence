@@ -1303,6 +1303,41 @@ BLOCKED_LOG_RE = re.compile(r"^- \d{4}-\d\d-\d\d: \S+ blocked$")
 VERIFY_LOG_RE = re.compile(r"^- \d{4}-\d\d-\d\d: \S+ (passed|failed)$")
 
 
+def dryrun_rounds(entries: "list[str]") -> "list[int]":
+    """How many questions each rehearsal raised, in order.
+
+    A round is a run of questions the walkthrough raised together; it ends at
+    the first thing that answers one. Counting rounds rather than questions is
+    the point: a thorough first walkthrough of a rich spec raises a lot at
+    once and then converges, which looks identical to a thin spec if you only
+    total them up.
+    """
+    rounds, current = [], 0
+    for entry in entries:
+        if DRYRUN_RAISED_RE.match(entry):
+            current += 1
+        elif current and (" resolves " in entry or DRYRUN_CLEAN_RE.match(entry)):
+            rounds.append(current)
+            current = 0
+    if current:
+        rounds.append(current)
+    return rounds
+
+
+def converging(rounds: "list[int]") -> bool:
+    """True unless the rehearsal keeps finding as much as it did last time.
+
+    Two rounds prove nothing either way. From three on, the last round has to
+    have fallen to half the first or less: 6, 2, 1 and 6, 1, 1 have settled,
+    while 1, 1, 1 and 4, 4, 5 have not. Demanding that every round beat the
+    one before it is too strict — a straggler or two on the way out is what
+    settling actually looks like, not a failure to settle.
+    """
+    if len(rounds) < 3:
+        return True
+    return rounds[-1] * 2 <= rounds[0]
+
+
 def cmd_feedback(args: "list[str]") -> None:
     """Mine specs' own changelogs for friction, and raise what crosses a
     threshold as an open question on this project's own meta-spec.
@@ -1319,12 +1354,16 @@ def cmd_feedback(args: "list[str]") -> None:
         return
 
     raised = clean_runs = blocks = verify_fail = verify_pass = 0
+    unsettled = []
     rows = []
     for path in docs:
         lines = path.read_text().split("\n")
         entries = changelog_entries(lines)
         r = sum(1 for e in entries if DRYRUN_RAISED_RE.match(e))
         c = sum(1 for e in entries if DRYRUN_CLEAN_RE.match(e))
+        rounds = dryrun_rounds(entries)
+        if not converging(rounds):
+            unsettled.append((slug_of(path), rounds))
         b = sum(1 for e in entries if BLOCKED_LOG_RE.match(e))
         vp = sum(1 for e in entries if VERIFY_LOG_RE.match(e) and e.endswith("passed"))
         vf = sum(1 for e in entries if VERIFY_LOG_RE.match(e) and e.endswith("failed"))
@@ -1333,14 +1372,16 @@ def cmd_feedback(args: "list[str]") -> None:
 
     print(f"friction report across {len(docs)} spec(s)")
     for slug, r, c, b, still, vf in rows:
-        print(f"  {slug}: dry-run questions={r} clean={c} blocked={b} (open={still}) verify-fail={vf}")
+        shape = "/".join(str(n) for n in dryrun_rounds(changelog_entries(
+            (SPECS / f"{slug}{SPEC_SUFFIX}").read_text().split("\n")))) or "-"
+        print(f"  {slug}: dry-run rounds={shape} clean={c} blocked={b} (open={still}) verify-fail={vf}")
 
     findings = []
-    if clean_runs and raised / clean_runs >= 1.5:
+    for slug, rounds in unsettled:
         findings.append(
-            f"dry runs average {raised / clean_runs:.1f} raised question(s) per clean run "
-            f"across {clean_runs} clean run(s) — Open Questions/Key Decisions may need a "
-            f"stronger prompt in the spec template so they surface before the first dry run")
+            f"'{slug}' rehearsed {len(rounds)} times and the rounds did not shrink "
+            f"({', '.join(str(n) for n in rounds)}) — the walkthrough is not settling, so the "
+            f"spec is being decided during the rehearsal rather than before it")
     total_verified = verify_pass + verify_fail
     if total_verified >= 5 and verify_fail / total_verified >= 0.3:
         findings.append(

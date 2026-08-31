@@ -36,3 +36,6 @@ Built <cadence-program>: a title and a list of entries, each pairing a planned I
 
 ## selection-following-focus
 **Archived:** 2026-08-31 · **discovery** for program-view-a-scrolling-list-instead-of-a-dropdown (OQ-18) · **Commit:** e6a150b005e20ae217d1866a6a5b1386bbb75757 `specs/selection-following-focus.discovery.md`
+
+## rehearsal-yield-as-a-signal
+**Archived:** 2026-08-31 · **discovery** for harness-feedback (OQ-1) · **Commit:** 98f85b97bcce2ec63e850e86bd82476e6d0b0ea3 `specs/rehearsal-yield-as-a-signal.discovery.md`

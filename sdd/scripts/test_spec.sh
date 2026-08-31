@@ -347,15 +347,39 @@ case "$OUT" in *"nothing to raise"*) ok "quiet spec produces no finding";; *) fa
 [ -f "$WORK/proj/sdd/specs/harness-feedback.spec.md" ] && fail "should not create harness-feedback below threshold" \
   || ok "no meta-spec created below threshold"
 
+echo "22b. a rehearsal that converges is not friction"
+$SPEC new "Converging spec" >/dev/null
+for q in a b c d e f; do $SPEC dryrun converging-spec --raised "question $q" >/dev/null; done
+for n in 1 2 3 4 5 6; do $SPEC resolve converging-spec "OQ-$n" "answer $n" >/dev/null; done
+$SPEC dryrun converging-spec --raised 'one the second pass turned up' >/dev/null
+$SPEC dryrun converging-spec --raised 'and another' >/dev/null
+$SPEC resolve converging-spec OQ-7 'answered' >/dev/null
+$SPEC resolve converging-spec OQ-8 'answered' >/dev/null
+# A third round with one straggler left: settled, even though it is not
+# smaller than nothing — the rule asks that it fell to half the first, not
+# that every round beat the one before it.
+$SPEC dryrun converging-spec --raised 'a last straggler' >/dev/null
+$SPEC resolve converging-spec OQ-9 'answered' >/dev/null
+$SPEC dryrun converging-spec --clean 'walked it end to end' >/dev/null \
+  || fail "the clean run should be allowed once every question is answered"
+OUT="$($SPEC feedback converging-spec 2>&1)"
+case "$OUT" in *"rounds=6/2/1"*) ok "the rounds are reported, not an average";; *) fail "expected rounds=6/2/1, got: $OUT";; esac
+case "$OUT" in *"did not shrink"*) fail "6 then 1 converged; it should raise nothing: $OUT";; *) ok "a converging rehearsal raises no finding";; esac
+
 echo "23. repeated dry-run cycles raise a finding on the harness's own meta-spec"
 $SPEC new "Flaky widget" >/dev/null
 $SPEC dryrun flaky-widget --raised 'q1' >/dev/null
 $SPEC resolve flaky-widget OQ-1 'a1' >/dev/null
 $SPEC dryrun flaky-widget --raised 'q2' >/dev/null
 $SPEC resolve flaky-widget OQ-2 'a2' >/dev/null
+# A third round the same size as the two before it: the walkthrough keeps
+# finding as much as last time, which is the shape that is actually friction.
+$SPEC dryrun flaky-widget --raised 'q3' >/dev/null
+$SPEC resolve flaky-widget OQ-3 'a3' >/dev/null
 $SPEC dryrun flaky-widget --clean 'ok' >/dev/null
 OUT="$($SPEC feedback flaky-widget 2>&1)"
 case "$OUT" in *"raised OQ-1 on 'harness-feedback'"*) ok "friction crosses threshold and is raised";; *) fail "expected a finding, got: $OUT";; esac
+case "$OUT" in *"did not shrink (1, 1, 1)"*) ok "the finding names the rounds it saw";; *) fail "expected the rounds in the finding, got: $OUT";; esac
 [ -f "$WORK/proj/sdd/specs/harness-feedback.spec.md" ] && ok "meta-spec created" || fail "meta-spec not created"
 
 echo "24. feedback is idempotent — the same finding is not raised twice"
