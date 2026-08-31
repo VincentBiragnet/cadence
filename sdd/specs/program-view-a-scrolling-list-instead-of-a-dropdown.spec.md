@@ -34,7 +34,7 @@ _Edit via `scripts/spec.py`, never by hand._
 - **OQ-15** IMPL-9 says four existing tests drive the select, but fourteen files hold thirty-four references to cdp-select: what actually happens to them, and does the listbox keep a stable hook that a test can drive the way value and click did
 - **OQ-16** The list is hidden while a session runs and the running clock takes its place, so what becomes of the docked bar during a run: does Start turn into something else, does the bar go with the list, or does Back move into it
 - **OQ-17** KD-4 gives an entry a short label for the list, but a milestone already carries a title of its own from the previous spec: are those the same field, and which one does a milestone's row show
-- **OQ-18** Tapping a row selects it and Start is separate, but with a roving tabindex the arrow keys move focus: does arrowing to a row also select it, or can the focused row and the row Start would run be different ones → discovery:selection-following-focus
+- **OQ-18** ~~Tapping a row selects it and Start is separate, but with a roving tabindex the arrow keys move focus: does arrowing to a row also select it, or can the focused row and the row Start would run be different ones~~ → discovery:selection-following-focus, KD-19, KD-20, KD-21, KD-22
 - **OQ-19** Staleness is computed against today on a page that may sit open for days, so does the view recompute as the day turns, and what makes it notice
 - **OQ-20** The divider marks where today falls, so where does it go when every session is already behind, when every one is still ahead, and when the program has not been anchored and no session has a date at all
 - **OQ-21** The projected finish is the last session's expected date, but the last entry may be a milestone, or dropped, or already done: which entry actually supplies it
@@ -58,6 +58,10 @@ _Edit via `scripts/spec.py`, never by hand._
 - **KD-16** Both: a divider marks where today falls, which anchors the scroll, and each stale row carries its own mark, which survives the divider being off screen (OQ-12)
 - **KD-17** Stale takes the same trailing slot as the other three, which is free because a stale session is by definition neither done nor dropped, and the row's accessible name ends in overdue (OQ-13)
 - **KD-18** A milestone whose date has passed unreached reads as missed rather than overdue, because a date that cannot be caught up is a different fact from a session waiting to be done (OQ-14)
+- **KD-19** Selection follows focus: arrowing to a row makes it the row Start and Drop act on, so what is on screen and what is armed cannot come apart (OQ-18 via discovery:selection-following-focus)
+- **KD-20** Decoupling them was rejected because its safety is theoretical here: the armed row can scroll out of sight, leaving an irreversible confirmation that legitimately names something the user is not looking at, which is a worse failure than an armed target that follows the eye (OQ-18 via discovery:selection-following-focus)
+- **KD-21** The jump to the current step targets the soonest session neither run nor dropped, computed from the program and never read from the selection, which is required whichever way selection behaves (OQ-18 via discovery:selection-following-focus)
+- **KD-22** The drop confirmation leads with the name of what is being dropped, since it is the last thing standing between a slipped press and lost work and it is read in a hurry (OQ-18 via discovery:selection-following-focus)
 
 ## Prior Art
 - **PA-1** Measured on the current build at 390 by 844: the shipped eight-week example fits, but a sixty-session program with a milestone gives a 107-character label, an 843px select and an 851px page that scrolls sideways
@@ -87,6 +91,9 @@ _Edit via `scripts/spec.py`, never by hand._
 - [ ] **VC-7** The view states how many sessions are done out of the total and the date the program is projected to finish, and says the overrun in its place once a milestone is overrun (G-4, KD-7) `npx playwright test tests/view-summary.spec.js`
 - [ ] **VC-8** A session dated before today and neither run nor dropped is marked stale with overdue in its accessible name, a divider sits between the last past row and the first row still ahead, and a milestone whose date passed unreached reads as missed (G-5, KD-15, KD-16, KD-17, KD-18) `npx playwright test tests/view-stale.spec.js`
 - [ ] **VC-9** Start sits in the docked bar and is still reachable with the list scrolled to its end, Drop is reachable only through the More menu, the bar names the session Start would run, and the jump control returns the list to the current step (KD-14) `npx playwright test tests/view-controls.spec.js`
+- [ ] **VC-10** Arrowing onto a row makes it the row Start and Drop act on, and the bar names that row
+- [ ] **VC-11** After browsing away from it, the jump control returns to the soonest session neither run nor dropped, whatever is selected at the time
+- [ ] **VC-12** The drop confirmation opens with the name of the session or milestone being dropped
 
 ## Changelog
 - 2026-08-31: Spec initialized.
@@ -155,3 +162,4 @@ _Edit via `scripts/spec.py`, never by hand._
 - 2026-08-31: OQ-20 raised by dry run
 - 2026-08-31: OQ-21 raised by dry run
 - 2026-08-31: OQ-18 opened discovery:selection-following-focus
+- 2026-08-31: KD-19, KD-20, KD-21, KD-22, VC-10, VC-11, VC-12 applied from discovery:selection-following-focus

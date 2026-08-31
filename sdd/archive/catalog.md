@@ -33,3 +33,6 @@ Built <cadence-program>: a title and a list of entries, each pairing a planned I
 
 ## accessible-listbox-patterns
 **Archived:** 2026-08-31 · **discovery** for program-view-a-scrolling-list-instead-of-a-dropdown (OQ-7) · **Commit:** 593a24ae7bb3d54a486d171e34c4232f270262ca `specs/accessible-listbox-patterns.discovery.md`
+
+## selection-following-focus
+**Archived:** 2026-08-31 · **discovery** for program-view-a-scrolling-list-instead-of-a-dropdown (OQ-18) · **Commit:** e6a150b005e20ae217d1866a6a5b1386bbb75757 `specs/selection-following-focus.discovery.md`
