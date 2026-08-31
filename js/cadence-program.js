@@ -200,9 +200,8 @@ class CadenceProgram extends HTMLElement {
     // page-load configure is not an act of intent, so it still restores what
     // was stored; otherwise reopening the app would wipe your progress.
     if (options.viaLoad) {
-      if (stored && this._isPartRun(stored) && !window.confirm(
-        `Loading "${config.title || 'this program'}" replaces "${stored.title || 'the stored program'}" entirely, including everything already recorded as done. Continue?`
-      )) {
+      if (stored && this._isPartRun(stored)
+          && !window.confirm(this._replaceWarning(config, stored, 'Loading'))) {
         this._config = stored;
       } else {
         this._config = config;
@@ -211,9 +210,7 @@ class CadenceProgram extends HTMLElement {
     } else if (stored && stored.title === config.title) {
       this._config = stored;
     } else if (stored && this._isPartRun(stored)) {
-      const ok = window.confirm(
-        `Starting "${config.title || 'this program'}" replaces "${stored.title || 'the stored program'}", which is part-run. Continue?`
-      );
+      const ok = window.confirm(this._replaceWarning(config, stored, 'Starting'));
       this._config = ok ? config : stored;
       if (ok) this._writeStored();
     } else {
@@ -227,8 +224,26 @@ class CadenceProgram extends HTMLElement {
     this._renderList();
   }
 
+  // KD-24: what is at risk, not merely what has been set. A completed or
+  // dropped session is work. So is the schedule of a program with no
+  // milestone, which was anchored to a day that cannot be worked out again.
+  // A milestone program that has only been anchored risks nothing: its dates
+  // come straight back from the milestone.
+  _recordedWork(config) {
+    return config.entries.some((e) => e.actualDate || e.dropped);
+  }
+
   _isPartRun(config) {
-    return Boolean(config.anchorDate) || config.entries.some((e) => e.actualDate);
+    const recomputable = config.entries.some((e) => e.milestone);
+    return this._recordedWork(config) || (Boolean(config.anchorDate) && !recomputable);
+  }
+
+  // Says what is actually there, rather than always claiming recorded work.
+  _replaceWarning(config, stored, verb) {
+    const what = this._recordedWork(stored)
+      ? 'entirely, including everything already recorded as done'
+      : 'and the schedule it was anchored to';
+    return `${verb} "${config.title || 'this program'}" replaces "${stored.title || 'the stored program'}" ${what}. Continue?`;
   }
 
   _readStored() {

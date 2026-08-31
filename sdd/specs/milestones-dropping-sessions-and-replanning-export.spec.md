@@ -40,6 +40,7 @@ _Edit via `scripts/spec.py`, never by hand._
 - **OQ-20** ~~KD-14 has a milestone program anchor every time it is configured, but recomputing the layout on each page load would wipe the drift that late completions have accumulated and leave the overrun of G-3 permanently reading zero: does anchoring at configure time apply only to a program not yet anchored~~ → KD-21
 - **OQ-21** ~~KD-8 allows a milestone with no sequence, but Start mounts a clock for whatever is selected and throws on one that has nothing to play, so how is a marker milestone recorded as reached~~ → KD-22
 - **OQ-22** ~~Drop is irreversible and sits immediately after Start in the control row and so in the tab order, next to the one control pressed every day: where should an irreversible control sit~~ → KD-23
+- **OQ-23** ~~KD-14 anchors a milestone program when it is configured, so anchorDate exists before anything is run, and the part-run warning treats an anchor as work and claims things are recorded as done when nothing is: what actually counts as work worth warning about~~ → KD-24
 
 ## Key Decisions
 - **KD-1** The shift is allowed to carry sessions past a milestone and the overrun is shown, never compressed away: the overrun is the signal that replanning is needed, and hiding it would restore the dishonesty the milestone exists to remove (OQ-2)
@@ -65,6 +66,7 @@ _Edit via `scripts/spec.py`, never by hand._
 - **KD-21** Anchoring at configure time applies only to a program no entry of which carries a date yet, exactly as launching does: once anchored, the stored dates carry the accumulated drift and are never recomputed, which is what KD-14 meant by never being overridden (OQ-20)
 - **KD-22** Start records a marker milestone as reached there and then, dating it today and announcing it without mounting a clock, since a marker is reached rather than performed (KD-8, KD-15) (OQ-21)
 - **KD-23** Drop sits last in the control row, furthest from Start, so the irreversible control is never the neighbour of the daily one; the confirmation stays the gate but is no longer the only thing between a slipped press and lost work (KD-4) (OQ-22)
+- **KD-24** Work worth warning about is a session completed or dropped, or a schedule that cannot be recomputed, which means an anchor on a program with no milestone; a milestone program that has only been anchored risks nothing, since its dates come back from the milestone, and the warning names what is really at stake rather than always claiming recorded work (OQ-23)
 
 ## Prior Art
 - **PA-1** Field-tested by three simulated users on real programs: a 16-week marathon plan with a fixed race date, a 12-week twice-daily ACL rehab protocol, and a 10-week guitar plan used on a phone across timezones
@@ -82,6 +84,7 @@ _Edit via `scripts/spec.py`, never by hand._
 - [x] **IMPL-8** Make an explicit Load replace the whole stored state after a warning, while a page-load configure still restores what was stored (KD-5)
 - [x] **IMPL-9** Record a marker milestone on Start instead of mounting a sequence, and refuse a session that has no sequence to play (KD-22)
 - [x] **IMPL-10** Move Drop to the end of the control row so it neither neighbours Start nor follows it in the tab order (KD-23)
+- [x] **IMPL-11** Count only completed or dropped sessions, or an anchor on a milestone-free program, as work at risk, and word the replacement warning after what is actually there (KD-24)
 
 ## Verification Criteria
 - [x] **VC-1** A session before a dated milestone completed eighteen days late moves every unrun session after it while the milestone keeps its date exactly (G-1, KD-1) `npx playwright test tests/milestone-pinned.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 2 tests using 1 worker ✓ 1 tests/milestone-pinned.spec.js:20:5 › a session finishe)
@@ -93,6 +96,7 @@ _Edit via `scripts/spec.py`, never by hand._
 - [x] **VC-7** Loading a revised program over one part-run replaces the whole stored state including completion history once the warning is accepted, while reloading the page with no load still restores what was stored (G-6, KD-5) `npx playwright test tests/revision-load.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 3 tests using 1 worker ✓ 1 tests/revision-load.spec.js:49:5 › loading a revision o)
 - [x] **VC-8** Starting a milestone that carries no sequence records it as reached today, announces it, raises no page error and mounts no clock, while an ordinary session with no sequence is refused at configure time (KD-22, KD-8) `npx playwright test tests/milestone-marker.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 3 tests using 1 worker ✓ 1 tests/milestone-marker.spec.js:17:5 › starting a marker)
 - [x] **VC-9** Drop is the last control in the list row and Start is not adjacent to it in DOM order (KD-23) `npx playwright test tests/drop-session.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 4 tests using 1 worker ✓ 1 tests/drop-session.spec.js:29:5 › confirming a drop mar)
+- [x] **VC-10** A freshly configured milestone program that has never been run is replaced without a warning, while one holding a completed or dropped session warns and names what is recorded (KD-24) `npx playwright test tests/schedule-replace-warning.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 5 tests using 1 worker ✓ 1 tests/schedule-replace-warning.spec.js:23:5 › declining)
 
 ## Changelog
 - 2026-08-27: Spec initialized.
@@ -186,4 +190,11 @@ _Edit via `scripts/spec.py`, never by hand._
 - 2026-08-31: IMPL-9, IMPL-10 checked
 - 2026-08-31: VC-8 passed
 - 2026-08-31: VC-9 passed
+- 2026-08-31: Status: In Progress → Done
+- 2026-08-31: OQ-23 added
+- 2026-08-31: KD-24 resolves OQ-23
+- 2026-08-31: IMPL-11 added
+- 2026-08-31: VC-10 added
+- 2026-08-31: IMPL-11 checked
+- 2026-08-31: VC-10 passed
 - 2026-08-31: Status: In Progress → Done

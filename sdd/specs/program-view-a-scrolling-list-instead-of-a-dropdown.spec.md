@@ -22,9 +22,9 @@ _Edit via `scripts/spec.py`, never by hand._
 - **OQ-4** ~~Does tapping a row select it with Start still a separate press, or does tapping run it there and then~~ → KD-3
 - **OQ-5** ~~A 107-character title cannot fit 390px on one line, so is it truncated, wrapped over two lines, or does an entry gain a short label of its own for the list to show~~ → KD-4
 - **OQ-6** ~~Does the list move itself back to the current step after every completion and drop, or only when the view is first opened~~ → KD-6
-- **OQ-7** A native select brings keyboard control and screen reader semantics for nothing, so what replaces them once it is a list of elements → discovery:accessible-listbox-patterns
+- **OQ-7** ~~A native select brings keyboard control and screen reader semantics for nothing, so what replaces them once it is a list of elements~~ → discovery:accessible-listbox-patterns, KD-8, KD-9, KD-10, KD-11, KD-12
 - **OQ-8** Where do Start, Drop, Export and the replanning prompt sit once the list is the tall thing on the page, given a phone shows about one screenful
-- **OQ-9** How do a milestone, a dropped session and a session already done read differently from an ordinary one in a row, without relying on colour alone
+- **OQ-9** ~~How do a milestone, a dropped session and a session already done read differently from an ordinary one in a row, without relying on colour alone~~ → KD-13
 - **OQ-10** ~~Is the projected finish the last session's expected date, and what does it say when a milestone is already overrun~~ → KD-7
 
 ## Key Decisions
@@ -35,6 +35,12 @@ _Edit via `scripts/spec.py`, never by hand._
 - **KD-5** Every row sits in the DOM: 168 rows is nothing for a browser, and virtualising would be measured into existence rather than assumed (OQ-3)
 - **KD-6** The list moves back to the current step after every completion and drop, as well as on opening, since both change which step is current (OQ-6)
 - **KD-7** The projected finish is the last session's expected date, and when a milestone is already overrun the view says the overrun instead, since the finish is not the news at that point (OQ-10)
+- **KD-8** Rows are real focusable elements carrying a roving tabindex rather than aria-activedescendant, because this app is used on a phone first and mobile screen readers ignore aria-activedescendant entirely (OQ-7 via discovery:accessible-listbox-patterns)
+- **KD-9** The list is role=listbox labelled by the program title, each row is role=option, and exactly one row carries aria-selected at a time (OQ-7 via discovery:accessible-listbox-patterns)
+- **KD-10** Arrow keys move between rows and Home and End jump to the first and last, which the pattern asks for on any list past five options (OQ-7 via discovery:accessible-listbox-patterns)
+- **KD-11** Positioning on the current step is done by focusing its row and letting the user agent scroll it into view, rather than by computing a scroll offset, which is the same mechanism assistive technology relies on (OQ-7 via discovery:accessible-listbox-patterns)
+- **KD-12** Typeahead is not provided: the list positions itself on the step you want and the short labels repeat across weeks, so typing a letter would jump between look-alike rows rather than help (OQ-7 via discovery:accessible-listbox-patterns)
+- **KD-13** A small icon at the end of the row marks a milestone, a dropped session and a done one, and the same distinction is carried in the row's accessible name, so it never rests on the icon alone any more than on colour alone (KD-9) (OQ-9)
 
 ## Prior Art
 - **PA-1** Measured on the current build at 390 by 844: the shipped eight-week example fits, but a sixty-session program with a milestone gives a 107-character label, an 843px select and an 851px page that scrolls sideways
@@ -46,7 +52,9 @@ _Edit via `scripts/spec.py`, never by hand._
 _No items yet._
 
 ## Verification Criteria
-_No items yet._
+- [ ] **VC-1** The list exposes role=listbox with every row role=option and exactly one row carrying aria-selected true at any time
+- [ ] **VC-2** In a sixty-session program the arrow keys move the focused row one at a time, Home and End reach the first and last, and each newly focused row is inside the scrolled viewport without any scroll code of our own
+- [ ] **VC-3** Opening the view, and completing or dropping a session, each leave the current step focused and within the visible area of the list
 
 ## Changelog
 - 2026-08-31: Spec initialized.
@@ -78,3 +86,5 @@ _No items yet._
 - 2026-08-31: KD-6 resolves OQ-6
 - 2026-08-31: KD-7 resolves OQ-10
 - 2026-08-31: OQ-7 opened discovery:accessible-listbox-patterns
+- 2026-08-31: KD-8, KD-9, KD-10, KD-11, KD-12, VC-1, VC-2, VC-3 applied from discovery:accessible-listbox-patterns
+- 2026-08-31: KD-13 resolves OQ-9
