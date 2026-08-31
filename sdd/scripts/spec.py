@@ -628,7 +628,7 @@ def cmd_add(args: "list[str]") -> None:
     heading, prefix = section_of(section, path)
     text = clean(" ".join(args[2:]), "item text")
     if command is not None:
-        if prefix != "VC":
+        if prefix not in ("VC", "PC"):
             die("--check belongs on a verification criterion, nothing else")
         if "`" in command:
             die("the check command cannot contain a backtick")
@@ -662,7 +662,7 @@ def cmd_resolve(args: "list[str]") -> None:
     if item.prefix != "OQ":
         die(f"{ident} is not an open question")
 
-    heading, prefix = SECTIONS["decisions"]
+    heading, prefix = section_of("decisions", path)
     new, kd = append_item(old, heading, prefix, f"{decision} ({ident})", step=False)
     item = find_item(new, ident)
     if item.struck:
@@ -683,7 +683,7 @@ def cmd_supersede(args: "list[str]") -> None:
     if item.prefix != "KD":
         die(f"{ident} is not a key decision")
 
-    heading, prefix = SECTIONS["decisions"]
+    heading, prefix = section_of("decisions", path)
     new, kd = append_item(old, heading, prefix, f"{decision} (supersedes {ident})", step=False)
     new = strike(new, find_item(new, ident), f"superseded by {kd}")
     save(path, old, new, f"{kd} supersedes {ident}")

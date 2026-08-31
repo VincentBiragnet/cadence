@@ -134,6 +134,12 @@ check "state of the art"  "$($SPEC add backup-formats state-of-the-art 'pg_dump 
 check "a sub-question"    "$($SPEC add backup-formats questions 'Do we need point-in-time recovery?')"                        "OQ-1"
 check "a proposed decision" "$($SPEC add backup-formats decisions 'Plain SQL dumps — restorable without our code')"           "PD-1"
 check "a proposed criterion" "$($SPEC add backup-formats criteria 'Restore a dump on a clean machine in under an hour')"      "PC-1"
+check "a proposed criterion takes a command too" "$($SPEC add backup-formats criteria 'A dump restores on a clean machine' --check 'bash tests/restore.sh')" "PC-2"
+check "resolve answers a discovery's own question" "$($SPEC resolve backup-formats OQ-1 'No point-in-time recovery — nightly dumps are enough' | head -1)" "PD-2"
+grep -qF -e '**PD-2** No point-in-time recovery' "$DISC" \
+  && ok "the answer is proposed, not decided for the parent" || fail "expected PD-2 in the discovery"
+grep -qF -e '~~Do we need point-in-time recovery?~~ → PD-2' "$DISC" \
+  && ok "and the question it answers is struck" || fail "expected OQ-1 struck, pointing at PD-2"
 OUT="$($SPEC add backup-formats goals 'x' 2>&1)"
 case "$OUT" in *"unknown discovery section"*) ok "spec sections are rejected on a discovery";; *) fail "expected a section error, got: $OUT";; esac
 OUT="$($SPEC discover backup-formats OQ-1 'Deeper' 2>&1)"
@@ -144,6 +150,8 @@ $SPEC apply backup-formats >/dev/null 2>/dev/null \
   && ok "apply exits clean" || fail "apply should succeed and exit 0" 
 grep_ok "the proposal landed as a decision"  '**KD-5** Plain SQL dumps — restorable without our code (OQ-3 via discovery:backup-formats)'
 grep_ok "the criterion landed too"           '**VC-3** Restore a dump on a clean machine in under an hour'
+grep_ok "a criterion keeps its command through apply" '**VC-4** A dump restores on a clean machine `bash tests/restore.sh`'
+grep_ok "the discovery's own answer folded in too"    '**KD-6** No point-in-time recovery'
 grep_ok "the question is resolved, trail intact" '- **OQ-3** ~~Which backup format?~~ → discovery:backup-formats, KD-5'
 [ ! -f "$DISC" ] && ok "the discovery is gone from specs/" || fail "apply should archive the discovery"
 CAT="$WORK/proj/sdd/archive/catalog.md"

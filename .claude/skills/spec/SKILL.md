@@ -124,6 +124,12 @@ A discovery is a scratch workspace. Keep it short and keep it moving — it is n
 
 **A discovery cannot open another discovery.** If answering it needs its own nested investigation, the question is too broad: split it into questions you can actually answer.
 
+**Try the conclusions on three different kinds of user before applying them.** A discovery's proposals are a guess until something has used them. Give each candidate answer to **three subagents playing genuinely different kinds of user** of what is being built — different in what they need from it, not merely in personality — and have each drive something concrete: a prototype, the real artifact, a throwaway build. A description is not enough; they have to be able to hit it.
+
+Ask each for what it observed rather than what it thinks, and for observed and anticipated to be marked apart. Record what comes back as `state-of-the-art` items alongside the published sources, so the record shows what was tried and not only what was concluded. Expect them to disagree: a split is not noise, it says which case each answer actually serves, and the reasons usually matter more than the count.
+
+**Check their claims before believing them.** A reviewer who reports a blocker may have found a flaw in your prototype rather than in the design — and a critique built on that is a fact about the prototype. Reproduce anything that would change the decision, and say plainly when a finding does not survive.
+
 When the user validates the conclusions, `apply <discovery-slug>` does the reintegration mechanically — every live `PD` becomes a `KD` on the parent (resolving the original question, which supports several decisions), every live `PC` becomes a `VC`, and the discovery is archived. Never copy proposals across by hand; that is where findings get dropped. Applying needs at least one proposed decision: if the conclusion is "no change needed", record *that* as a decision first, with its reason.
 
 An applied discovery is gone from the working set and left as a bare line in the catalog — its conclusions live in the parent now, and git still holds the research if the reasoning is ever reopened.

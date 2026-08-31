@@ -128,6 +128,8 @@ Its sections are `questions` (sub-questions raised), `state-of-the-art` (finding
 - **KD-4** Plain SQL dumps — restorable without our code (OQ-3 via discovery:backup-formats)
 ```
 
+Before applying, the proposals get tried on three subagents playing genuinely different kinds of user of the thing being built, each driving something concrete rather than reading a description. What they observe is recorded alongside the published sources, so the discovery says what was tried and not only what was concluded — and a claim that would change the decision is reproduced before it is believed.
+
 No retyping, so nothing is dropped in transcription. **A discovery cannot open another discovery** — if answering it needs a nested investigation, the question is too broad. Once applied it is archived and reduced to a bare catalog line: its conclusions live in the parent now, and git still holds the research in case anyone reopens it.
 
 ## Subspecs, deferring, archiving
