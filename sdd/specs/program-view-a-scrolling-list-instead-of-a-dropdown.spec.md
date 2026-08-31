@@ -1,6 +1,6 @@
 # Spec: Program view: a scrolling list instead of a dropdown
 
-**Status:** In Progress
+**Status:** Done
 **Description:** Program view: a scrolling list instead of a dropdown
 
 _Edit via `scripts/spec.py`, never by hand._
@@ -84,29 +84,29 @@ _Edit via `scripts/spec.py`, never by hand._
 - **PA-5** None of the three prototypes had any notion of a passed date: a grep across all three for today, overdue, stale or late found nothing, and a session missed three weeks ago rendered identically to one three weeks away
 
 ## Implementation Details
-- [ ] **IMPL-1** Replace the select with a listbox: one focusable row per entry, roving tabindex, arrow keys and Home and End, labelled by the program title (KD-8, KD-9, KD-10)
-- [ ] **IMPL-2** Give an entry an optional short label and show it in the row with the entry's date, never the sequence title (KD-4)
-- [ ] **IMPL-3** Mark each row's state with a trailing icon and carry the same word in its accessible name (KD-13, KD-17, KD-18)
-- [ ] **IMPL-4** Compute staleness against today and render the divider between what is behind and what is ahead (KD-15, KD-16)
-- [ ] **IMPL-5** Move the current step into view by focusing its row, on opening and after every completion and drop (KD-6, KD-11)
-- [ ] **IMPL-6** Dock the control bar beneath the list: Start, the line naming what it would run, the jump to the current step, and a More menu holding Drop, Export, the replanning prompt and Load (KD-14)
-- [ ] **IMPL-7** Show how much of the program is done and its projected finish, giving way to the overrun when there is one (KD-7)
-- [ ] **IMPL-8** Constrain the list so a long label cannot widen the page, and cap its width on a desktop viewport (G-1)
-- [ ] **IMPL-9** Rewrite the four existing program tests that drive the select onto the listbox
+- [x] **IMPL-1** Replace the select with a listbox: one focusable row per entry, roving tabindex, arrow keys and Home and End, labelled by the program title (KD-8, KD-9, KD-10)
+- [x] **IMPL-2** Give an entry an optional short label and show it in the row with the entry's date, never the sequence title (KD-4)
+- [x] **IMPL-3** Mark each row's state with a trailing icon and carry the same word in its accessible name (KD-13, KD-17, KD-18)
+- [x] **IMPL-4** Compute staleness against today and render the divider between what is behind and what is ahead (KD-15, KD-16)
+- [x] **IMPL-5** Move the current step into view by focusing its row, on opening and after every completion and drop (KD-6, KD-11)
+- [x] **IMPL-6** Dock the control bar beneath the list: Start, the line naming what it would run, the jump to the current step, and a More menu holding Drop, Export, the replanning prompt and Load (KD-14)
+- [x] **IMPL-7** Show how much of the program is done and its projected finish, giving way to the overrun when there is one (KD-7)
+- [x] **IMPL-8** Constrain the list so a long label cannot widen the page, and cap its width on a desktop viewport (G-1)
+- [x] **IMPL-9** Rewrite the four existing program tests that drive the select onto the listbox
 
 ## Verification Criteria
-- [ ] **VC-1** The list exposes role=listbox with every row role=option and exactly one row carrying aria-selected true at any time
-- [ ] **VC-2** In a sixty-session program the arrow keys move the focused row one at a time, Home and End reach the first and last, and each newly focused row is inside the scrolled viewport without any scroll code of our own
-- [ ] **VC-3** Opening the view, and completing or dropping a session, each leave the current step focused and within the visible area of the list
-- [ ] **VC-4** With sixty sessions whose titles run past a hundred characters, a 390px viewport reports no horizontal overflow and the layout viewport stays 390 (G-1) `npx playwright test tests/view-width.spec.js`
-- [ ] **VC-5** The list holds one row per entry in authored order, the last row is the last entry with nothing after it, and opening the view leaves the current step in view (G-2, KD-2) `npx playwright test tests/view-list.spec.js`
-- [ ] **VC-6** A row shows the entry's short label and its date and never the full sequence title, and its accessible name ends with its state (G-3, KD-4, KD-13) `npx playwright test tests/view-row.spec.js`
-- [ ] **VC-7** The view states how many sessions are done out of the total and the date the program is projected to finish, and says the overrun in its place once a milestone is overrun (G-4, KD-7) `npx playwright test tests/view-summary.spec.js`
-- [ ] **VC-8** A session dated before today and neither run nor dropped is marked stale with overdue in its accessible name, a divider sits between the last past row and the first row still ahead, and a milestone whose date passed unreached reads as missed (G-5, KD-15, KD-16, KD-17, KD-18) `npx playwright test tests/view-stale.spec.js`
-- [ ] **VC-9** Start sits in the docked bar and is still reachable with the list scrolled to its end, Drop is reachable only through the More menu, the bar names the session Start would run, and the jump control returns the list to the current step (KD-14) `npx playwright test tests/view-controls.spec.js`
-- [ ] **VC-10** Arrowing onto a row makes it the row Start and Drop act on, and the bar names that row
-- [ ] **VC-11** After browsing away from it, the jump control returns to the soonest session neither run nor dropped, whatever is selected at the time
-- [ ] **VC-12** The drop confirmation opens with the name of the session or milestone being dropped
+- [x] **VC-1** The list exposes role=listbox with every row role=option and exactly one row carrying aria-selected true at any time → passed 2026-08-31 (attested: tests/view-listbox.spec.js exit 0 —   6 passed (1.8s) (no --check: the criterion arrived through a discovery, which could not carry a command at the time))
+- [x] **VC-2** In a sixty-session program the arrow keys move the focused row one at a time, Home and End reach the first and last, and each newly focused row is inside the scrolled viewport without any scroll code of our own → passed 2026-08-31 (attested: tests/view-listbox.spec.js exit 0 —   6 passed (1.8s) (no --check: the criterion arrived through a discovery, which could not carry a command at the time))
+- [x] **VC-3** Opening the view, and completing or dropping a session, each leave the current step focused and within the visible area of the list → passed 2026-08-31 (attested: tests/view-listbox.spec.js exit 0 —   6 passed (1.8s) (no --check: the criterion arrived through a discovery, which could not carry a command at the time))
+- [x] **VC-4** With sixty sessions whose titles run past a hundred characters, a 390px viewport reports no horizontal overflow and the layout viewport stays 390 (G-1) `npx playwright test tests/view-width.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 2 tests using 1 worker ✓ 1 tests/view-width.spec.js:8:5 › sixty sessions with hund)
+- [x] **VC-5** The list holds one row per entry in authored order, the last row is the last entry with nothing after it, and opening the view leaves the current step in view (G-2, KD-2) `npx playwright test tests/view-list.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 2 tests using 1 worker ✓ 1 tests/view-list.spec.js:7:5 › one row per entry, in aut)
+- [x] **VC-6** A row shows the entry's short label and its date and never the full sequence title, and its accessible name ends with its state (G-3, KD-4, KD-13) `npx playwright test tests/view-row.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 2 tests using 1 worker ✓ 1 tests/view-row.spec.js:8:5 › a row shows the short labe)
+- [x] **VC-7** The view states how many sessions are done out of the total and the date the program is projected to finish, and says the overrun in its place once a milestone is overrun (G-4, KD-7) `npx playwright test tests/view-summary.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 3 tests using 1 worker ✓ 1 tests/view-summary.spec.js:17:5 › it counts what is don)
+- [x] **VC-8** A session dated before today and neither run nor dropped is marked stale with overdue in its accessible name, a divider sits between the last past row and the first row still ahead, and a milestone whose date passed unreached reads as missed (G-5, KD-15, KD-16, KD-17, KD-18) `npx playwright test tests/view-stale.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 4 tests using 1 worker ✓ 1 tests/view-stale.spec.js:25:5 › only a past date that i)
+- [x] **VC-9** Start sits in the docked bar and is still reachable with the list scrolled to its end, Drop is reachable only through the More menu, the bar names the session Start would run, and the jump control returns the list to the current step (KD-14) `npx playwright test tests/view-controls.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 3 tests using 1 worker ✓ 1 tests/view-controls.spec.js:10:5 › Start stays reachabl)
+- [x] **VC-10** Arrowing onto a row makes it the row Start and Drop act on, and the bar names that row → passed 2026-08-31 (attested: tests/view-listbox.spec.js exit 0 —   6 passed (1.8s) (no --check: the criterion arrived through a discovery, which could not carry a command at the time))
+- [x] **VC-11** After browsing away from it, the jump control returns to the soonest session neither run nor dropped, whatever is selected at the time → passed 2026-08-31 (attested: tests/view-listbox.spec.js exit 0 —   6 passed (1.8s) (no --check: the criterion arrived through a discovery, which could not carry a command at the time))
+- [x] **VC-12** The drop confirmation opens with the name of the session or milestone being dropped → passed 2026-08-31 (attested: tests/view-listbox.spec.js exit 0 —   6 passed (1.8s) (no --check: the criterion arrived through a discovery, which could not carry a command at the time))
 
 ## Changelog
 - 2026-08-31: Spec initialized.
@@ -191,3 +191,17 @@ _Edit via `scripts/spec.py`, never by hand._
 - 2026-08-31: KD-32 resolves OQ-24
 - 2026-08-31: dry run clean — Walked IMPL-1 to IMPL-9 through js/cadence-program.js and css/theme.css: the listbox with its roving tabindex and keys, the short label and the date in each row, the state icon and the accessible name, staleness against today with the divider, moving the current step into view by focusing it, the docked bar with Start and the jump and the More menu, the summary header, the width constraints, and the thirty-four call sites in fourteen test files; checked every implementation item's citations against KD-1 to KD-32 including the superseded KD-13, and found IMPL-9's count already corrected by KD-23
 - 2026-08-31: Status: Ready → In Progress
+- 2026-08-31: IMPL-1, IMPL-2, IMPL-3, IMPL-4, IMPL-5, IMPL-6, IMPL-7, IMPL-8, IMPL-9 checked
+- 2026-08-31: VC-4 passed
+- 2026-08-31: VC-5 passed
+- 2026-08-31: VC-6 passed
+- 2026-08-31: VC-7 passed
+- 2026-08-31: VC-8 passed
+- 2026-08-31: VC-9 passed
+- 2026-08-31: VC-1 passed
+- 2026-08-31: VC-2 passed
+- 2026-08-31: VC-3 passed
+- 2026-08-31: VC-10 passed
+- 2026-08-31: VC-11 passed
+- 2026-08-31: VC-12 passed
+- 2026-08-31: Status: In Progress → Done

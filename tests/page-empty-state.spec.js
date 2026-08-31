@@ -62,3 +62,40 @@ test('the example button loads a program without a file', async ({ page }) => {
   expect(s.emptyShown).toBe(false);
   expect(s.rows).toBeGreaterThan(20);
 });
+
+// VC-5, VC-6 — the empty state explains itself in plain English before any
+// schema, and index.html is the app rather than a demo of it (G-2, G-5).
+test('the empty state explains what a program is before the contract starts', async ({ page }) => {
+  await page.goto('/index.html');
+  await page.evaluate(() => localStorage.clear());
+  await page.reload();
+
+  const s = await page.evaluate(() => {
+    const intro = document.querySelector('#empty .intro');
+    const contract = document.getElementById('format');
+    return {
+      intro: intro.textContent.replace(/\s+/g, ' ').trim(),
+      introBeforeContract: Boolean(intro.compareDocumentPosition(contract) & Node.DOCUMENT_POSITION_FOLLOWING),
+      introTop: Math.round(intro.getBoundingClientRect().top),
+      contractTop: Math.round(contract.getBoundingClientRect().top),
+    };
+  });
+
+  expect(s.intro).toContain('A program is a JSON file');
+  expect(s.intro).toContain('week');
+  expect(s.intro.length).toBeLessThan(260);      // one sentence, not a manual
+  expect(s.introBeforeContract).toBe(true);
+  expect(s.introTop).toBeLessThan(s.contractTop);
+});
+
+test('the page configures no program of its own on load', async ({ page }) => {
+  await page.goto('/index.html');
+  await page.evaluate(() => localStorage.clear());
+  await page.reload();
+  const s = await page.evaluate(() => ({
+    config: document.getElementById('program').config,
+    stored: localStorage.getItem('cadence-program'),
+  }));
+  expect(s.config).toBeNull();     // nothing was handed to it
+  expect(s.stored).toBeNull();     // and nothing was written behind our back
+});

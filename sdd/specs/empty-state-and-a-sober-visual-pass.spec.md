@@ -52,6 +52,8 @@ _Edit via `scripts/spec.py`, never by hand._
 - [x] **VC-2** The JSON example printed in the contract is parsed and configured through the real component without error, so the page cannot document a shape the validator rejects (G-3, KD-3) `npx playwright test tests/page-contract.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 2 tests using 1 worker ✓ 1 tests/page-contract.spec.js:9:5 › the example the page )
 - [x] **VC-3** The whole contract is present in the page's visible text rather than only in its markup, and no part of it sits inside a closed disclosure (G-3, KD-2) `npx playwright test tests/page-contract.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 2 tests using 1 worker ✓ 1 tests/page-contract.spec.js:9:5 › the example the page )
 - [x] **VC-4** At 390 by 844 the page never scrolls sideways in either state, the load control is reachable without scrolling, and no line of the example is cut off (G-4, KD-2) `npx playwright test tests/page-layout.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 2 tests using 1 worker ✓ 1 tests/page-layout.spec.js:17:5 › the empty page never s)
+- [x] **VC-5** The empty state carries a plain-English sentence saying what a program is, before any of the contract, so a first visit explains itself without the schema (G-2) `npx playwright test tests/page-empty-state.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 5 tests using 1 worker ✓ 1 tests/page-empty-state.spec.js:9:5 › an empty store giv)
+- [x] **VC-6** index.html is the app rather than a demo of it: it configures no program on load, and the page the tests exercise is the same file a visitor opens (G-5) `npx playwright test tests/page-empty-state.spec.js` → passed 2026-08-31 (ran: exit 0 — Running 5 tests using 1 worker ✓ 1 tests/page-empty-state.spec.js:9:5 › an empty store giv)
 
 ## Changelog
 - 2026-08-31: Spec initialized.
@@ -97,4 +99,9 @@ _Edit via `scripts/spec.py`, never by hand._
 - 2026-08-31: VC-2 passed
 - 2026-08-31: VC-3 passed
 - 2026-08-31: VC-4 passed
+- 2026-08-31: Status: In Progress → Done
+- 2026-08-31: VC-5 added
+- 2026-08-31: VC-6 added
+- 2026-08-31: VC-5 passed
+- 2026-08-31: VC-6 passed
 - 2026-08-31: Status: In Progress → Done
