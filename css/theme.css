@@ -294,6 +294,15 @@ cadence-program {
   border-bottom: 1px solid var(--cdc-color-progress);
 }
 
+/* A load that failed, or a program that is not being saved. It has to be
+   seen as well as heard, so it sits where the program does. */
+.cdp-problem {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cdc-color-progress);
+  padding: var(--cdc-space-1) 0;
+}
+
 .cdp-bar { display: flex; flex-direction: column; gap: var(--cdc-space-1); padding-top: var(--cdc-space-2); }
 .cdp-next { font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .cdp-actions { display: flex; gap: var(--cdc-space-2); align-items: center; }

@@ -65,6 +65,52 @@ function cdpToday() {
   return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
 }
 
+// KD-7: the one place a program's text becomes markup. A program file is
+// shared between people — a coach sends one, a model writes one — so its
+// text is untrusted, and a label carrying an <img onerror> would otherwise
+// run in the reader's page.
+function cdpEscape(text) {
+  return String(text).replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+  }[c]));
+}
+
+// A real day, not merely four digits and two pairs: 2026-02-30 passes a
+// regex and normalises to March, so the date on screen would disagree with
+// the schedule it drives.
+function cdpIsRealDate(value) {
+  if (!CDP_DATE.test(value)) return false;
+  const [y, m, d] = value.split("-").map(Number);
+  const at = new Date(Date.UTC(y, m - 1, d));
+  return at.getUTCFullYear() === y && at.getUTCMonth() === m - 1 && at.getUTCDate() === d;
+}
+
+// Ten years of program. Past this a week produces a date the browser cannot
+// represent, which used to be stored and shown as the string NaN-NaN-NaN.
+const CDP_MAX_WEEK = 520;
+
+function cdpValidateSequence(sequence, where) {
+  if (!sequence || !Array.isArray(sequence.blocks) || sequence.blocks.length === 0) {
+    throw new Error(`cadence-program: ${where} needs a sequence with at least one block`);
+  }
+  sequence.blocks.forEach((block, b) => {
+    if (!Number.isInteger(block.repetitions) || block.repetitions < 1) {
+      throw new Error(`cadence-program: ${where}, block ${b} needs repetitions of 1 or more`);
+    }
+    if (!Array.isArray(block.steps) || block.steps.length === 0) {
+      throw new Error(`cadence-program: ${where}, block ${b} needs at least one step`);
+    }
+    block.steps.forEach((step, i) => {
+      if (typeof step.durationSeconds !== "number" || !Number.isFinite(step.durationSeconds)
+          || step.durationSeconds <= 0) {
+        throw new Error(
+          `cadence-program: ${where}, block ${b} step ${i} needs a durationSeconds `
+          + "that is a positive number of seconds");
+      }
+    });
+  });
+}
+
 class CadenceProgram extends HTMLElement {
   constructor() {
     super();
@@ -108,6 +154,7 @@ class CadenceProgram extends HTMLElement {
       <div class="cdp-run" hidden>
         <button type="button" class="cdp-back">Back</button>
       </div>
+      <div class="cdp-problem" hidden></div>
       <div class="cdp-live" aria-live="polite"></div>
     `;
     this._titleEl = this.querySelector('.cdp-title');
@@ -126,6 +173,7 @@ class CadenceProgram extends HTMLElement {
     this._loadEl = this.querySelector('.cdp-load');
     this._runEl = this.querySelector('.cdp-run');
     this._backEl = this.querySelector('.cdp-back');
+    this._problemEl = this.querySelector('.cdp-problem');
     this._liveEl = this.querySelector('.cdp-live');
     this._selected = 0;
     this._everSelected = false;
@@ -202,8 +250,9 @@ class CadenceProgram extends HTMLElement {
       if (e.plannedDatetime !== undefined) {
         throw new Error(`cadence-program: entry ${i} carries plannedDatetime; use week and day instead`);
       }
-      if (!Number.isInteger(e.week) || e.week < 1) {
-        throw new Error(`cadence-program: entry ${i} needs an integer week of 1 or more`);
+      if (!Number.isInteger(e.week) || e.week < 1 || e.week > CDP_MAX_WEEK) {
+        throw new Error(
+          `cadence-program: entry ${i} needs an integer week from 1 to ${CDP_MAX_WEEK}`);
       }
       if (!Number.isInteger(e.day) || e.day < 1 || e.day > 7) {
         throw new Error(`cadence-program: entry ${i} needs a day from 1 (Monday) to 7 (Sunday)`);
@@ -212,8 +261,9 @@ class CadenceProgram extends HTMLElement {
       // nothing to pin and it is simply a session. KD-13: it carries its own
       // title, since a marker milestone has no sequence to take one from.
       if (e.milestone) {
-        if (!CDP_DATE.test(e.date || '')) {
-          throw new Error(`cadence-program: entry ${i} is a milestone and needs a date of the form YYYY-MM-DD`);
+        if (!cdpIsRealDate(e.date || '')) {
+          throw new Error(
+            `cadence-program: entry ${i} is a milestone and needs a real date of the form YYYY-MM-DD`);
         }
         if (!e.title && !(e.sequence && e.sequence.title)) {
           throw new Error(`cadence-program: entry ${i} is a milestone and needs a title`);
@@ -225,6 +275,9 @@ class CadenceProgram extends HTMLElement {
         // with no sequence would hide a broken program until it was started.
         throw new Error(`cadence-program: entry ${i} needs a sequence to run`);
       }
+      // KD-2: whatever it can run, it has to be able to run. Accepting this
+      // and dying at the press of Start leaves the list gone and no way back.
+      if (e.sequence) cdpValidateSequence(e.sequence, `entry ${i}`);
     });
   }
 
@@ -321,8 +374,19 @@ class CadenceProgram extends HTMLElement {
   _writeStored() {
     try {
       window.localStorage.setItem(CDP_STORAGE_KEY, JSON.stringify(this._config));
+      if (this._unsaved) {
+        this._unsaved = false;
+        this._problemEl.hidden = true;
+      }
     } catch (err) {
-      /* storage full or blocked — the run itself still works */
+      // KD-4: the run still works, so it carries on — but silence here loses
+      // the whole program at the next reload, with no warning at either end.
+      this._unsaved = true;
+      this._problemEl.textContent =
+        'This program is not being saved — storage is full or blocked. It will be lost when the page is closed.';
+      this._problemEl.hidden = false;
+      this._announce('This program is not being saved. It will be lost when the page is closed.');
+      this.dispatchEvent(new CustomEvent('cadence:notSaved', { bubbles: true }));
     }
   }
 
@@ -451,12 +515,12 @@ class CadenceProgram extends HTMLElement {
     const divider = this._dividerIndex();
     const rows = this._config.entries.map((e, i) => {
       const state = this._state(e);
-      const name = `${this._lead(e)}, ${this._title(e)}${state.word ? `, ${state.word}` : ''}`;
+      const name = cdpEscape(`${this._lead(e)}, ${this._title(e)}${state.word ? `, ${state.word}` : ''}`);
       const today = i === divider ? ' cdp-today' : '';
       return `<li class="cdp-row ${state.cls}${today}" role="option" id="${this._rowId(i)}"
-          tabindex="-1" aria-selected="false" aria-label="${name.replace(/"/g, '&quot;')}">
-          <span class="cdp-row-main"><span class="cdp-row-lead">${this._lead(e)}</span>
-          <span class="cdp-row-label">${this._title(e)}</span></span>
+          tabindex="-1" aria-selected="false" aria-label="${name}">
+          <span class="cdp-row-main"><span class="cdp-row-lead">${cdpEscape(this._lead(e))}</span>
+          <span class="cdp-row-label">${cdpEscape(this._title(e))}</span></span>
           <span class="cdp-row-icon" aria-hidden="true">${state.icon}</span></li>`;
     }).join('');
     this._listEl.innerHTML = rows;
@@ -530,6 +594,17 @@ class CadenceProgram extends HTMLElement {
   // KD-2: after a view is swapped, focus belongs on the step that is now
   // current — where the listbox pattern expects it and where the next arrow
   // key does something useful.
+  // KD-1: said where it can be heard and where it can be seen. The program
+  // that was already loaded is left exactly as it was.
+  _reportLoadFailure(message) {
+    this._problemEl.textContent = `That file was not loaded: ${message}`;
+    this._problemEl.hidden = false;
+    this._announce(`That file was not loaded. ${message}`);
+    this.dispatchEvent(new CustomEvent('cadence:programRejected', {
+      bubbles: true, detail: { message },
+    }));
+  }
+
   _focusCurrent() {
     this._rows()[this._selected]?.focus();
   }
@@ -762,9 +837,26 @@ Answer with a single JSON object and nothing else — no commentary, no code fen
     if (!file) return;
     const reader = new FileReader();
     reader.onload = () => {
-      this.configure(JSON.parse(reader.result), { viaLoad: true });
+      // Two ways this fails: the file is not JSON, or it is JSON that is not
+      // a program. Both used to be an uncaught error and a Load button that
+      // appeared to do nothing (KD-1).
+      let parsed;
+      try {
+        parsed = JSON.parse(reader.result);
+      } catch (err) {
+        this._reportLoadFailure(`${file.name} is not valid JSON — ${err.message}`);
+        return;
+      }
+      try {
+        this.configure(parsed, { viaLoad: true });
+      } catch (err) {
+        this._reportLoadFailure(err.message.replace(/^cadence-program: /, ''));
+        return;
+      }
+      this._problemEl.hidden = true;
       this.dispatchEvent(new CustomEvent('cadence:programLoaded', { bubbles: true }));
     };
+    reader.onerror = () => this._reportLoadFailure(`${file.name} could not be read`);
     reader.readAsText(file);
     this._loadEl.value = ''; // so selecting the same file again still fires change
   }

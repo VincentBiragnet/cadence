@@ -180,6 +180,20 @@ sessions with its phase reviews as milestones.
 week, work and rest intervals progressing from week 1 to week 8 — and it is
 what `index.html` runs.
 
+## A program file is untrusted
+
+Programs get shared — a coach sends one, a model writes one, someone downloads
+one. So a file is validated the moment it is loaded rather than at the press of
+Start, and its text is escaped before it reaches the page. An adversarial review
+demonstrated both mattered: a label carrying `<img src=x onerror=…>` ran, and a
+step with a string duration was accepted and then threw mid-session, leaving the
+list gone and no way back.
+
+A file that will not parse, or that parses into something unrunnable, says so
+and leaves the program you already had exactly as it was. A write that storage
+refuses is reported rather than swallowed — the run carries on, but the app no
+longer shows you a program it has quietly failed to keep.
+
 ## The page
 
 `index.html` is the app. It opens on whatever program is stored, and on

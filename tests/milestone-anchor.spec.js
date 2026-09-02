@@ -66,7 +66,7 @@ test('a milestone without a date, and a date on something that is not a mileston
       untitled: attempt({ week: 1, day: 1, milestone: true, date: '2026-09-27' }),
     };
   });
-  expect(messages.undated).toContain('needs a date');
+  expect(messages.undated).toContain('needs a real date');
   expect(messages.datedSession).toContain('not a milestone');
   expect(messages.untitled).toContain('needs a title');
 });

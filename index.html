@@ -67,9 +67,12 @@
         <dt>sequence</dt>
         <dd>what actually runs: <code>title</code> and <code>blocks</code>. Each block has
           <code>repetitions</code> and <code>steps</code>; each step has a <code>label</code>,
-          a <code>durationSeconds</code> (fractions allowed), and optionally
-          <code>startFrequency</code> and <code>endFrequency</code> in hertz, which beep at the
-          two ends of the step.</dd>
+          a <code>durationSeconds</code>, and optionally <code>startFrequency</code> and
+          <code>endFrequency</code> in hertz, which beep at the two ends of the step.
+          <code>durationSeconds</code> is required on every step and must be a positive
+          number of seconds — fractions are allowed, but a missing, zero, negative, infinite
+          or non-numeric duration is refused, as is a block with no steps or with
+          <code>repetitions</code> below 1. <code>week</code> must be between 1 and 520.</dd>
 
         <dt>milestone</dt>
         <dd>a fixed point, such as a race or a review: <code>"milestone": true</code> with a
