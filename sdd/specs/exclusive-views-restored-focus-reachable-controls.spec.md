@@ -1,16 +1,16 @@
 # Spec: Exclusive views, restored focus, reachable controls
 
-**Status:** Draft
+**Status:** Done
 **Description:** Exclusive views, restored focus, reachable controls
 
 _Edit via `scripts/spec.py`, never by hand._
 
 ## Goals
-- **G-1** A view marked hidden is actually gone: not laid out, not in the accessibility tree, and not offering buttons to press
-- **G-2** Focus lands somewhere meaningful when a session starts, ends or is abandoned, rather than staying on a control that has just gone
-- **G-3** The controls a person presses one-handed mid-session are at least 44 by 44
-- **G-4** The list contains only options, so the divider stops being a child the listbox role does not allow
-- **G-5** The More menu closes on Escape and on a press outside it, returning focus to the control that opened it
+- **G-1** ~~A view marked hidden is actually gone: not laid out, not in the accessibility tree, and not offering buttons to press~~ → duplicate of exclusive-views-restored-focus-and-reachable-controls, created twice when a turn was interrupted; the work happened on that one
+- **G-2** ~~Focus lands somewhere meaningful when a session starts, ends or is abandoned, rather than staying on a control that has just gone~~ → duplicate of exclusive-views-restored-focus-and-reachable-controls, created twice when a turn was interrupted; the work happened on that one
+- **G-3** ~~The controls a person presses one-handed mid-session are at least 44 by 44~~ → duplicate of exclusive-views-restored-focus-and-reachable-controls, created twice when a turn was interrupted; the work happened on that one
+- **G-4** ~~The list contains only options, so the divider stops being a child the listbox role does not allow~~ → duplicate of exclusive-views-restored-focus-and-reachable-controls, created twice when a turn was interrupted; the work happened on that one
+- **G-5** ~~The More menu closes on Escape and on a press outside it, returning focus to the control that opened it~~ → duplicate of exclusive-views-restored-focus-and-reachable-controls, created twice when a turn was interrupted; the work happened on that one
 
 ## Non-Goals
 _No items yet._
@@ -54,3 +54,9 @@ _No items yet._
 - 2026-08-31: KD-2 resolves OQ-2
 - 2026-08-31: OQ-3 added
 - 2026-08-31: KD-3 resolves OQ-3
+- 2026-09-02: G-1 struck
+- 2026-09-02: G-2 struck
+- 2026-09-02: G-3 struck
+- 2026-09-02: G-4 struck
+- 2026-09-02: G-5 struck
+- 2026-09-02: Status: Draft → Done
