@@ -21,11 +21,18 @@
 // cadence-clock.js to already be loaded (it registers <cadence-clock>).
 
 function formatTime(seconds) {
-  // m:ss always, no leading zero on minutes (KD-17, same as cadence-clock).
+  // Under an hour, m:ss with no leading zero on the minutes — which is almost
+  // every session, and the shorter form is the better one for them. From an
+  // hour, h:mm:ss with the minutes padded: once a field leads, an unpadded
+  // minute reads as the wrong number (KD-1, the same rule as cadence-clock). This supersedes the archived
+  // clock-and-clock-configuration spec's KD-17, which said m:ss always and
+  // rendered a 3h38m effort as 218:00.
   const total = Math.max(0, Math.round(seconds));
-  const m = Math.floor(total / 60);
+  const h = Math.floor(total / 3600);
+  const m = Math.floor((total % 3600) / 60);
   const s = total % 60;
-  return `${m}:${String(s).padStart(2, '0')}`;
+  const ss = String(s).padStart(2, '0');
+  return h > 0 ? `${h}:${String(m).padStart(2, '0')}:${ss}` : `${m}:${ss}`;
 }
 
 // Every (block, repetition, step) in play order, each carrying its own

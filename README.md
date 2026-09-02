@@ -51,7 +51,8 @@ The base primitive: a single countdown with an optional beep at each end.
 ```
 
 Renders inline — a chrono (click the time or call `.toggleMode()` to
-switch elapsed/remaining) alongside a bar that fills over the duration —
+switch elapsed/remaining, shown as `m:ss` and as `h:mm:ss` from an hour)
+alongside a bar that fills over the duration —
 auto-starts the instant `configure()` is called, and signals its
 lifecycle as `cadence:start` / `cadence:beep` / `cadence:complete`
 CustomEvents on itself.
