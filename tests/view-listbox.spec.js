@@ -25,7 +25,7 @@ test('a listbox of options, with exactly one selected at any time', async ({ pag
       rows: prog.querySelectorAll('.cdp-row').length,
       before,
       after: prog.querySelectorAll('[aria-selected="true"]').length,
-      dividerHidden: [...prog.querySelectorAll('.cdp-divider')].every((d) => d.getAttribute('aria-hidden') === 'true'),
+      nonOptionChildren: [...list.children].filter((el) => el.getAttribute('role') !== 'option').length,
     };
   }, longTitled());
 
@@ -34,7 +34,7 @@ test('a listbox of options, with exactly one selected at any time', async ({ pag
   expect(s.options).toBe(s.rows);
   expect(s.before).toBe(1);
   expect(s.after).toBe(1);
-  expect(s.dividerHidden).toBe(true);
+  expect(s.nonOptionChildren).toBe(0);   // a listbox owns options and nothing else
 });
 
 // VC-2 — the keys, and the browser doing the scrolling.

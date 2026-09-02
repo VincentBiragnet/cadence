@@ -74,6 +74,11 @@ class CadenceProgram extends HTMLElement {
 
   connectedCallback() {
     if (!this._titleEl) this._render();
+    if (this._onDocumentPress) document.addEventListener('click', this._onDocumentPress);
+  }
+
+  disconnectedCallback() {
+    if (this._onDocumentPress) document.removeEventListener('click', this._onDocumentPress);
   }
 
   _render() {
@@ -82,6 +87,7 @@ class CadenceProgram extends HTMLElement {
       <div class="cdp-view">
         <div class="cdp-summary"></div>
         <ul class="cdp-list" role="listbox" tabindex="-1"></ul>
+        <div class="cdp-divider cdp-today-after" hidden>Today</div>
         <div class="cdp-bar">
           <div class="cdp-next"></div>
           <div class="cdp-actions">
@@ -108,6 +114,7 @@ class CadenceProgram extends HTMLElement {
     this._viewEl = this.querySelector('.cdp-view');
     this._summaryEl = this.querySelector('.cdp-summary');
     this._listEl = this.querySelector('.cdp-list');
+    this._todayEl = this.querySelector('.cdp-today-after');
     this._nextEl = this.querySelector('.cdp-next');
     this._jumpEl = this.querySelector('.cdp-jump');
     this._startEl = this.querySelector('.cdp-start');
@@ -130,6 +137,18 @@ class CadenceProgram extends HTMLElement {
     });
     this._jumpEl.addEventListener('click', () => this._select(this._suggestedIndex(), true));
     this._moreEl.addEventListener('click', () => this._toggleMenu());
+    this._popEl.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      this._toggleMenu(false);
+      this._moreEl.focus();
+    });
+    // A menu closes when you press away from it. Listening on the document is
+    // the only way to hear a press that never reaches this element.
+    this._onDocumentPress = (e) => {
+      if (this._popEl.hidden || this._popEl.contains(e.target) || e.target === this._moreEl) return;
+      this._toggleMenu(false);
+    };
+    document.addEventListener('click', this._onDocumentPress);
     this._startEl.addEventListener('click', () => this._launch());
     this._backEl.addEventListener('click', () => this._abandon());
     this._dropEl.addEventListener('click', () => { this._toggleMenu(false); this._drop(); });
@@ -433,15 +452,17 @@ class CadenceProgram extends HTMLElement {
     const rows = this._config.entries.map((e, i) => {
       const state = this._state(e);
       const name = `${this._lead(e)}, ${this._title(e)}${state.word ? `, ${state.word}` : ''}`;
-      const before = i === divider ? '<li class="cdp-divider" role="presentation" aria-hidden="true">Today</li>' : '';
-      return `${before}<li class="cdp-row ${state.cls}" role="option" id="${this._rowId(i)}"
+      const today = i === divider ? ' cdp-today' : '';
+      return `<li class="cdp-row ${state.cls}${today}" role="option" id="${this._rowId(i)}"
           tabindex="-1" aria-selected="false" aria-label="${name.replace(/"/g, '&quot;')}">
           <span class="cdp-row-main"><span class="cdp-row-lead">${this._lead(e)}</span>
           <span class="cdp-row-label">${this._title(e)}</span></span>
           <span class="cdp-row-icon" aria-hidden="true">${state.icon}</span></li>`;
     }).join('');
-    this._listEl.innerHTML = rows
-      + (divider === this._config.entries.length ? '<li class="cdp-divider" role="presentation" aria-hidden="true">Today</li>' : '');
+    this._listEl.innerHTML = rows;
+    // Today past every row: nothing follows it to carry the mark, so it goes
+    // after the list rather than inside it, where it would not be an option.
+    this._todayEl.hidden = divider !== this._config.entries.length;
     this._listEl.setAttribute('aria-label', this._config.title || 'Program');
 
     // Opening the view lands on the current step (KD-1); after that the
@@ -506,6 +527,13 @@ class CadenceProgram extends HTMLElement {
     this._select(moves[event.key], true);
   }
 
+  // KD-2: after a view is swapped, focus belongs on the step that is now
+  // current — where the listbox pattern expects it and where the next arrow
+  // key does something useful.
+  _focusCurrent() {
+    this._rows()[this._selected]?.focus();
+  }
+
   _toggleMenu(force) {
     const open = force === undefined ? this._popEl.hidden : force;
     this._popEl.hidden = !open;
@@ -554,6 +582,8 @@ class CadenceProgram extends HTMLElement {
     this._runningSeq.addEventListener('cadence:complete', () => this._onComplete(entry));
     this._runEl.appendChild(this._runningSeq);
     this._runningSeq.configure(entry.sequence);
+    // KD-2: the gesture that begins the work should be under the finger.
+    this._runningSeq.querySelector('.cds-start')?.focus();
     this._announce(`Started ${entry.sequence.title || 'session'}`);
   }
 
@@ -564,6 +594,7 @@ class CadenceProgram extends HTMLElement {
     this._teardownRun();
     this._viewEl.hidden = false;
     this._renderList();
+    this._focusCurrent();
   }
 
   // KD-4, KD-9: the entry ran today, and the rest of the program slides by
@@ -601,6 +632,7 @@ class CadenceProgram extends HTMLElement {
     this._teardownRun();
     this._viewEl.hidden = false;
     this._renderList();
+    this._focusCurrent();
     this._announce(`Completed ${entry.sequence.title || 'session'}`);
     this.dispatchEvent(new CustomEvent('cadence:entryComplete', { detail: { entry } }));
   }
@@ -612,6 +644,7 @@ class CadenceProgram extends HTMLElement {
     entry.actualDate = cdpToday();
     this._writeStored();
     this._renderList();
+    this._focusCurrent();
     this._announce(`Reached ${this._title(entry)}`);
     this.dispatchEvent(new CustomEvent('cadence:entryComplete', { detail: { entry } }));
   }
@@ -632,6 +665,7 @@ class CadenceProgram extends HTMLElement {
     entry.dropped = true;
     this._writeStored();
     this._renderList();
+    this._focusCurrent();
     this._announce(`Dropped ${this._title(entry)}`);
   }
 

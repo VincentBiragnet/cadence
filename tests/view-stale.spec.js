@@ -50,11 +50,13 @@ test('the divider falls between what is behind and what is still ahead', async (
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p);
+    // The marker rides on the first row still ahead (KD-3), so the list is
+    // all options and the boundary is a class rather than an element.
     return [...prog.querySelector('.cdp-list').children].map((el) =>
-      el.classList.contains('cdp-divider') ? 'TODAY' : el.querySelector('.cdp-row-label').textContent.trim());
+      (el.classList.contains('cdp-today') ? 'TODAY:' : '') + el.querySelector('.cdp-row-label').textContent.trim());
   }, anchored);
 
-  expect(order).toEqual(['Behind, unrun', 'Behind, done', 'Behind, dropped', 'TODAY', 'Due today', 'Ahead']);
+  expect(order).toEqual(['Behind, unrun', 'Behind, done', 'Behind, dropped', 'TODAY:Due today', 'Ahead']);
 });
 
 test('everything behind puts the divider at the end; nothing dated shows none at all', async ({ page }) => {
@@ -64,7 +66,7 @@ test('everything behind puts the divider at the end; nothing dated shows none at
     const past = document.createElement('cadence-program');
     document.body.appendChild(past);
     past.configure(p);
-    const children = [...past.querySelector('.cdp-list').children];
+    const marked = past.querySelectorAll('.cdp-row.cdp-today').length;
 
     localStorage.clear();
     const undated = document.createElement('cadence-program');
@@ -72,13 +74,17 @@ test('everything behind puts the divider at the end; nothing dated shows none at
     undated.configure({ title: 'No dates', entries: p.entries.map(({ week, day, label, sequence }) => ({ week, day, label, sequence })) });
 
     return {
-      dividerLast: children[children.length - 1].classList.contains('cdp-divider'),
-      undatedDividers: undated.querySelectorAll('.cdp-divider').length,
+      markedRows: marked,                                    // nothing follows today
+      trailingShown: !past.querySelector('.cdp-today-after').hidden,
+      undatedTrailing: !undated.querySelector('.cdp-today-after').hidden,
+      undatedMarked: undated.querySelectorAll('.cdp-row.cdp-today').length,
     };
   }, anchored);
 
-  expect(s.dividerLast).toBe(true);
-  expect(s.undatedDividers).toBe(0);   // KD-27: no today to mark
+  expect(s.markedRows).toBe(0);        // no row is still ahead to carry it
+  expect(s.trailingShown).toBe(true);  // so the marker sits after the list
+  expect(s.undatedTrailing).toBe(false);
+  expect(s.undatedMarked).toBe(0);     // KD-27: no today to mark
 });
 
 test('a milestone whose date passed unreached reads as missed, not overdue', async ({ page }) => {

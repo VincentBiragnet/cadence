@@ -12,16 +12,19 @@ test('an empty store gives an empty page: the load control, no program', async (
   await page.reload();
 
   const s = await page.evaluate(() => ({
-    emptyShown: !document.getElementById('empty').hidden,
-    programShown: !document.getElementById('program').hidden,
+    emptyShown: document.getElementById('empty').checkVisibility(),
+    programShown: document.getElementById('program').checkVisibility(),
+    liveControls: [...document.querySelectorAll('#program button')]
+      .filter((b) => b.getBoundingClientRect().height > 0).length,
     rows: document.querySelectorAll('#program .cdp-row').length,
     loadVisible: document.getElementById('load').getBoundingClientRect().height > 0,
     contractPresent: Boolean(document.getElementById('format')),
-    formatLinkShown: !document.getElementById('format-link').hidden,
+    formatLinkShown: document.getElementById('format-link').checkVisibility(),
   }));
 
   expect(s.emptyShown).toBe(true);
   expect(s.programShown).toBe(false);
+  expect(s.liveControls).toBe(0);  // and no ghost buttons rendered under it
   expect(s.rows).toBe(0);          // nothing is configured behind the scenes
   expect(s.loadVisible).toBe(true);
   expect(s.contractPresent).toBe(true);
@@ -37,10 +40,12 @@ test('a stored program opens on itself, with the empty state gone', async ({ pag
   await page.reload();
 
   const s = await page.evaluate(() => ({
-    emptyShown: !document.getElementById('empty').hidden,
-    programShown: !document.getElementById('program').hidden,
+    emptyShown: document.getElementById('empty').checkVisibility(),
+    programShown: document.getElementById('program').checkVisibility(),
+    liveControls: [...document.querySelectorAll('#program button')]
+      .filter((b) => b.getBoundingClientRect().height > 0).length,
     rows: document.querySelectorAll('#program .cdp-row').length,
-    formatLinkShown: !document.getElementById('format-link').hidden,
+    formatLinkShown: document.getElementById('format-link').checkVisibility(),
   }));
 
   expect(s.emptyShown).toBe(false);
@@ -56,7 +61,7 @@ test('the example button loads a program without a file', async ({ page }) => {
   await page.click('#try');
 
   const s = await page.evaluate(() => ({
-    emptyShown: !document.getElementById('empty').hidden,
+    emptyShown: document.getElementById('empty').checkVisibility(),
     rows: document.querySelectorAll('#program .cdp-row').length,
   }));
   expect(s.emptyShown).toBe(false);

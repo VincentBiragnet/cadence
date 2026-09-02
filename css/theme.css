@@ -2,6 +2,11 @@
    custom properties here so a component never hardcodes a one-off value
    (KD-7). Light is the default; dark answers prefers-color-scheme. */
 
+/* KD-1: an author's display rule beats the user agent's [hidden] rule, so a
+   component that lays itself out with flex quietly un-hides itself. Declared
+   once, first, so no component author has to remember this. */
+[hidden] { display: none !important; }
+
 :root {
   --cdc-color-bg: #ffffff;
   --cdc-color-fg: #1a1a1a;
@@ -213,6 +218,8 @@ cadence-program {
   font-family: var(--cdc-font);
   font-size: 0.95rem;
   padding: var(--cdc-space-1) var(--cdc-space-2);
+  min-height: 44px;
+  min-width: 44px;
   border-radius: var(--cdc-radius);
   border: 1px solid var(--cdc-color-track);
   background: var(--cdc-color-bg);
@@ -258,7 +265,27 @@ cadence-program {
 .cdp-row-icon { flex: none; }
 .cdp-row.stale .cdp-row-icon, .cdp-row.missed .cdp-row-icon { color: var(--cdc-color-progress); }
 
-/* KD-16: the divider anchors the scroll; every stale row is marked anyway. */
+/* KD-3, KD-16: the marker rides on the first row still ahead. Generated
+   content is never in the accessibility tree, so there is nothing to hide
+   from a reader and nothing invalid inside the listbox. Each stale row says
+   "overdue" in its own accessible name, which is the fact this stood for. */
+.cdp-row.cdp-today {
+  margin-top: 1.35rem;
+  border-top: 2px solid var(--cdc-color-progress);
+  position: relative;
+}
+.cdp-row.cdp-today::before {
+  content: "Today";
+  position: absolute;
+  top: -1.25rem;
+  left: var(--cdc-space-2);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cdc-color-progress);
+}
+
+/* Today falls past every row: nothing follows it to carry the mark. */
 .cdp-divider {
   font-size: 0.7rem;
   letter-spacing: 0.08em;
@@ -271,6 +298,7 @@ cadence-program {
 .cdp-next { font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .cdp-actions { display: flex; gap: var(--cdc-space-2); align-items: center; }
 .cdp-start { flex: 1; }
+.cdp-jump { min-width: 44px; }
 .cdp-menu { position: relative; }
 .cdp-pop {
   position: absolute; right: 0; bottom: calc(100% + 4px); z-index: 5;
