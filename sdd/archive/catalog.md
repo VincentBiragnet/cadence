@@ -47,3 +47,49 @@ Created in error: an interrupted turn made the same spec twice. All of the work 
 
 ## where-guidance-lives-and-what-shape-it-takes
 **Archived:** 2026-09-09 · **discovery** for guidance-a-program-can-carry (OQ-1) · **Commit:** a5cb8630f230593f38caa2abfcda80d7026cc074 `specs/where-guidance-lives-and-what-shape-it-takes.discovery.md`
+
+## guidance-a-program-can-carry
+**Archived:** 2026-09-09 · **Status:** Done · **Commit:** 7b7f10c1c21d91a632a6a275082557d3a2ad6826 `specs/guidance-a-program-can-carry.spec.md`
+
+Built cue and guidance: a program can now say more than a 25-character label.
+A step carries a `cue` — one sentence, shown under the step label for as long
+as that step runs, which is what someone reads while moving with their hands
+full. A `guidance` list of `{heading, text}` or `{heading, items[]}` attaches
+at the narrowest scope it is true of: program (standing rules, shown on the
+list before and between sessions), entry (shown when a session opens, gone
+when the work starts), or block — which is what an exercise actually is, and
+was the missing location two independent reviewers found from opposite ends.
+
+Screen order is label, cue, clock, time, then guidance (KD-20): the cue is one
+line and belongs with the label, guidance is unbounded and must not sit above
+the thing being watched. Nothing opens or closes; each scope shows when it
+begins and goes when it ends.
+
+Binding decisions: everything a program file supplies is built as DOM nodes
+with textContent, never innerHTML (KD-18) — there is no escape rule to forget
+rather than one to keep in step. Unrecognised fields stay accepted and ignored
+(KD-3, KD-16), including guidance of the wrong shape: bad guidance costs some
+prose, a refusal costs the session. No images or diagrams, ever (KD-1, NG-1):
+untrusted markup, no asset pipeline on a file:// page. The contract paragraph
+that claimed unrecognised fields are rejected is gone (KD-10) — it was false
+before this spec and stays false on purpose.
+
+Chosen over three prototyped alternatives after a discovery tested them on a
+patient mid-set, a physiotherapist liable for the wording, and a model writing
+the JSON one-shot. None of the three survived; this is A's always-visible
+mechanism with B's headed-block container. Deferred to their own specs: red
+flags as a distinct field carrying an action verb (red-flags-as-a-field-of-
+their-own) and reporting unrecognised field names to the author (telling-an-
+author-which-fields-were-not-recognised). Dropped by decision (NG-2): a
+plain-language read-back for a clinician to sign.
+
+Two review findings outlived this spec and became what-the-running-screen-
+puts-first: the session chrono renders at 40px against the step clock's
+17.6px, and nothing on screen says which set you are on.
+
+VC-1 failed on first review — focusing Start scrolled the label and cue off
+the top of a tall page — and passed on re-verification by a second reviewer
+across nineteen configurations. VC-7 exists because VC-1 turned out to be
+vacuous where it mattered: guidance between the cue and the clock only makes
+"cue above clock" easier, so at fifty bullets the clock was three viewport-
+heights below the fold with the criterion green.
