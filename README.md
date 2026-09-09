@@ -88,6 +88,27 @@ its own Start button (unlike the atomic clock, it doesn't auto-start —
 a multi-minute program gets a deliberate start gesture, which also
 unlocks audio for every beep that follows).
 
+**A step can carry a `cue`** — one sentence, shown under the label for as
+long as that step runs. It is what someone reads while they are moving and
+their hands are full, so it says the thing that makes the repetition wrong
+if they break it, even when the guidance below already says it.
+
+**A block can carry `guidance`** — a short list of `{ heading, text }` or
+`{ heading, items: [...] }`, shown for as long as that block runs. A block
+is what an exercise actually is, so setup and cautions belong there rather
+than repeated on every set:
+
+```js
+{ repetitions: 4,
+  guidance: [
+    { heading: 'Form', text: 'Knees at ninety, whole sole on the floor.' },
+    { heading: 'Watch for', items: ['Heels lifting', 'Bouncing at the bottom'] },
+  ],
+  steps: [
+    { label: 'Up', durationSeconds: 3, cue: 'Down to the floor and stop there.' },
+  ]}
+```
+
 ### `<cadence-program>` — a program of scheduled workouts
 
 A title and a list of entries. An entry says *where* it sits in the program —
@@ -111,6 +132,18 @@ a week and a weekday — never when it happens:
   });
 </script>
 ```
+
+**Guidance goes at the narrowest scope it is true of.** A program's `guidance`
+is the standing rules, shown on the list before and between sessions; an
+entry's is shown when that session opens and comes down when the work starts;
+a block's runs with the block. Nothing stacks above the clock, and nothing
+has to be opened.
+
+Everything a program file supplies is rendered as text, never as markup, so a
+program from someone else cannot put anything into the page but words. A field
+Cadence does not recognise is kept and shown nowhere — it is never rejected,
+so a misspelled name is a name that goes unread rather than a program that
+will not load.
 
 **Dates are computed, never authored.** The first time you start any session,
 that day anchors the program: week 1 is laid across that same week, on the
