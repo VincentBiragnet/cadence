@@ -1,6 +1,6 @@
 # Spec: Guidance a program can carry
 
-**Status:** In Progress
+**Status:** Done
 **Description:** Guidance a program can carry
 
 _Edit via `scripts/spec.py`, never by hand._
@@ -147,3 +147,4 @@ _Edit via `scripts/spec.py`, never by hand._
 - 2026-09-09: VC-7 passed
 - 2026-09-09: IMPL-8 added
 - 2026-09-09: IMPL-8 checked
+- 2026-09-09: Status: In Progress → Done
