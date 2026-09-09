@@ -44,8 +44,9 @@
          visible text drops the contents of a closed disclosure entirely. -->
     <section id="format" class="contract">
       <h2>For a language model</h2>
-      <p>Read this section and answer with one JSON object and nothing else. It is the whole
-        contract: anything not described here is rejected.</p>
+      <p>Read this section and answer with one JSON object and nothing else. Everything Cadence
+        reads is described here; a field it does not recognise is kept in the file and shown
+        nowhere, so a name spelled differently is a name that goes unread.</p>
 
       <dl>
         <dt>title</dt>
@@ -74,6 +75,22 @@
           or non-numeric duration is refused, as is a block with no steps or with
           <code>repetitions</code> below 1. <code>week</code> must be between 1 and 520.</dd>
 
+        <dt>cue</dt>
+        <dd>optional, on a step. One sentence, kept short enough to take in at a glance &mdash;
+          about 120 characters. It sits under the step label for as long as that step runs, so
+          it is what someone reads while they are moving and their hands are full. A cue may
+          repeat something <code>guidance</code> already says, and should whenever breaking it
+          is what makes the repetition wrong.</dd>
+
+        <dt>guidance</dt>
+        <dd>optional, and allowed on the program, on an entry and on a block. A list of titled
+          blocks: each is a <code>heading</code> with either a <code>text</code> string or an
+          <code>items</code> array of strings. Put it at the narrowest level it is true of &mdash;
+          setup and cautions for one exercise belong on that exercise's block, not repeated on
+          every set and not merged into the entry. Program guidance shows on the list, before
+          and between sessions; entry guidance when that session opens; block guidance for as
+          long as that block runs.</dd>
+
         <dt>milestone</dt>
         <dd>a fixed point, such as a race or a review: <code>"milestone": true</code> with a
           <code>date</code> of the form YYYY-MM-DD and a <code>title</code>. Only a milestone
@@ -86,20 +103,37 @@
 
       <pre id="contract-example">{
   "title": "Eight-week strength",
+  "guidance": [
+    {
+      "heading": "Before you start",
+      "items": [
+        "Three sessions a week, never two days running.",
+        "Stop and get it looked at if a joint hurts, rather than a muscle."
+      ]
+    }
+  ],
   "entries": [
     {
       "week": 1,
       "day": 1,
       "label": "Push · 20s x2",
+      "guidance": [
+        { "heading": "This session", "text": "Two rounds. Keep the rest honest." }
+      ],
       "sequence": {
         "title": "Week 1 — Push",
         "blocks": [
           {
             "repetitions": 2,
+            "guidance": [
+              { "heading": "Form", "text": "Hands under the shoulders, ribs down." },
+              { "heading": "Watch for", "items": ["Hips sagging", "Elbows flaring wide"] }
+            ],
             "steps": [
               {
                 "label": "Push-up",
                 "durationSeconds": 20,
+                "cue": "Ribs down, elbows back — stop before the hips sag.",
                 "startFrequency": 440,
                 "endFrequency": 880
               },

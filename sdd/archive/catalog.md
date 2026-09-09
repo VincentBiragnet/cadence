@@ -44,3 +44,6 @@ Built <cadence-program>: a title and a list of entries, each pairing a planned I
 **Archived:** 2026-09-02 · **Status:** Done · **Commit:** 673199cbff04c3797e1668abc93e61f0a962345c `specs/exclusive-views-restored-focus-reachable-controls.spec.md`
 
 Created in error: an interrupted turn made the same spec twice. All of the work — enforcing hidden, restoring focus, the 44 pixel targets, the today marker leaving the listbox, and the More menu's two ways of closing — is recorded on exclusive-views-restored-focus-and-reachable-controls.
+
+## where-guidance-lives-and-what-shape-it-takes
+**Archived:** 2026-09-09 · **discovery** for guidance-a-program-can-carry (OQ-1) · **Commit:** a5cb8630f230593f38caa2abfcda80d7026cc074 `specs/where-guidance-lives-and-what-shape-it-takes.discovery.md`

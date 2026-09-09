@@ -649,7 +649,11 @@ def cmd_strike(args: "list[str]") -> None:
     item = find_item(old, ident)
     new = strike(old, item, reason)
     save(path, old, new, f"{ident} struck")
-    print(f"struck {ident} → {reason}")
+    # Echo what was actually struck, not just its ID. Striking by remembered
+    # position instead of reading the item back is a real failure mode — it
+    # silently keeps the items you meant to drop and drops the ones you meant
+    # to keep, and nothing downstream can tell.
+    print(f"struck {ident} {item.text}\n     → {reason}")
 
 
 def cmd_resolve(args: "list[str]") -> None:

@@ -462,3 +462,41 @@ cadence-program {
   .contract dl { grid-template-columns: 1fr; gap: 0.15rem; }
   .contract dd { margin-bottom: 0.6rem; }
 }
+
+/* Guidance (guidance-a-program-can-carry).
+   KD-4: a cue is one sentence under the step label, always visible while its
+   step runs; guidance is a short list of titled blocks. KD-6: guidance is
+   shown when its own scope begins, so nothing here needs to open or close. */
+.cds-cue {
+  margin: 0.25rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  color: var(--muted, #555);
+  max-width: 34rem;
+}
+.cdp-guidance,
+.cds-guidance {
+  margin: 0.75rem 0;
+  padding-left: 0.85rem;
+  border-left: 2px solid var(--rule, #d8d4cc);
+  max-width: 34rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+.cdp-guidance h4,
+.cds-guidance h4 {
+  margin: 0.7rem 0 0.15rem;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted, #555);
+}
+.cdp-guidance h4:first-child,
+.cds-guidance h4:first-child { margin-top: 0; }
+.cdp-guidance p,
+.cds-guidance p,
+.cdp-guidance li,
+.cds-guidance li { margin: 0 0 0.3rem; }
+.cdp-guidance ul,
+.cds-guidance ul { margin: 0 0 0.4rem; padding-left: 1.1rem; }

@@ -49,6 +49,7 @@ function flattenSteps(blocks) {
       block.steps.forEach((step, i) => {
         flat.push({
           step,
+          block,
           offsetMs,
           indexInBlock: i + 1,
           countInBlock,
@@ -60,6 +61,47 @@ function flattenSteps(blocks) {
     }
   }
   return { flat, totalMs: offsetMs };
+}
+
+// KD-4/KD-13: a short list of titled blocks, which is the shape a protocol's
+// own headings survive into. KD-16: a value of the wrong shape is ignored,
+// never refused — bad guidance costs some prose, a refusal costs the session.
+// KD-18: built as DOM nodes with textContent, so there is no escape rule to
+// forget rather than one to keep in step.
+function renderGuidance(host, guidance) {
+  if (!host) return;
+  host.textContent = '';
+  const blocks = Array.isArray(guidance) ? guidance : [];
+  let shown = 0;
+  for (const block of blocks) {
+    if (!block || typeof block !== 'object') continue;
+    const heading = typeof block.heading === 'string' ? block.heading.trim() : '';
+    const text = typeof block.text === 'string' ? block.text.trim() : '';
+    const items = Array.isArray(block.items)
+      ? block.items.filter((i) => typeof i === 'string' && i.trim()) : [];
+    if (!heading && !text && !items.length) continue;
+    if (heading) {
+      const h = document.createElement('h4');
+      h.textContent = heading;
+      host.appendChild(h);
+    }
+    if (text) {
+      const p = document.createElement('p');
+      p.textContent = text;
+      host.appendChild(p);
+    }
+    if (items.length) {
+      const ul = document.createElement('ul');
+      for (const item of items) {
+        const li = document.createElement('li');
+        li.textContent = item.trim();
+        ul.appendChild(li);
+      }
+      host.appendChild(ul);
+    }
+    shown += 1;
+  }
+  host.hidden = shown === 0;
 }
 
 class CadenceSequence extends HTMLElement {
@@ -87,6 +129,8 @@ class CadenceSequence extends HTMLElement {
       <div class="cds-title"></div>
       <div class="cds-position"></div>
       <div class="cds-label"></div>
+      <p class="cds-cue" hidden></p>
+      <div class="cds-guidance" hidden></div>
       <button type="button" class="cds-time" part="time" aria-label="Toggle elapsed/remaining time"></button>
       <button type="button" class="cds-start">Start</button>
       <div class="cds-live" aria-live="polite"></div>
@@ -94,6 +138,8 @@ class CadenceSequence extends HTMLElement {
     this._titleEl = this.querySelector('.cds-title');
     this._positionEl = this.querySelector('.cds-position');
     this._labelEl = this.querySelector('.cds-label');
+    this._cueEl = this.querySelector('.cds-cue');
+    this._guidanceEl = this.querySelector('.cds-guidance');
     this._timeEl = this.querySelector('.cds-time');
     this._startEl = this.querySelector('.cds-start');
     this._liveEl = this.querySelector('.cds-live');
@@ -221,6 +267,14 @@ class CadenceSequence extends HTMLElement {
     this._labelEl.textContent = entry.step.label || '';
     this._positionEl.textContent =
       `step ${entry.indexInBlock} of ${entry.countInBlock}, rep ${entry.repIndex} of ${entry.repCount}`;
+    // KD-4: one sentence, under the label, for as long as the step runs —
+    // the only mechanism that reached a reviewer with their hands full.
+    const cue = typeof entry.step.cue === 'string' ? entry.step.cue.trim() : '';
+    this._cueEl.textContent = cue;
+    this._cueEl.hidden = !cue;
+    // KD-14: for the whole block, every repetition. The guidance is true of
+    // the exercise, not of its first three seconds.
+    renderGuidance(this._guidanceEl, entry.block && entry.block.guidance);
   }
 
   _updateTimeText(elapsedMs) {

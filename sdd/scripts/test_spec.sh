@@ -288,6 +288,20 @@ OUT="$($SPEC status revoke Done 2>&1)"
 case "$OUT" in *"struck rather than passed"*) ok "striking a criterion is reported as a waiver";; *) fail "expected a waiver warning, got: $OUT";; esac
 $SPEC list | grep revoke | grep -q '1 struck' && ok "and list keeps showing it" || fail "expected the waiver in list"
 
+# Striking by remembered position instead of reading the item back keeps the
+# items you meant to drop and drops the ones you meant to keep, and nothing
+# downstream can tell. The echo is what makes a wrong ID visible at once.
+$SPEC add revoke goals 'Survive a reboot with no data loss' >/dev/null
+OUT="$($SPEC strike revoke G-1 'no longer applies' 2>&1)"
+case "$OUT" in
+  *"Survive a reboot with no data loss"*) ok "strike echoes the text of what it struck";;
+  *) fail "expected strike to echo the item text, got: $OUT";;
+esac
+case "$OUT" in
+  *"no longer applies"*) ok "and still reports the reason";;
+  *) fail "expected the reason in strike output, got: $OUT";;
+esac
+
 echo "18. show omits the changelog by default"
 $SPEC show revoke | grep -q 'entries — `show' && ok "changelog summarised" || fail "expected a changelog summary"
 $SPEC show revoke --log | grep -q 'VC-1 passed' && ok "--log prints it in full" || fail "expected full changelog"

@@ -17,6 +17,15 @@
 //     ],
 //   });
 //
+// Guidance (KD-4) is rendered by renderGuidance(), which lives in
+// cadence-sequence.js. A classic script cannot import, so that is a global —
+// but the dependency is the one this file already has and already needs:
+// _launch() creates a <cadence-sequence>, so that file is loaded first
+// everywhere this one is. The chain runs clock, then sequence, then program,
+// and never backwards. (Contrast formatTime, which is deliberately duplicated
+// in the clock and the sequence, because sharing it there would have pointed
+// the dependency the wrong way up that same chain.)
+//
 // The first time any entry is launched, that day becomes the anchor and
 // every entry gets an expectedDate (KD-12). Completing an entry records the
 // day it really ran and slides the rest of the program by however late (or
@@ -130,6 +139,7 @@ class CadenceProgram extends HTMLElement {
   _render() {
     this.innerHTML = `
       <div class="cdp-title"></div>
+      <div class="cdp-guidance cdp-program-guidance" hidden></div>
       <div class="cdp-view">
         <div class="cdp-summary"></div>
         <ul class="cdp-list" role="listbox" tabindex="-1"></ul>
@@ -153,6 +163,7 @@ class CadenceProgram extends HTMLElement {
       <input type="file" class="cdp-load" accept="application/json" hidden>
       <div class="cdp-run" hidden>
         <button type="button" class="cdp-back">Back</button>
+        <div class="cdp-guidance cdp-entry-guidance" hidden></div>
       </div>
       <div class="cdp-problem" hidden></div>
       <div class="cdp-live" aria-live="polite"></div>
@@ -172,6 +183,8 @@ class CadenceProgram extends HTMLElement {
     this._replanEl = this.querySelector('.cdp-replan');
     this._loadEl = this.querySelector('.cdp-load');
     this._runEl = this.querySelector('.cdp-run');
+    this._programGuidanceEl = this.querySelector('.cdp-program-guidance');
+    this._entryGuidanceEl = this.querySelector('.cdp-entry-guidance');
     this._backEl = this.querySelector('.cdp-back');
     this._problemEl = this.querySelector('.cdp-problem');
     this._liveEl = this.querySelector('.cdp-live');
@@ -223,6 +236,7 @@ class CadenceProgram extends HTMLElement {
     if (!stored) return false;
     this._config = stored;
     this._titleEl.textContent = stored.title || '';
+    renderGuidance(this._programGuidanceEl, stored.guidance);
     this._renderList();
     return true;
   }
@@ -329,6 +343,7 @@ class CadenceProgram extends HTMLElement {
       this._writeStored();
     }
     this._titleEl.textContent = this._config.title || '';
+    renderGuidance(this._programGuidanceEl, this._config.guidance);
     // KD-14: a milestone anchors the program the moment it is configured,
     // not when something is first launched, so the dates exist up front.
     if (this._earliestMilestone()) this._anchor();
@@ -652,11 +667,20 @@ class CadenceProgram extends HTMLElement {
     }
     this._viewEl.hidden = true;
     this._runEl.hidden = false;
+    this._programGuidanceEl.hidden = true;
+    // KD-15: entry guidance is what you read while deciding to begin, so it
+    // is here now and gone the moment the work starts — see _beginRun below.
+    renderGuidance(this._entryGuidanceEl, entry.guidance);
 
     this._runningSeq = document.createElement('cadence-sequence');
     this._runningSeq.addEventListener('cadence:complete', () => this._onComplete(entry));
     this._runEl.appendChild(this._runningSeq);
     this._runningSeq.configure(entry.sequence);
+    // Once the work is running, the deciding is over: the entry card comes
+    // down so nothing sits between the reader and the clock (KD-6).
+    this._runningSeq.addEventListener('cadence:start', () => {
+      this._entryGuidanceEl.hidden = true;
+    }, { once: true });
     // KD-2: the gesture that begins the work should be under the finger.
     this._runningSeq.querySelector('.cds-start')?.focus();
     this._announce(`Started ${entry.sequence.title || 'session'}`);
@@ -750,6 +774,10 @@ class CadenceProgram extends HTMLElement {
       this._runningSeq = null;
     }
     this._runEl.hidden = true;
+    this._entryGuidanceEl.hidden = true;
+    // Back on the list, the standing rules are wanted again (KD-2). Every way
+    // out of a run comes through here, so there is one place to say it.
+    renderGuidance(this._programGuidanceEl, this._config && this._config.guidance);
   }
 
   // Announces start/completion only — not a continuous state, so there's
