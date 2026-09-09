@@ -133,6 +133,10 @@ function cdpRecordFields(config) {
     if (!f || typeof f !== 'object') continue;
     const name = typeof f.name === 'string' ? f.name.trim() : '';
     if (!name) continue;
+    // A repeated name would render two inputs sharing one id, pointing both
+    // labels at the first, and the later value would quietly overwrite the
+    // earlier one on save. First declaration wins.
+    if (fields.some((existing) => existing.name === name)) continue;
     const kind = f.kind === 'text' ? 'text' : 'number';
     fields.push({
       name,
@@ -854,6 +858,12 @@ class CadenceProgram extends HTMLElement {
       }
       wrap.appendChild(input);
 
+      // Its own value if this session has been recorded before, so re-running
+      // one shows what is already there rather than an empty box that will
+      // overwrite it.
+      const own = entry.recorded ? entry.recorded[field.name] : undefined;
+      if (own !== undefined && own !== null && own !== '') input.value = String(own);
+
       // KD-4 again: the same value beside its own field, where it is the
       // thing being compared against.
       const previous = last && last.recorded ? last.recorded[field.name] : undefined;
@@ -892,7 +902,12 @@ class CadenceProgram extends HTMLElement {
         recorded[input.dataset.name] = raw;
       }
     }
+    // What is on screen is what is stored. The form is prefilled from this
+    // entry, so a cleared field is someone clearing it, not someone leaving
+    // it alone — the old behaviour kept a value the person had just deleted
+    // while a partly filled form destroyed the fields it did not mention.
     if (Object.keys(recorded).length) entry.recorded = recorded;
+    else delete entry.recorded;
     this._writeStored();
     this.dispatchEvent(new CustomEvent('cadence:entryRecorded', { detail: { entry, recorded } }));
     this._finishRecord();

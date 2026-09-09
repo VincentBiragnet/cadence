@@ -147,3 +147,101 @@ test('a malformed record declaration is ignored, not refused', async ({ page }) 
     .map((i) => ({ name: i.dataset.name, type: i.type })));
   expect(fields).toEqual([{ name: 'ok', type: 'number' }]);
 });
+
+// Found on review, all three reachable by an ordinary user re-running a
+// session they have already recorded.
+
+test('re-running a recorded session prefills it, so saving cannot drop a field', async ({ page }) => {
+  await runFirst(page, program());
+  await page.fill('#prog input[data-name="loadB"]', '40');
+  await page.fill('#prog input[data-name="notes"]', 'first note');
+  await page.click('#prog .cdp-record-save');
+  await page.waitForFunction(
+    () => document.querySelector('#prog .cdp-view')?.checkVisibility(), null, { timeout: 10000 });
+
+  // Do it again. The form should show what is already there.
+  await page.evaluate(() => {
+    const prog = document.getElementById('prog');
+    prog._select(0, true);
+    prog.querySelector('.cdp-start').click();
+    prog.querySelector('cadence-sequence .cds-start').click();
+  });
+  await page.waitForFunction(
+    () => document.querySelector('#prog .cdp-record')?.checkVisibility(), null, { timeout: 10000 });
+  const prefilled = await page.evaluate(() => Object.fromEntries(
+    [...document.querySelectorAll('#prog .cdp-record-input')].map((i) => [i.dataset.name, i.value])));
+  expect(prefilled).toEqual({ loadB: '40', pain: '', notes: 'first note' });
+
+  // Change only the load; the note is on screen, so it survives.
+  await page.fill('#prog input[data-name="loadB"]', '50');
+  await page.click('#prog .cdp-record-save');
+  const after = await page.evaluate(() => document.getElementById('prog').config.entries[0].recorded);
+  expect(after).toEqual({ loadB: 50, notes: 'first note' });
+});
+
+test('clearing every field clears the record, rather than keeping what was deleted', async ({ page }) => {
+  await runFirst(page, program());
+  await page.fill('#prog input[data-name="loadB"]', '40');
+  await page.click('#prog .cdp-record-save');
+  await page.waitForFunction(
+    () => document.querySelector('#prog .cdp-view')?.checkVisibility(), null, { timeout: 10000 });
+
+  await page.evaluate(() => {
+    const prog = document.getElementById('prog');
+    prog._select(0, true);
+    prog.querySelector('.cdp-start').click();
+    prog.querySelector('cadence-sequence .cds-start').click();
+  });
+  await page.waitForFunction(
+    () => document.querySelector('#prog .cdp-record')?.checkVisibility(), null, { timeout: 10000 });
+  await page.fill('#prog input[data-name="loadB"]', '');
+  await page.click('#prog .cdp-record-save');
+  const after = await page.evaluate(() => {
+    const e = document.getElementById('prog').config.entries[0];
+    return { hasRecorded: 'recorded' in e, stillDone: !!e.actualDate };
+  });
+  expect(after).toEqual({ hasRecorded: false, stillDone: true });
+});
+
+test('a repeated field name is declared once, not twice with one id', async ({ page }) => {
+  await runFirst(page, program([
+    { name: 'dup', label: 'First', kind: 'number' },
+    { name: 'dup', label: 'Second', kind: 'text' },
+    { name: 'other', label: 'Other', kind: 'text' },
+  ]));
+  const out = await page.evaluate(() => {
+    const inputs = [...document.querySelectorAll('#prog .cdp-record-input')];
+    const ids = inputs.map((i) => i.id);
+    return {
+      names: inputs.map((i) => i.dataset.name),
+      types: inputs.map((i) => i.type),
+      uniqueIds: new Set(ids).size === ids.length,
+      labelsResolve: [...document.querySelectorAll('#prog .cdp-record-label')]
+        .every((l) => document.getElementById(l.htmlFor)),
+    };
+  });
+  expect(out.names).toEqual(['dup', 'other']);
+  expect(out.types).toEqual(['number', 'text']);
+  expect(out.uniqueIds).toBe(true);
+  expect(out.labelsResolve).toBe(true);
+});
+
+test('a long recorded note does not push the page sideways', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await runFirst(page, program());
+  await page.fill('#prog input[data-name="notes"]', 'x'.repeat(800));
+  await page.click('#prog .cdp-record-save');
+  await page.waitForFunction(
+    () => document.querySelector('#prog .cdp-view')?.checkVisibility(), null, { timeout: 10000 });
+  await page.evaluate(() => {
+    const prog = document.getElementById('prog');
+    prog._select(1, true);
+    prog.querySelector('.cdp-start').click();
+  });
+  const width = await page.evaluate(() => ({
+    body: document.body.scrollWidth, inner: window.innerWidth,
+    shown: document.querySelector('#prog .cdp-lasttime').checkVisibility(),
+  }));
+  expect(width.shown).toBe(true);
+  expect(width.body, `body ${width.body} vs viewport ${width.inner}`).toBeLessThanOrEqual(width.inner);
+});

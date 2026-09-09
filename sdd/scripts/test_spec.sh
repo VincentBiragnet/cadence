@@ -288,6 +288,21 @@ OUT="$($SPEC status revoke Done 2>&1)"
 case "$OUT" in *"struck rather than passed"*) ok "striking a criterion is reported as a waiver";; *) fail "expected a waiver warning, got: $OUT";; esac
 $SPEC list | grep revoke | grep -q '1 struck' && ok "and list keeps showing it" || fail "expected the waiver in list"
 
+# A criterion's check is arbitrary and may well call spec.py on this same
+# project — this suite does. Running it while holding the exclusive lock
+# deadlocked the child against its own parent, with no timeout and no way out
+# but killing the process tree.
+$SPEC add revoke verification 'The tool can inspect itself while being verified' \
+  --check "python3 $WORK/proj/sdd/scripts/spec.py status revoke" >/dev/null
+OUT="$(timeout 30 $SPEC verify revoke VC-2 --run 2>&1)"
+case "$?" in
+  124) fail "verify --run deadlocked on its own lock";;
+esac
+case "$OUT" in
+  *"VC-2: pass"*) ok "a check may call spec.py without deadlocking";;
+  *) fail "expected the self-inspecting check to pass, got: $OUT";;
+esac
+
 # Striking by remembered position instead of reading the item back keeps the
 # items you meant to drop and drops the ones you meant to keep, and nothing
 # downstream can tell. The echo is what makes a wrong ID visible at once.

@@ -31,6 +31,9 @@ DISCOVERY_SUFFIX = ".discovery.md"
 ARCHIVE = ROOT / "archive"
 CATALOG = ARCHIVE / "catalog.md"
 LOCK = SPECS / ".lock"
+# The handle main() is holding, so a command that shells out can let go of the
+# lock while it waits. Only save() needs it, and only for the moment it writes.
+LOCK_FILE = None
 CATALOG_HEADER = """# Archive catalog
 
 Closed specs and discoveries. Each was deleted from the working tree at the
@@ -936,6 +939,28 @@ def cmd_dryrun(args: "list[str]") -> None:
     print(f"{DRYRUN_CLEAN} — '{slug}' is cleared to implement")
 
 
+def run_unlocked(command: str) -> "subprocess.CompletedProcess":
+    """Run a check with the specs lock released.
+
+    A criterion's check is arbitrary: it may well invoke spec.py on this same
+    project — the harness's own test suite does. Holding the exclusive lock
+    across it deadlocks the child against its own parent, with no timeout and
+    no way out but killing the tree. The lock protects save(), which is
+    read-verify-write; it has no business being held while a test suite runs.
+    Another writer may land in between, which is exactly what save()'s
+    append-only check is there to catch.
+    """
+    if LOCK_FILE is None:
+        return subprocess.run(command, shell=True, cwd=str(REPO_ROOT),
+                              capture_output=True, text=True)
+    fcntl.flock(LOCK_FILE, fcntl.LOCK_UN)
+    try:
+        return subprocess.run(command, shell=True, cwd=str(REPO_ROOT),
+                              capture_output=True, text=True)
+    finally:
+        fcntl.flock(LOCK_FILE, fcntl.LOCK_EX)
+
+
 def cmd_verify(args: "list[str]") -> None:
     run, args = take_option(args, "--run", valued=False)
     usage = ("usage: spec.py verify <slug> <VC-N> pass|fail \"<evidence>\"\n"
@@ -958,8 +983,7 @@ def cmd_verify(args: "list[str]") -> None:
         if not command:
             die(f"{ident} carries no check command. Either attest it with evidence, or\n"
                 f"       state one when you add the criterion: add ... --check \"<command>\"")
-        result = subprocess.run(command, shell=True, cwd=str(REPO_ROOT),
-                                capture_output=True, text=True)
+        result = run_unlocked(command)
         verdict = "pass" if result.returncode == 0 else "fail"
         detail = sanitize(result.stdout + result.stderr)
         evidence = f"ran: exit {result.returncode} — {detail}"
@@ -1563,9 +1587,14 @@ def main() -> int:
     # One writer at a time: save() is read-verify-write, so parallel agents on
     # one project would otherwise lose each other's items while reporting success.
     SPECS.mkdir(parents=True, exist_ok=True)
+    global LOCK_FILE
     with LOCK.open("w") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
-        COMMANDS[command](sys.argv[2:])
+        LOCK_FILE = lock
+        try:
+            COMMANDS[command](sys.argv[2:])
+        finally:
+            LOCK_FILE = None
     return 0
 
 

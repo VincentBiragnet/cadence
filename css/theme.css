@@ -509,6 +509,9 @@ cadence-program {
   margin: 0.5rem 0;
   font-size: 0.92rem;
   color: var(--cdc-color-muted);
+  /* A recorded note is whatever someone typed. An unbroken 60-character run
+     was enough to push a 390px page to 515px of sideways scroll. */
+  overflow-wrap: anywhere;
 }
 .cdp-record {
   margin: 0.75rem 0;
@@ -541,8 +544,10 @@ cadence-program {
 }
 .cdp-record-last {
   flex: 1 0 100%;
+  min-width: 0;
   font-size: 0.82rem;
   color: var(--cdc-color-muted);
+  overflow-wrap: anywhere;
 }
 .cdp-record-save,
 .cdp-record-skip {

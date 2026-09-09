@@ -1,6 +1,6 @@
 # Spec: What a session leaves behind
 
-**Status:** In Progress
+**Status:** Done
 **Description:** What a session leaves behind
 
 _Edit via `scripts/spec.py`, never by hand._
@@ -14,6 +14,7 @@ _Edit via `scripts/spec.py`, never by hand._
 - **NG-1** Per-entry field declarations (OQ-1): a programme that asks different things on different days can wait until one exists
 - **NG-2** Asking for values when a milestone is reached rather than performed, which would be the natural home for a race result
 - **NG-3** Editing a recorded value after the session is finished (OQ-11): it needs a way back into a settled session that the program view does not have
+- **NG-4** Native constraint validation blocking Save when a number falls outside its min and max, with the browser's own bubble as the only message. Left as it is: the completion is already stored before the form opens, so nothing is at risk, and a second message would duplicate the browser's
 
 ## Open Questions
 - **OQ-1** ~~Who declares the fields: the program JSON, or a fixed set Cadence knows about?~~ → KD-1
@@ -47,6 +48,11 @@ _Edit via `scripts/spec.py`, never by hand._
 - **PA-3** The protocol ships a 36-row weekly tracking sheet whose columns are exactly those fields
 - **PA-4** Cadence today keeps only whether a session was reached or dropped; the replanning export carries nothing a person measured
 - **PA-5** Found by driving the real HSR program: a form that appears only at completion cannot ask the protocol's own douleur au lever le lendemain, because the lendemain has not happened. The example asks about this morning instead, which at the end of today's session is the morning after the previous one, the same signal at a moment a person can answer. This is the concrete cost of NG-3
+- **PA-6** Reviewed by an agent that did not build it, driving the real page: all three criteria held, including a recorded zero displaying rather than being swallowed, out-of-order dates picking the most recently dated session, and a note containing an img onerror rendering as text in both the summary and the per-field hint
+- **PA-7** Found by that review and fixed: re-running an already recorded session replaced the whole recorded object, so filling in one field destroyed the others while leaving the form blank preserved them. The form now prefills from the entry's own values, so what is on screen is what is stored in both directions, and clearing every field clears the record
+- **PA-8** Found by that review and fixed: two declarations sharing a name rendered two inputs with one DOM id, pointing both labels at the first and letting the second silently overwrite it. The first declaration of a name now wins
+- **PA-9** Found by that review and fixed: an unbroken sixty-character run in a recorded note pushed a 390px page to 515px of sideways scroll, because the last-time line and the per-field hint lacked the overflow-wrap the guidance blocks already had
+- **PA-10** Reported by that review and not a defect: a non-milestone entry with no sequence is refused at load, which is the hostile-file spec's KD-2 working as decided. A milestone without a sequence loads and is reached rather than performed
 
 ## Implementation Details
 - [x] **IMPL-1** Read a program-level record declaration into fields, ignoring malformed entries
@@ -56,11 +62,14 @@ _Edit via `scripts/spec.py`, never by hand._
 - [x] **IMPL-5** Carry recorded values into the replanning prompt's standing list and its carry-through instruction
 - [x] **IMPL-6** Document record and recorded in the page contract, and give the contract example a declaration
 - [x] **IMPL-7** Give the HSR example the tracking sheet the protocol already prints
+- [x] **IMPL-8** Prefill the form from the entry's own values so re-recording cannot drop a field
+- [x] **IMPL-9** Keep the first declaration when a name is repeated
+- [x] **IMPL-10** Wrap long recorded values so a note cannot widen the page
 
 ## Verification Criteria
-- [x] **VC-1** A program declaring a number field with a unit, a nought-to-ten field and a text field shows all three when a session completes, stores what is typed on that entry, and stores nothing for a field left blank (G-1) `npx playwright test tests/record-fields.spec.js` → passed 2026-09-09 (ran: exit 0 — Running 6 tests using 1 worker ✓ 1 tests/record-fields.spec.js:42:5 › all three declared f)
-- [x] **VC-2** After one session is recorded, opening the next shows last time's values, and each field carries its own last value beside it while recording; a program with nothing recorded yet shows neither (G-2) `npx playwright test tests/record-carryover.spec.js` → passed 2026-09-09 (ran: exit 0 — Running 5 tests using 1 worker ✓ 1 tests/record-carryover.spec.js:65:5 › with nothing reco)
-- [x] **VC-3** Recorded values survive an export and a reload, and the replanning prompt names them on every done session as well as carrying them in its embedded JSON (G-3) `npx playwright test tests/record-export.spec.js` → passed 2026-09-09 (ran: exit 0 — Running 4 tests using 1 worker ✓ 1 tests/record-export.spec.js:45:5 › recorded values surv)
+- [x] **VC-1** A program declaring a number field with a unit, a nought-to-ten field and a text field shows all three when a session completes, stores what is typed on that entry, and stores nothing for a field left blank (G-1) `npx playwright test tests/record-fields.spec.js` → passed 2026-09-09 (ran: exit 0 — Running 6 tests using 1 worker ✓ 1 tests/record-fields.spec.js:42:5 › all three declared f), passed 2026-09-09 (ran: exit 0 — Running 10 tests using 1 worker ✓ 1 tests/record-fields.spec.js:42:5 › all three declared )
+- [x] **VC-2** After one session is recorded, opening the next shows last time's values, and each field carries its own last value beside it while recording; a program with nothing recorded yet shows neither (G-2) `npx playwright test tests/record-carryover.spec.js` → passed 2026-09-09 (ran: exit 0 — Running 5 tests using 1 worker ✓ 1 tests/record-carryover.spec.js:65:5 › with nothing reco), passed 2026-09-09 (ran: exit 0 — Running 5 tests using 1 worker ✓ 1 tests/record-carryover.spec.js:65:5 › with nothing reco)
+- [x] **VC-3** Recorded values survive an export and a reload, and the replanning prompt names them on every done session as well as carrying them in its embedded JSON (G-3) `npx playwright test tests/record-export.spec.js` → passed 2026-09-09 (ran: exit 0 — Running 4 tests using 1 worker ✓ 1 tests/record-export.spec.js:45:5 › recorded values surv), passed 2026-09-09 (ran: exit 0 — Running 4 tests using 1 worker ✓ 1 tests/record-export.spec.js:45:5 › recorded values surv)
 
 ## Changelog
 - 2026-09-09: Spec initialized.
@@ -113,3 +122,17 @@ _Edit via `scripts/spec.py`, never by hand._
 - 2026-09-09: IMPL-6 added
 - 2026-09-09: IMPL-7 added
 - 2026-09-09: IMPL-1, IMPL-2, IMPL-3, IMPL-4, IMPL-5, IMPL-6, IMPL-7 checked
+- 2026-09-09: PA-6 added
+- 2026-09-09: PA-7 added
+- 2026-09-09: PA-8 added
+- 2026-09-09: PA-9 added
+- 2026-09-09: PA-10 added
+- 2026-09-09: NG-4 added
+- 2026-09-09: IMPL-8 added
+- 2026-09-09: IMPL-9 added
+- 2026-09-09: IMPL-10 added
+- 2026-09-09: IMPL-8, IMPL-9, IMPL-10 checked
+- 2026-09-09: VC-1 passed
+- 2026-09-09: VC-2 passed
+- 2026-09-09: VC-3 passed
+- 2026-09-09: Status: In Progress → Done

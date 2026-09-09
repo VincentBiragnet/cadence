@@ -1,12 +1,12 @@
 # Spec: Harness feedback
 
-**Status:** Draft
+**Status:** Done
 **Description:** Harness feedback
 
 _Edit via `scripts/spec.py`, never by hand._
 
 ## Goals
-_No items yet._
+- **G-1** The feedback heuristic judges a rehearsal by whether it settles, not by how many questions it found, so a thorough first round is not mistaken for friction
 
 ## Non-Goals
 _No items yet._
@@ -28,8 +28,8 @@ _No items yet._
 _No items yet._
 
 ## Verification Criteria
-- [ ] **VC-1** A spec whose rehearsal raised many questions in a single round, then came back clean, produces no finding `bash sdd/scripts/test_spec.sh`
-- [ ] **VC-2** A spec whose rehearsal rounds do not shrink produces a finding that names the rounds rather than an average `bash sdd/scripts/test_spec.sh`
+- [x] **VC-1** A spec whose rehearsal raised many questions in a single round, then came back clean, produces no finding `bash sdd/scripts/test_spec.sh` → passed 2026-09-09 (ran: exit 0 — 1. a new spec starts in Draft ok status reads back 2. ids are allocated in order ok first )
+- [x] **VC-2** A spec whose rehearsal rounds do not shrink produces a finding that names the rounds rather than an average `bash sdd/scripts/test_spec.sh` → passed 2026-09-09 (ran: exit 0 — 1. a new spec starts in Draft ok status reads back 2. ids are allocated in order ok first )
 
 ## Changelog
 - 2026-08-31: Spec initialized.
@@ -38,3 +38,7 @@ _No items yet._
 - 2026-08-31: KD-1, KD-2, KD-3, VC-1, VC-2 applied from discovery:rehearsal-yield-as-a-signal
 - 2026-08-31: OQ-2 raised by feedback
 - 2026-08-31: KD-4 resolves OQ-2
+- 2026-09-09: G-1 added
+- 2026-09-09: VC-1 passed
+- 2026-09-09: VC-2 passed
+- 2026-09-09: Status: Draft → Done
