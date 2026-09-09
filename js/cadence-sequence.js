@@ -63,6 +63,11 @@ function flattenSteps(blocks) {
   return { flat, totalMs: offsetMs };
 }
 
+// Order on screen: label, cue, clock, time, then guidance. The cue is one line
+// and belongs with the label; guidance is unbounded, so anything above the
+// clock can push it off the screen — fifty bullets put it three viewport
+// heights down (KD-20). Reference material goes under the thing you watch.
+//
 // KD-4/KD-13: a short list of titled blocks, which is the shape a protocol's
 // own headings survive into. KD-16: a value of the wrong shape is ignored,
 // never refused — bad guidance costs some prose, a refusal costs the session.
@@ -130,9 +135,9 @@ class CadenceSequence extends HTMLElement {
       <div class="cds-position"></div>
       <div class="cds-label"></div>
       <p class="cds-cue" hidden></p>
-      <div class="cds-guidance" hidden></div>
       <button type="button" class="cds-time" part="time" aria-label="Toggle elapsed/remaining time"></button>
       <button type="button" class="cds-start">Start</button>
+      <div class="cds-guidance" hidden></div>
       <div class="cds-live" aria-live="polite"></div>
     `;
     this._titleEl = this.querySelector('.cds-title');

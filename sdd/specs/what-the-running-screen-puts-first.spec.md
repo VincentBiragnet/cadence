@@ -26,6 +26,7 @@ _No items yet._
 - **PA-3** A patient reviewer driving a 41-minute HSR session at a phone viewport reported the single glance they can steal under load lands on the session countdown, and that across four sets three minutes apart they would lose count with no help from the app
 - **PA-4** Fitness UI practice puts the current exercise first, then the timer, then what is next, and reports under three seconds of interpretation time for a metric on a small screen (https://stormotion.io/blog/fitness-app-ux/)
 - **PA-5** The absent set counter is downstream of the flat block model: with no nesting a set has no object of its own, which is the cost recorded in the saying-sets-of-repetitions-once spec
+- **PA-6** Observed by a reviewer verifying an unrelated criterion: the page's demonstration section, The parts, sits immediately below the running program with its own independently running Sample circuit, so a session shares the page with a second unrelated ticking clock one short scroll away
 
 ## Implementation Details
 _No items yet._
@@ -45,3 +46,4 @@ _No items yet._
 - 2026-09-09: OQ-1 added
 - 2026-09-09: OQ-2 added
 - 2026-09-09: OQ-3 added
+- 2026-09-09: PA-6 added
