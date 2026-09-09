@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('a visual pulse fires with every beep, aria-live announces only on change', async ({ page }) => {
-  await page.goto('/index.html');
+  await page.goto('/parts.html');
   const result = await page.evaluate(async () => {
     const seq = document.createElement('cadence-sequence');
     document.body.appendChild(seq);
@@ -26,8 +26,15 @@ test('a visual pulse fires with every beep, aria-live announces only on change',
     return { pulses, announcements, hiddenIsAriaHidden: seq.querySelector('[aria-hidden="true"]') !== null };
   });
   expect(result.pulses).toBeGreaterThanOrEqual(2); // start + end beep on step A
-  // one announcement per step (2) plus the final "Complete" — never one per tick
-  expect(result.announcements.length).toBe(3);
-  expect(result.announcements[result.announcements.length - 1]).toBe('Complete');
+  // One announcement per step (2) plus the final "Complete" — never one per
+  // tick, which is the claim. The screen-stays-awake notice is a fourth, said
+  // once at the start when the browser refuses a wake lock (it always does
+  // under automation), so it is named rather than allowed to inflate a count
+  // that is supposed to catch spam.
+  const wake = result.announcements.filter((t) => /screen may sleep/.test(t));
+  const work = result.announcements.filter((t) => !/screen may sleep/.test(t));
+  expect(wake.length).toBeLessThanOrEqual(1);
+  expect(work.length).toBe(3);
+  expect(work[work.length - 1]).toBe('Complete');
   expect(result.hiddenIsAriaHidden).toBe(true);
 });

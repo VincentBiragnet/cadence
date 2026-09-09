@@ -64,8 +64,9 @@ test("the page's own example carries a cue and guidance, and both render", async
   expect(rendered.cue).toContain('Ribs down');
 });
 
+// KD-3: the shipped example lives on the developer page now, not on the app.
 test('the shipped example carries them too, so Try shows the real thing', async ({ page }) => {
-  await page.goto('/index.html');
+  await page.goto('/parts.html');
   await page.click('#try');
   const seen = await page.evaluate(() => {
     const prog = document.getElementById('program');

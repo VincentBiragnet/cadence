@@ -153,6 +153,14 @@ ends — recording can never cost you a completion. The values leave with the
 export and the replanning prompt names them, so a model asked to redo the plan
 can see how it has actually been going rather than just reshuffling dates.
 
+**A guidance block may carry a drawing**, as `svg`. It is never rendered as
+supplied: it is parsed in an inert document and rebuilt element by element
+from a permitted subset — drawing elements and geometry attributes, nothing
+else. Script, event handlers, links, `foreignObject` and `style` do not
+survive, because they are never copied in the first place. Filtering asks "is
+this dangerous"; rebuilding asks "is this permitted", and only the second is
+safe against a shape nobody thought of. Cap is 64 KB per drawing.
+
 **Guidance goes at the narrowest scope it is true of.** A program's `guidance`
 is the standing rules, shown on the list before and between sessions; an
 entry's is shown when that session opens and comes down when the work starts;

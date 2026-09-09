@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('visible: the step clock\'s own chrono and bar are shown and reflect the current step', async ({ page }) => {
-  await page.goto('/index.html');
+  await page.goto('/parts.html');
   const result = await page.evaluate(async () => {
     const seq = document.createElement('cadence-sequence');
     document.body.appendChild(seq);
@@ -35,7 +35,7 @@ test('no duplicate: the step clock\'s own live region is aria-hidden, only the s
   // which would test something a screen reader user doesn't experience.
   // So: check the aria-hidden attribute directly (the thing that actually
   // matters), and count announcements only from the sequence's own region.
-  await page.goto('/index.html');
+  await page.goto('/parts.html');
   const result = await page.evaluate(async () => {
     const seq = document.createElement('cadence-sequence');
     document.body.appendChild(seq);
@@ -59,7 +59,12 @@ test('no duplicate: the step clock\'s own live region is aria-hidden, only the s
   });
   expect(result.ariaHiddenBefore).toBe('true');
   expect(result.ariaHiddenAfter).toBe('true'); // still hidden after it changed text mid-run
-  expect(result.announcements).toEqual([
+  // The screen-stays-awake notice is said once at the start when a wake lock
+  // is refused, which it always is under automation. It is a run-level notice,
+  // not a per-step one, so it is set aside by name rather than folded into a
+  // sequence this test is asserting the exact shape of.
+  const work = result.announcements.filter((t) => !/screen may sleep/.test(t));
+  expect(work).toEqual([
     expect.stringContaining('step 1 of 2'),
     expect.stringContaining('step 2 of 2'),
     'Complete',

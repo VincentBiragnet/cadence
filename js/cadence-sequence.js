@@ -68,6 +68,67 @@ function flattenSteps(blocks) {
 // clock can push it off the screen — fifty bullets put it three viewport
 // heights down (KD-20). Reference material goes under the thing you watch.
 //
+// KD-1: a drawing is never rendered as supplied. It is parsed in an inert
+// document and rebuilt element by element from a permitted subset, which is
+// the same rule as textContent applied in the one place textContent cannot
+// be: nothing crosses that a rule did not name. Filtering asks "is this
+// dangerous"; rebuilding asks "is this permitted", and only the second is
+// safe against a shape nobody thought of.
+const CDS_SVG_TAGS = new Set([
+  'svg', 'g', 'path', 'line', 'polyline', 'polygon', 'rect', 'circle',
+  'ellipse', 'text', 'tspan', 'title', 'desc',
+]);
+const CDS_SVG_ATTRS = new Set([
+  'viewBox', 'width', 'height', 'x', 'y', 'x1', 'y1', 'x2', 'y2', 'cx', 'cy',
+  'r', 'rx', 'ry', 'd', 'points', 'transform', 'fill', 'fill-rule', 'stroke',
+  'stroke-width', 'stroke-linecap', 'stroke-linejoin', 'stroke-dasharray',
+  'opacity', 'font-size', 'font-family', 'text-anchor', 'dominant-baseline',
+]);
+const CDS_SVG_MAX = 64 * 1024;
+const CDS_SVG_NS = 'http://www.w3.org/2000/svg';
+
+function cdsRebuildSvg(source) {
+  // KD-6: past this a drawing is a traced photograph, not a diagram.
+  if (typeof source !== 'string' || !source.trim() || source.length > CDS_SVG_MAX) return null;
+  let parsed;
+  try {
+    // An XML document, not HTML, and never attached: nothing in here runs,
+    // fetches or lays out.
+    parsed = new DOMParser().parseFromString(source, 'image/svg+xml');
+  } catch { return null; }
+  if (!parsed || parsed.querySelector('parsererror')) return null;
+  const root = parsed.documentElement;
+  if (!root || root.localName !== 'svg') return null;
+
+  const copy = (from) => {
+    const name = from.localName;
+    if (!CDS_SVG_TAGS.has(name)) return null;
+    const to = document.createElementNS(CDS_SVG_NS, name);
+    for (const attr of from.attributes) {
+      // Namespaced attributes are how xlink:href and friends get back in.
+      if (attr.namespaceURI) continue;
+      if (!CDS_SVG_ATTRS.has(attr.name)) continue;
+      to.setAttribute(attr.name, attr.value);
+    }
+    for (const child of from.childNodes) {
+      if (child.nodeType === 3) { to.appendChild(document.createTextNode(child.nodeValue)); continue; }
+      if (child.nodeType !== 1) continue;
+      const built = copy(child);
+      if (built) to.appendChild(built);
+    }
+    return to;
+  };
+
+  const out = copy(root);
+  if (!out) return null;
+  // Scale to the column rather than to whatever the author's viewport was.
+  out.removeAttribute('width');
+  out.removeAttribute('height');
+  out.setAttribute('class', 'cds-figure');
+  out.setAttribute('role', 'img');
+  return out;
+}
+
 // KD-4/KD-13: a short list of titled blocks, which is the shape a protocol's
 // own headings survive into. KD-16: a value of the wrong shape is ignored,
 // never refused — bad guidance costs some prose, a refusal costs the session.
@@ -84,7 +145,8 @@ function renderGuidance(host, guidance) {
     const text = typeof block.text === 'string' ? block.text.trim() : '';
     const items = Array.isArray(block.items)
       ? block.items.filter((i) => typeof i === 'string' && i.trim()) : [];
-    if (!heading && !text && !items.length) continue;
+    const figure = cdsRebuildSvg(block.svg);
+    if (!heading && !text && !items.length && !figure) continue;
     if (heading) {
       const h = document.createElement('h4');
       h.textContent = heading;
@@ -103,6 +165,13 @@ function renderGuidance(host, guidance) {
         ul.appendChild(li);
       }
       host.appendChild(ul);
+    }
+    if (figure) {
+      // The heading names it for anyone who cannot see it; without one the
+      // drawing is decorative as far as assistive tech is concerned.
+      if (heading) figure.setAttribute('aria-label', heading);
+      else figure.setAttribute('aria-hidden', 'true');
+      host.appendChild(figure);
     }
     shown += 1;
   }

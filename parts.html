@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cadence — the parts</title>
+  <link rel="stylesheet" href="css/theme.css">
+</head>
+<body>
+  <div class="page">
+    <header class="page-head">
+      <h1 id="wordmark" class="small">Cadence — the parts</h1>
+      <a class="btn-quiet" href="index.html">Back to the app</a>
+    </header>
+
+    <!-- KD-3: this page exists so index.html does not have to carry it. A
+         person holding a phone in a gym is not looking for a component
+         demonstration, and a sample circuit ticking below a live session was
+         a second unrelated clock on the same screen. -->
+    <p class="muted">Working demonstrations of the pieces the app is built from.
+      Nothing here is part of a session.</p>
+
+    <h3>One step</h3>
+    <button type="button" id="start" class="btn-quiet">Start a 20-second step</button>
+    <cadence-clock id="demo"></cadence-clock>
+
+    <h3>A sequence of them</h3>
+    <cadence-sequence id="demo-sequence"></cadence-sequence>
+
+    <h3>A whole programme</h3>
+    <p><button type="button" id="try" class="btn-quiet">Load the eight-week example</button></p>
+    <cadence-program id="program" hidden></cadence-program>
+  </div>
+
+  <script src="js/cadence-clock.js"></script>
+  <script src="js/cadence-sequence.js"></script>
+  <script src="js/cadence-program.js"></script>
+  <script src="js/example-program.js"></script>
+  <script>
+    // A gesture first: browsers refuse Web Audio without one, so a
+    // demonstration that configured itself on load would be silently mute.
+    document.getElementById('start').addEventListener('click', () => {
+      document.getElementById('demo').configure({
+        durationSeconds: 20, startFrequency: 440, endFrequency: 880,
+      });
+    });
+
+    document.getElementById('demo-sequence').configure({
+      title: 'Sample circuit',
+      blocks: [
+        { repetitions: 2, steps: [
+          { label: 'Leg raise', durationSeconds: 20, startFrequency: 440 },
+          { label: 'Rest', durationSeconds: 10 },
+          { label: 'Crunch', durationSeconds: 20, endFrequency: 880 },
+        ]},
+        { repetitions: 1, steps: [
+          { label: 'Cooldown', durationSeconds: 30, startFrequency: 660, endFrequency: 660 },
+        ]},
+      ],
+    });
+
+    const program = document.getElementById('program');
+    document.getElementById('try').addEventListener('click', () => {
+      program.configure(window.CADENCE_EIGHT_WEEK, { viaLoad: true });
+      program.hidden = false;
+    });
+  </script>
+</body>
+</html>

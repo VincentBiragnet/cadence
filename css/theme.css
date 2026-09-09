@@ -564,3 +564,92 @@ cadence-program {
   max-width: 34rem;
   overflow-wrap: anywhere;
 }
+
+/* A page built for the person holding the phone. */
+
+/* KD-7: the contract stays in the document, in order, uncollapsed — a model
+   reading the page gets every word — and out of sight, so a person never
+   meets it. Same rule as the live regions. */
+.cdp-offscreen {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* KD-2: Cadence names itself once, then gets out of the way. */
+#wordmark.small {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  opacity: 0.65;
+  margin: 0;
+}
+
+.empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1.25rem 0 0;
+}
+.btn-primary {
+  min-height: 44px;
+  padding: 0 1.1rem;
+  font: inherit;
+  color: var(--cdc-color-bg);
+  background: var(--cdc-color-fg);
+  border: 1px solid var(--cdc-color-fg);
+  border-radius: 4px;
+  cursor: pointer;
+}
+.prompt-fallback {
+  display: block;
+  width: 100%;
+  min-height: 9rem;
+  margin: 0.5rem 0;
+  font: 0.8rem/1.4 ui-monospace, monospace;
+  color: var(--cdc-color-fg);
+  background: var(--cdc-color-bg);
+  border: 1px solid var(--cdc-color-track);
+  border-radius: 4px;
+}
+
+/* KD-1: a rebuilt drawing, scaled to the column rather than to whatever
+   viewport its author had. */
+.cds-figure {
+  display: block;
+  width: 100%;
+  max-width: 20rem;
+  height: auto;
+  margin: 0.5rem 0;
+  color: var(--cdc-color-fg);
+}
+
+/* KD-4: the step's own clock is the one that governs what the body is doing,
+   so it is the large one; the session total sits small beside the title. It
+   was the other way round, 40px against 17.6px. */
+cadence-sequence .cds-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+cadence-sequence > .cds-time {
+  font-size: 1rem;
+  opacity: 0.7;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-family: inherit;
+  cursor: pointer;
+}
+cadence-sequence .cds-label {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+cadence-sequence cadence-clock .cdc-time {
+  font-size: 2.75rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}

@@ -8,41 +8,37 @@
 </head>
 <body>
   <div class="page">
-    <!-- KD-6: Load is chrome. It sits here in both states and never moves. -->
+    <!-- KD-2 of the page spec: the wordmark shrinks once there is a
+         programme, because from then on the session is the subject and
+         Cadence is not. -->
     <header class="page-head">
-      <div>
-        <h1>Cadence</h1>
-        <p class="lede">A clock that walks through a timed program.</p>
-      </div>
-      <button type="button" id="load" class="btn-quiet">Load .json</button>
+      <h1 id="wordmark">Cadence</h1>
+      <!-- Hidden while the empty state is up: that state offers its own Load,
+           and two buttons doing one thing is not "exactly two things". -->
+      <button type="button" id="load" class="btn-quiet" hidden>Load .json</button>
     </header>
 
-    <!-- KD-1: nothing is configured on load, so with nothing stored this is
-         what a first visit actually looks like. -->
+    <!-- G-2: with nothing loaded, exactly two things. A file you already
+         have, or the prompt to get one. Nothing else, and nothing about
+         JSON: that is written for a model, not for a person. -->
     <section id="empty">
-      <p class="intro">A program is a JSON file: a title, and a list of entries that each say
-        which week and weekday they belong to rather than what date they fall on.</p>
-      <p><button type="button" id="try" class="btn-link">Try the eight-week example</button></p>
+      <p class="intro">Load a training programme, or ask an AI to write you one.</p>
+      <p class="empty-actions">
+        <button type="button" id="load-empty" class="btn-primary">Load a .json file</button>
+        <button type="button" id="copy-prompt" class="btn-quiet">Copy prompt for your AI</button>
+      </p>
+      <p id="copied" class="muted" role="status" aria-live="polite"></p>
     </section>
 
     <cadence-program id="program" hidden></cadence-program>
-    <p id="format-link" hidden><a class="btn-link" href="#format">Program format &#8595;</a></p>
 
-    <section class="parts">
-      <h2>The parts</h2>
-      <p class="muted">A program is built from these two, and they run on their own.</p>
-
-      <h3>One step</h3>
-      <button type="button" id="start" class="btn-quiet">Start a 20-second step</button>
-      <cadence-clock id="demo"></cadence-clock>
-
-      <h3>A sequence of them</h3>
-      <cadence-sequence id="demo-sequence"></cadence-sequence>
-    </section>
-
-    <!-- KD-2: the contract is last, and never folded. A reader that works on
-         visible text drops the contents of a closed disclosure entirely. -->
-    <section id="format" class="contract">
+    <!-- KD-7: still last in the document and still uncollapsed, so anything
+         reading the page or its source gets every word — clipped out of sight
+         by the same rule the live regions use, so a person never meets it. A
+         person who wants it presses Copy prompt. Never fold this into a
+         <details>: a closed disclosure drops its contents from innerText,
+         which is what a model reading rendered text sees. -->
+    <section id="format" class="contract cdp-offscreen">
       <h2>For a language model</h2>
       <p>Read this section and answer with one JSON object and nothing else. Everything Cadence
         reads is described here; a field it does not recognise is kept in the file and shown
@@ -180,47 +176,51 @@
   <script src="js/cadence-clock.js"></script>
   <script src="js/cadence-sequence.js"></script>
   <script src="js/cadence-program.js"></script>
-  <script src="js/example-program.js"></script>
   <script>
     const program = document.getElementById('program');
     const empty = document.getElementById('empty');
-    const formatLink = document.getElementById('format-link');
+    const wordmark = document.getElementById('wordmark');
 
-    // KD-7: the page asks. The element never reaches into storage by itself.
+    // KD-7 of the archived empty-state spec: the page asks. The element never
+    // reaches into storage by itself.
     function show(hasProgram) {
       program.hidden = !hasProgram;
-      formatLink.hidden = !hasProgram;
       empty.hidden = hasProgram;
+      document.getElementById('load').hidden = !hasProgram;
+      // KD-2: once there is a programme, the session is the subject.
+      wordmark.classList.toggle('small', hasProgram);
     }
     show(program.restore());
 
-    document.getElementById('load').addEventListener('click', () => program.chooseFile());
-    document.getElementById('try').addEventListener('click', () => {
-      program.configure(window.CADENCE_EIGHT_WEEK, { viaLoad: true });
-      show(true);
-    });
+    for (const id of ['load', 'load-empty']) {
+      document.getElementById(id).addEventListener('click', () => program.chooseFile());
+    }
     program.addEventListener('cadence:programLoaded', () => show(true));
 
-    // Real browsers need a gesture before Web Audio makes a sound, so the
-    // demonstrations below start from a press rather than on page load.
-    document.getElementById('start').addEventListener('click', () => {
-      document.getElementById('demo').configure({
-        durationSeconds: 20, startFrequency: 440, endFrequency: 880,
-      });
-    });
-
-    document.getElementById('demo-sequence').configure({
-      title: 'Sample circuit',
-      blocks: [
-        { repetitions: 2, steps: [
-          { label: 'Leg raise', durationSeconds: 20, startFrequency: 440 },
-          { label: 'Rest', durationSeconds: 10 },
-          { label: 'Crunch', durationSeconds: 20, endFrequency: 880 },
-        ]},
-        { repetitions: 1, steps: [
-          { label: 'Cooldown', durationSeconds: 30, startFrequency: 660, endFrequency: 660 },
-        ]},
-      ],
+    // G-2: the second of the two things. The contract is in the document but
+    // out of sight, so this is how a person gets at it — one press, straight
+    // into whatever they are talking to.
+    document.getElementById('copy-prompt').addEventListener('click', async () => {
+      const said = document.getElementById('copied');
+      const text = 'Write me a training programme as one JSON object, following this '
+        + 'specification exactly.\n\n'
+        + document.getElementById('format').innerText.trim();
+      try {
+        await navigator.clipboard.writeText(text);
+        said.textContent = 'Copied. Paste it to your AI along with what you want to train for.';
+      } catch {
+        // Clipboard access can be refused outright, and a prompt nobody can
+        // reach is the same as no prompt: fall back to letting them take it
+        // by hand rather than reporting failure and stopping.
+        const box = document.createElement('textarea');
+        box.className = 'prompt-fallback';
+        box.readOnly = true;
+        box.value = text;
+        said.textContent = 'Copy this and paste it to your AI:';
+        said.after(box);
+        box.focus();
+        box.select();
+      }
     });
   </script>
 </body>

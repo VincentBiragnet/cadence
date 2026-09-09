@@ -733,6 +733,9 @@ class CadenceProgram extends HTMLElement {
     this._viewEl.hidden = true;
     this._runEl.hidden = false;
     this._programGuidanceEl.hidden = true;
+    // KD-2: during a run the session is the subject. The programme's name is
+    // on the list you came from and costs two lines of a phone screen here.
+    this._titleEl.hidden = true;
     // KD-15: entry guidance is what you read while deciding to begin, so it
     // is here now and gone the moment the work starts — see _beginRun below.
     renderGuidance(this._entryGuidanceEl, entry.guidance);
@@ -983,6 +986,7 @@ class CadenceProgram extends HTMLElement {
       this._runningSeq = null;
     }
     this._runEl.hidden = true;
+    this._titleEl.hidden = false;
     this._entryGuidanceEl.hidden = true;
     this._lastTimeEl.hidden = true;
     this._recordEl.hidden = true;
