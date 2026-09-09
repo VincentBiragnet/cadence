@@ -1,4 +1,7 @@
 import { test, expect } from '@playwright/test';
+import { writeFileSync, mkdtempSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 
 // VC-4 (G-1) — a step carrying a cue shows it under the step label while that
 // step runs, at a phone viewport with no scrolling; a step carrying none shows
@@ -104,3 +107,74 @@ test('a cue is text, never markup', async ({ page }) => {
   expect(seen.imgs).toBe(0);
   expect(seen.pwned).toBe(false);
 });
+
+// The shape that failed VC-1 on the first attempt: the criterion passed on a
+// fixture and on the contract example, and broke on the real page at five
+// bullets of block guidance, because focusing Start scrolled the label and the
+// cue off the top of a ~4000px page. It is the *main page* and the *amount of
+// guidance* that matter, so this exercises both.
+function heavy(bullets) {
+  return {
+    title: 'Heavy guidance',
+    guidance: [{ heading: 'Before you start', text: 'Three sessions a week, never two days running.' }],
+    entries: [{
+      week: 1, day: 1, label: 'Heavy',
+      guidance: [{ heading: 'This session', text: 'Two rounds. Keep the rest honest.' }],
+      sequence: { title: 'Heavy session', blocks: [{
+        repetitions: 1,
+        guidance: [
+          { heading: 'Form', text: 'Hands under the shoulders, ribs down.' },
+          { heading: 'Watch for',
+            items: Array.from({ length: bullets },
+              (_, i) => `Point ${i + 1}: keep the ribs down and the hips level.`) },
+        ],
+        steps: [{ label: 'Push-up', durationSeconds: 60,
+                  cue: 'Ribs down, elbows back — stop before the hips sag.' }],
+      }] },
+    }],
+  };
+}
+
+for (const bullets of [4, 6, 20]) {
+  test(`the cue survives ${bullets} bullets of block guidance on the real page`, async ({ page }) => {
+    await page.goto('/index.html');
+    // Load it the way a person does. Calling configure() directly leaves
+    // #program hidden — the page only reveals it on cadence:programLoaded —
+    // and every rect on a hidden element is 0x0 at 0,0, which satisfies an
+    // "is it in the viewport" check without anything being on screen.
+    const dir = mkdtempSync(join(tmpdir(), 'cadence-'));
+    const file = join(dir, 'heavy.json');
+    writeFileSync(file, JSON.stringify(heavy(bullets)));
+    await page.setInputFiles('#program .cdp-load', file);
+    await page.evaluate(() => {
+      const prog = document.getElementById('program');
+      prog.querySelector('.cdp-start').click();
+      prog.querySelector('cadence-sequence .cds-start').click();
+    });
+    await page.waitForTimeout(600);
+
+    const seen = await page.evaluate(() => {
+      const cue = document.querySelector('#program .cds-cue');
+      const label = document.querySelector('#program .cds-label');
+      const c = cue.getBoundingClientRect();
+      const l = label.getBoundingClientRect();
+      return {
+        text: cue.textContent,
+        cueTop: Math.round(c.top), cueBottom: Math.round(c.bottom),
+        labelTop: Math.round(l.top),
+        visible: cue.checkVisibility(),
+        area: Math.round(c.width * c.height),
+        inView: c.top >= 0 && c.bottom <= window.innerHeight,
+        labelInView: l.top >= 0,
+        scrollY: Math.round(window.scrollY),
+      };
+    });
+    expect(seen.text).toContain('Ribs down');
+    // A hidden element is 0x0 at 0,0 and passes an in-viewport check for free.
+    expect(seen.visible).toBe(true);
+    expect(seen.area).toBeGreaterThan(1000);
+    // The whole point of a cue: on screen while the step runs, not scrolled past.
+    expect(seen.inView, `cue at ${seen.cueTop}..${seen.cueBottom}, scrollY ${seen.scrollY}`).toBe(true);
+    expect(seen.labelInView, `label at ${seen.labelTop}`).toBe(true);
+  });
+}

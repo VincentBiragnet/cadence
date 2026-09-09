@@ -119,7 +119,7 @@ cadence-clock[data-pulse] .cdc-bar {
   }
 }
 
-.cdc-live, .cds-live {
+.cdc-live, .cds-live, .cdp-live {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -471,14 +471,14 @@ cadence-program {
   margin: 0.25rem 0 0;
   font-size: 0.95rem;
   line-height: 1.45;
-  color: var(--muted, #555);
+  color: var(--cdc-color-muted);
   max-width: 34rem;
 }
 .cdp-guidance,
 .cds-guidance {
   margin: 0.75rem 0;
   padding-left: 0.85rem;
-  border-left: 2px solid var(--rule, #d8d4cc);
+  border-left: 2px solid var(--cdc-color-track);
   max-width: 34rem;
   font-size: 0.92rem;
   line-height: 1.5;
@@ -490,7 +490,7 @@ cadence-program {
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--muted, #555);
+  color: var(--cdc-color-muted);
 }
 .cdp-guidance h4:first-child,
 .cds-guidance h4:first-child { margin-top: 0; }

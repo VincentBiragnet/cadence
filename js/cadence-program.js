@@ -677,12 +677,19 @@ class CadenceProgram extends HTMLElement {
     this._runEl.appendChild(this._runningSeq);
     this._runningSeq.configure(entry.sequence);
     // Once the work is running, the deciding is over: the entry card comes
-    // down so nothing sits between the reader and the clock (KD-6).
+    // down so nothing sits between the reader and the clock (KD-6), and the
+    // runner is brought back to the top of the viewport. Focusing Start on a
+    // tall page scrolls it into view and carries the label and the cue off the
+    // top with it, which is precisely the cue not being visible while its step
+    // runs — the criterion this whole spec turns on.
     this._runningSeq.addEventListener('cadence:start', () => {
       this._entryGuidanceEl.hidden = true;
+      this._runningSeq.scrollIntoView({ block: 'start' });
     }, { once: true });
-    // KD-2: the gesture that begins the work should be under the finger.
-    this._runningSeq.querySelector('.cds-start')?.focus();
+    // KD-2: the gesture that begins the work should be under the finger —
+    // but reaching it must not move the page out from under the reader.
+    this._runEl.scrollIntoView({ block: 'start' });
+    this._runningSeq.querySelector('.cds-start')?.focus({ preventScroll: true });
     this._announce(`Started ${entry.sequence.title || 'session'}`);
   }
 
