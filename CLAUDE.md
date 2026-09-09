@@ -65,8 +65,12 @@ They apply to every component in this project, not just that one.
 - Durations are authored in JSON as a number of seconds (fractional
   allowed), matching how a program step is described in prose ("20s leg
   raise"). Convert to milliseconds internally for the timing loop.
-- Displayed time is always `m:ss` (seconds zero-padded, no leading zero on
-  minutes), regardless of the duration's magnitude.
+- Displayed time is `m:ss` under an hour (seconds zero-padded, no leading
+  zero on minutes) and `h:mm:ss` from an hour, with the minutes padded once
+  the hours lead — an unpadded minute reads as the wrong number behind a
+  leading field. A short step keeps its short form beside a long total:
+  `0:20` next to `2:14:30`. (Was `m:ss` always, which rendered a 3h38m
+  effort as `218:00`; see the `hours-on-the-clock` spec.)
 
 ## Verification
 
