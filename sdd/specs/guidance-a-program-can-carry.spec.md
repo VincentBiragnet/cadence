@@ -12,6 +12,7 @@ _Edit via `scripts/spec.py`, never by hand._
 
 ## Non-Goals
 - **NG-1** Images and diagrams in a program file (OQ-5): untrusted markup, no asset pipeline on a file:// page, and a size cost out of all proportion to the words they replace
+- **NG-2** A plain-language read-back emitted alongside the JSON, tracing each rule to the sentence it came from, as the physio reviewer asked for so there would be an artefact they could sign. Dropped by decision: handing a file to a third party is outside what Cadence does
 
 ## Open Questions
 - **OQ-1** Where does step guidance appear: always visible beside the clock, or behind a press? → discovery:where-guidance-lives-and-what-shape-it-takes
@@ -59,3 +60,4 @@ _No items yet._
 - 2026-09-09: PA-3 struck
 - 2026-09-09: PA-4 added
 - 2026-09-09: PA-5 added
+- 2026-09-09: NG-2 added

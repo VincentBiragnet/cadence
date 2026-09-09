@@ -6,9 +6,9 @@
 _Edit via `scripts/spec.py`, never by hand._
 
 ## Open Questions
-- **OQ-1** Does guidance need a home at exercise scope, between the entry and the step, given that an exercise is a run of blocks with no object of its own?
-- **OQ-2** Where do program-scoped lists live when the program field is a paragraph: crammed in, repeated per entry, or given a list field of their own?
-- **OQ-3** Is a cue allowed to repeat something the guidance already says, and is that required for a safety instruction?
+- **OQ-1** ~~Does guidance need a home at exercise scope, between the entry and the step, given that an exercise is a run of blocks with no object of its own?~~ → Answered by PD-2: a block is a guidance scope, which is the object an exercise is
+- **OQ-2** ~~Where do program-scoped lists live when the program field is a paragraph: crammed in, repeated per entry, or given a list field of their own?~~ → Answered by PD-3: program guidance is the same headed-block list, so a list needs no separate home
+- **OQ-3** ~~Is a cue allowed to repeat something the guidance already says, and is that required for a safety instruction?~~ → Answered by PD-5: a cue may repeat a constraint the guidance states, and should when breaking it makes the repetition wrong
 
 ## State of the Art
 - **SOTA-1** Observed on the prototype at 390x844 before handing it to reviewers: under treatment C the standing rules plus both exercise cards fill the whole screen, and the running clock is entirely below the fold. A phone user starting a session sees guidance and no timer
@@ -42,17 +42,20 @@ _Edit via `scripts/spec.py`, never by hand._
 - **PD-1** None of A, B or C as written. Guidance takes two forms: a cue of one sentence always visible under the step label for as long as that step runs, which is A's mechanism and the only one that reached a person with their hands full, and guidance as a list of headed blocks, which is B's container and the only one a protocol's own headings survive into
 - **PD-2** Guidance attaches at the narrowest scope it is true of, and a block is one of those scopes, because a block is what an exercise actually is. The physio and the model author reached this independently from opposite ends, one seeing both cards stacked above Start, the other having nowhere to hang an exercise
 - **PD-3** Guidance attached to a scope is shown when that scope begins, never all of it before Start, since stacking the cards put the Start button 1833 pixels down and left the seated card on screen during the single-leg work
-- **PD-4** Program guidance is the same list of headed blocks rather than a paragraph, because short paragraph is what turned four red flags into a semicolon run-on and dropped the rules that had no room
+- **PD-4** ~~Program guidance is the same list of headed blocks rather than a paragraph, because short paragraph is what turned four red flags into a semicolon run-on and dropped the rules that had no room~~ → Out of scope by decision: red flags ride along as ordinary guidance blocks for now, and a distinct field with an enforced action verb is deferred to its own spec so it gets decided on its own evidence rather than as a rider
 - **PD-5** Red flags are their own field, not the last bullets of the standing block, and their text must carry the action: stop and call, not see a doctor if. A threshold whose action is missing is not a safety rule, and see a doctor if printed above a running metronome is not an instruction
-- **PD-6** A cue may and should repeat a constraint the guidance already states. The rule is that a cue names the one thing that makes the repetition wrong if broken, even when the card says it too. Repetition is the feature: it is the clause forbidding it that let the heel-stop rule vanish from the heaviest reps of the session
+- **PD-6** ~~A cue may and should repeat a constraint the guidance already states. The rule is that a cue names the one thing that makes the repetition wrong if broken, even when the card says it too. Repetition is the feature: it is the clause forbidding it that let the heel-stop rule vanish from the heaviest reps of the session~~ → Split by decision: reporting unrecognised field names is deferred to its own spec. Only the false sentence on the page is kept, as PD-8, because this spec rewrites that very paragraph and leaving it contradicting the parent's KD-3 would ship a known falsehood
 - **PD-7** Unrecognised fields stay accepted per the parent's KD-3, but the page stops claiming that anything not described is rejected, and a load names the field names it did not recognise in the message channel the hostile-file spec already built. Silent acceptance is what makes a one-shot paste unverifiable
+- **PD-8** Red flags are carried as ordinary guidance blocks at program scope, with no separate field and no check on their wording. The physio's objection is recorded and deferred rather than answered
+- **PD-9** The contract paragraph stops claiming that anything not described is rejected, since it is false today and the parent's KD-3 keeps it false on purpose. Saying nothing about unrecognised fields is honest; saying they are rejected is not
 
 ## Proposed Criteria
 - **PC-1** At 390x844, while a step carrying a cue is running, the cue is visible without scrolling and its top edge is above the step clock's bottom edge, so it reads as belonging to the label rather than trailing the runner
 - **PC-2** In a program whose two exercises each carry block guidance, the second exercise's guidance is absent from the document while the first exercise's blocks run, and present once the second begins
-- **PC-3** A program carrying red flags renders them reachable during a running session, and a load is refused with a message naming the field when a red flag's text contains no instruction to stop
-- **PC-4** Loading a program whose guidance field is misspelled reports the unrecognised name in the same place a broken file is reported, and the program still loads and runs
-- **PC-5** The contract section on the page contains no claim that unrecognised fields are rejected, and the page's own contract example carries a cue, a block guidance and a red flag, all of which render when that example is configured
+- **PC-3** ~~A program carrying red flags renders them reachable during a running session, and a load is refused with a message naming the field when a red flag's text contains no instruction to stop~~ → Covers the struck PD-4
+- **PC-4** ~~Loading a program whose guidance field is misspelled reports the unrecognised name in the same place a broken file is reported, and the program still loads and runs~~ → Covers the reporting half of the struck PD-6
+- **PC-5** ~~The contract section on the page contains no claim that unrecognised fields are rejected, and the page's own contract example carries a cue, a block guidance and a red flag, all of which render when that example is configured~~ → Named a red flag in the page's example, which the struck PD-4 removed from this spec. Replaced by PC-6
+- **PC-6** The contract section on the page contains no claim that unrecognised fields are rejected, and the page's own contract example carries a cue and a block guidance, both of which render when that example is configured
 
 ## Changelog
 - 2026-09-09: Opened for OQ-1 of guidance-a-program-can-carry.
@@ -97,3 +100,14 @@ _Edit via `scripts/spec.py`, never by hand._
 - 2026-09-09: PC-3 added
 - 2026-09-09: PC-4 added
 - 2026-09-09: PC-5 added
+- 2026-09-09: PD-4 struck
+- 2026-09-09: PD-6 struck
+- 2026-09-09: PC-3 struck
+- 2026-09-09: PC-4 struck
+- 2026-09-09: PD-8 added
+- 2026-09-09: PD-9 added
+- 2026-09-09: PC-6 added
+- 2026-09-09: PC-5 struck
+- 2026-09-09: OQ-1 struck
+- 2026-09-09: OQ-2 struck
+- 2026-09-09: OQ-3 struck
