@@ -113,6 +113,10 @@ class CadenceSequence extends HTMLElement {
   constructor() {
     super();
     this._config = null;
+    this._wake = null;
+    this._wantWake = false;
+    this._awakeSaid = false;
+    this._onVisibility = null;
     this._flat = [];
     this._totalMs = 0;
     this._cursor = 0;
@@ -127,6 +131,53 @@ class CadenceSequence extends HTMLElement {
 
   disconnectedCallback() {
     if (this._raf) cancelAnimationFrame(this._raf);
+    // KD-4: teardown, Back and drop all remove this element, so this is the
+    // one place every early exit already passes through.
+    this._releaseWake();
+    if (this._onVisibility) {
+      document.removeEventListener('visibilitychange', this._onVisibility);
+      this._onVisibility = null;
+    }
+  }
+
+  // KD-1: held for the whole run, not per step — between steps there is no
+  // gap to cover, and holding it while someone reads the list or fills in a
+  // form would keep a phone awake for no reason.
+  async _requestWake() {
+    this._wantWake = true;
+    if (!('wakeLock' in navigator)) return this._reportAwake();
+    try {
+      const sentinel = await navigator.wakeLock.request('screen');
+      // KD-6: the request is asynchronous and the run may already be over by
+      // the time it resolves. A lock held over a finished session is a phone
+      // left awake with nothing running — the one failure nobody could
+      // explain.
+      if (!this._wantWake) { sentinel.release().catch(() => {}); return; }
+      this._wake = sentinel;
+      this._awakeEl.hidden = true;
+    } catch {
+      this._reportAwake();
+    }
+  }
+
+  _releaseWake() {
+    this._wantWake = false;
+    if (this._wake) {
+      this._wake.release().catch(() => {});
+      this._wake = null;
+    }
+  }
+
+  // KD-2, KD-7: said once, quietly, by the thing that is running. The
+  // program's problem channel belongs to loading a file and is out of reach
+  // of a sequence used on its own.
+  _reportAwake() {
+    if (this._awakeSaid) return;
+    this._awakeSaid = true;
+    this._awakeEl.textContent =
+      'This browser will not keep the screen on. Turn off auto-lock if the screen sleeps mid-session.';
+    this._awakeEl.hidden = false;
+    this._announce('The screen may sleep during this session');
   }
 
   _render() {
@@ -138,6 +189,7 @@ class CadenceSequence extends HTMLElement {
       <button type="button" class="cds-time" part="time" aria-label="Toggle elapsed/remaining time"></button>
       <button type="button" class="cds-start">Start</button>
       <div class="cds-guidance" hidden></div>
+      <p class="cds-awake" hidden></p>
       <div class="cds-live" aria-live="polite"></div>
     `;
     this._titleEl = this.querySelector('.cds-title');
@@ -145,6 +197,7 @@ class CadenceSequence extends HTMLElement {
     this._labelEl = this.querySelector('.cds-label');
     this._cueEl = this.querySelector('.cds-cue');
     this._guidanceEl = this.querySelector('.cds-guidance');
+    this._awakeEl = this.querySelector('.cds-awake');
     this._timeEl = this.querySelector('.cds-time');
     this._startEl = this.querySelector('.cds-start');
     this._liveEl = this.querySelector('.cds-live');
@@ -222,6 +275,19 @@ class CadenceSequence extends HTMLElement {
 
   _begin() {
     this._startEl.hidden = true;
+    this._requestWake();
+    // KD-5: the browser releases the lock whenever the document hides, which
+    // is correct behaviour rather than a fault to fight. What matters is that
+    // coming back finds a screen that stays awake — and that a run which
+    // ended while away asks for nothing.
+    if (!this._onVisibility) {
+      this._onVisibility = () => {
+        if (document.visibilityState === 'visible' && this._wantWake && !this._wake) {
+          this._requestWake();
+        }
+      };
+      document.addEventListener('visibilitychange', this._onVisibility);
+    }
     this.dispatchEvent(new CustomEvent('cadence:start', { detail: { config: this._config } }));
     this._runStep();
     this._raf = requestAnimationFrame(() => this._tick());
@@ -259,6 +325,7 @@ class CadenceSequence extends HTMLElement {
   }
 
   _complete() {
+    this._releaseWake();
     this._updateTimeText(this._totalMs);
     this.setAttribute('data-done', '');
     this.dispatchEvent(new CustomEvent('cadence:complete', { detail: { config: this._config } }));

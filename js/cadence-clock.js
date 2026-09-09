@@ -7,6 +7,9 @@
 // Renders in light DOM, not a shadow root, so the shared theme.css (KD-7)
 // styles it with no per-component stylesheet duplication.
 
+// Long enough to feel through a pocket, short enough not to blur into the
+// next phase of a three-second tempo.
+const BUZZ_MS = 60;
 const BEEP_MS = 150;
 
 function formatTime(seconds) {
@@ -147,6 +150,10 @@ class CadenceClock extends HTMLElement {
   // break the timing loop or the visual pulse that stands in for the sound.
   _beep(frequency, edge) {
     this.dispatchEvent(new CustomEvent('cadence:beep', { detail: { frequency, edge } }));
+    // Best-effort, exactly like the sound: absent on most desktops, ignored
+    // when the phone is set to refuse it, and never allowed to break the
+    // timing loop (G-2, KD-8).
+    try { navigator.vibrate?.(BUZZ_MS); } catch { /* nothing to fall back to */ }
     try {
       if (!this._audioCtx) this._audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       const ctx = this._audioCtx;

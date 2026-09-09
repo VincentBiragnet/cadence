@@ -554,3 +554,13 @@ cadence-program {
   min-height: 44px;
   margin-right: 0.5rem;
 }
+
+/* The screen-stays-awake notice (the-screen-stays-awake, KD-2/KD-7): said
+   once by the thing that is running, quietly, and never per step. */
+.cds-awake {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  color: var(--cdc-color-muted);
+  max-width: 34rem;
+  overflow-wrap: anywhere;
+}
