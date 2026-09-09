@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guidance prototype — three treatments</title>
+<link rel="stylesheet" href="../css/theme.css">
+<style>
+  body { font: 14px/1.5 system-ui, sans-serif; margin: 0; }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 16px; }
+  .pick { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .pick button { min-height: 44px; padding: 0 14px; }
+  .pick button[aria-pressed="true"] { outline: 2px solid currentColor; }
+  h1 { font-size: 1.1rem; }
+  /* --- guidance treatments --- */
+  .g-cue { font-size: .95rem; opacity: .85; margin: 4px 0 0; }
+  .g-prog { border-left: 3px solid currentColor; padding: 4px 0 4px 12px; margin: 12px 0; opacity: .9; }
+  .g-prog h3 { font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; margin: 0 0 4px; opacity: .7; }
+  .g-prog p { margin: 0 0 6px; }
+  .g-card { border: 1px solid; border-radius: 8px; padding: 12px; margin: 12px 0; }
+  .g-card h4 { font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; margin: 10px 0 2px; opacity: .7; }
+  .g-card h4:first-child { margin-top: 0; }
+  .g-card p, .g-card li { margin: 0 0 4px; }
+  .g-card ul { margin: 0 0 6px; padding-left: 18px; }
+  .g-open { min-height: 44px; padding: 0 12px; }
+  dialog.g-card { max-width: 30rem; }
+  .runner { margin-top: 16px; }
+  .hint { font-size: .8rem; opacity: .6; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Guidance prototype</h1>
+<p class="hint">One real HSR session (week 6, 4&times;8, exercises B then C). Pick a treatment,
+  then press Start and watch what the guidance does while the clock runs.</p>
+
+<div class="pick" role="group" aria-label="Treatment">
+  <button type="button" data-t="A" aria-pressed="false">A &mdash; one line, always visible</button>
+  <button type="button" data-t="B" aria-pressed="false">B &mdash; a card behind a press</button>
+  <button type="button" data-t="C" aria-pressed="false">C &mdash; cue while moving, card before starting</button>
+</div>
+
+<div id="program-guidance"></div>
+<div id="entry-guidance"></div>
+<div class="runner"><cadence-sequence id="seq"></cadence-sequence></div>
+<div id="step-guidance"></div>
+</div>
+
+<script src="../js/cadence-clock.js"></script>
+<script src="../js/cadence-sequence.js"></script>
+<script>
+// Content is verbatim from protocole_HSR_tendon_achille.md, trimmed to length.
+const PROGRAM_NOTES = [
+  "Three sessions a week, never two days running.",
+  "Pain up to 5/10 during a set is acceptable, as long as it is back to normal within 24 hours. Do not stop for moderate pain: the tendon needs the load. That is mistake number one.",
+  "Cycling and swimming free. No running for the first two weeks, then build back 10% a week in shoes with a drop. No jumping HIIT until week 8. No barefoot walking until the protocol ends.",
+];
+const RED_FLAGS = [
+  "Sudden pain mid-effort with a snapping sensation",
+  "Cannot push up onto the toes",
+  "Recently took a fluoroquinolone (Ciflox, Tavanic)",
+  "Marked swelling with redness and heat",
+];
+const CUES = {
+  "Assis": "Knees at 90°, whole sole on the floor, load on the lower thigh. Stop at the floor.",
+  "Unilat.": "One leg. Hand on the wall for balance only, no weight through the arm.",
+  "Iso": "Up on both toes, hold high, come down slowly.",
+  "Velo": "Light spin, just enough to warm up.",
+  "Repos": "Sit down. The tendon needs the whole rest.",
+};
+const CARDS = {
+  "Assis": { title: "Exercise B — seated calf raise, knee bent", blocks: [
+    { h: "Why it matters", p: ["The soleus takes 6 to 8 times body weight when you run. Almost always undertrained, and usually what caps tendon recovery. Never skip it."] },
+    { h: "Equipment", p: ["Seated calf machine ideally, or sit on a solid chair with a barbell across the thighs, thickly padded with a towel."] },
+    { h: "Starting position", l: ["Seated, knees at 90°", "Whole sole in contact with the floor", "Load on the lower thigh, just above the knee"] },
+    { h: "Execution", p: ["Tempo 3s up, 1s hold, 3s down, stop at the floor. Shorter range than exercise A, which is normal."] },
+    { h: "Watch for", l: ["Proper padding on the thighs", "Do not skip this one"] },
+  ]},
+  "Unilat.": { title: "Exercise C — single-leg standing calf raise", blocks: [
+    { h: "When to bring it in", p: ["Once the two-legged version is comfortable and pain-free. Allows a heavier relative load per leg and corrects the asymmetry: the injured side is almost always weaker."] },
+    { h: "Execution", p: ["Same as A but on one leg. Tempo 3s up, 1s hold, 3s down, stop at the floor. Do the prescribed sets for EACH leg."] },
+    { h: "Starting position", l: ["Hand on the wall for balance only", "Dumbbell in the hand on the working side"] },
+    { h: "Watch for", l: ["No weight through the arm", "Same sets and reps as the table, on each leg"] },
+  ]},
+};
+
+function stepKey(label) {
+  for (const k of Object.keys(CUES)) if (label.startsWith(k)) return k;
+  return null;
+}
+
+// One real session: warm-up, isometrics, then 4 sets of 8 on B and on C.
+function rep(name) {
+  return { repetitions: 8, steps: [
+    { label: name + " · Up",   durationSeconds: 3,   startFrequency: 784 },
+    { label: name + " · Hold", durationSeconds: 1,   startFrequency: 1175 },
+    { label: name + " · Down", durationSeconds: 3,   startFrequency: 587 },
+    { label: name + " · Floor",durationSeconds: 0.7, startFrequency: 392 },
+  ]};
+}
+const SESSION = { title: "S6 session 1 — 4 x 8 (8 RM)", blocks: [
+  { repetitions: 1, steps: [{ label: "Velo warm-up", durationSeconds: 8, endFrequency: 660 }] },
+  { repetitions: 2, steps: [
+    { label: "Iso · hold high", durationSeconds: 6, startFrequency: 784, endFrequency: 392 },
+    { label: "Repos", durationSeconds: 5, endFrequency: 660 }]},
+  rep("Assis"),
+  { repetitions: 1, steps: [{ label: "Repos serie · Assis", durationSeconds: 10, endFrequency: 660 }]},
+  rep("Assis"),
+  { repetitions: 1, steps: [{ label: "Repos inter-exercice", durationSeconds: 12, endFrequency: 660 }]},
+  rep("Unilat."),
+]};
+
+const seq = document.getElementById('seq');
+const progEl = document.getElementById('program-guidance');
+const entryEl = document.getElementById('entry-guidance');
+const stepEl = document.getElementById('step-guidance');
+let treatment = null;
+
+function cardHtml(card) {
+  let h = '<h3 style="margin:0 0 8px">' + card.title + '</h3>';
+  for (const b of card.blocks) {
+    h += '<h4>' + b.h + '</h4>';
+    if (b.p) for (const p of b.p) h += '<p>' + p + '</p>';
+    if (b.l) h += '<ul>' + b.l.map((x) => '<li>' + x + '</li>').join('') + '</ul>';
+  }
+  return h;
+}
+function programHtml() {
+  return '<div class="g-prog"><h3>Before you start</h3>'
+    + PROGRAM_NOTES.map((p) => '<p>' + p + '</p>').join('')
+    + '<h3>See a doctor if</h3><ul>' + RED_FLAGS.map((f) => '<li>' + f + '</li>').join('') + '</ul></div>';
+}
+
+function render() {
+  progEl.innerHTML = treatment ? programHtml() : '';
+  entryEl.innerHTML = '';
+  stepEl.innerHTML = '';
+  if (treatment === 'B') {
+    entryEl.innerHTML = '<button type="button" class="g-open" id="open-card">Exercise notes</button>'
+      + '<dialog class="g-card" id="card"></dialog>';
+    document.getElementById('open-card').addEventListener('click', () => {
+      const key = stepKey(seq.querySelector('.cds-label').textContent) || 'Assis';
+      const c = CARDS[key] || CARDS['Assis'];
+      const d = document.getElementById('card');
+      d.innerHTML = cardHtml(c) + '<form method="dialog"><button class="g-open">Close</button></form>';
+      d.showModal();
+    });
+  }
+  if (treatment === 'C') {
+    entryEl.innerHTML = '<div class="g-card">' + cardHtml(CARDS['Assis'])
+      + '<hr>' + cardHtml(CARDS['Unilat.']) + '</div>';
+  }
+  seq.configure(SESSION);
+  watchLabel();
+}
+
+let last = null;
+function watchLabel() {
+  const el = seq.querySelector('.cds-label');
+  if (!el) return;
+  const tick = () => {
+    const t = el.textContent;
+    if (t !== last) {
+      last = t;
+      if (treatment === 'A' || treatment === 'C') {
+        const k = stepKey(t);
+        stepEl.innerHTML = k ? '<p class="g-cue">' + CUES[k] + '</p>' : '';
+      }
+    }
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
+
+for (const b of document.querySelectorAll('.pick button')) {
+  b.addEventListener('click', () => {
+    treatment = b.dataset.t;
+    for (const o of document.querySelectorAll('.pick button'))
+      o.setAttribute('aria-pressed', String(o === b));
+    render();
+  });
+}
+</script>
+</body>
+</html>
