@@ -141,7 +141,26 @@ for w in range(1, 13):
                 "date": "2026-10-25", "title": "Reevaluation S6",
             })
 
+# The protocol's own weekly tracking sheet, which has exactly these columns.
+# Charge per exercise because progression is per exercise; pain twice because
+# the rule that matters (reduce 10 %) keys off the morning after, not the day.
+RECORD = [
+    {"name": "chargeB", "label": "Charge B (assis)", "kind": "number", "unit": "kg"},
+    {"name": "chargeA", "label": "Charge A (debout)", "kind": "number", "unit": "kg"},
+    {"name": "chargeC", "label": "Charge C (unilat.)", "kind": "number", "unit": "kg"},
+    {"name": "douleurJour", "label": "Douleur pendant", "kind": "number", "min": 0, "max": 10},
+    # Asked at the end of today's session, about this morning — which is the
+    # morning after the previous one. The protocol's "douleur au lever le
+    # lendemain" cannot be answered when the form appears, because the
+    # lendemain has not happened; offsetting it by one session is the same
+    # clinical signal at a moment a person can actually answer.
+    {"name": "douleurCeMatin", "label": "Douleur ce matin (apres la seance precedente)",
+     "kind": "number", "min": 0, "max": 10},
+    {"name": "notes", "label": "Notes", "kind": "text"},
+]
+
 doc = {"title": "HSR — tendinopathie d'insertion du tendon d'Achille (12 semaines)",
        "guidance": PROGRAM_GUIDANCE,
+       "record": RECORD,
        "entries": entries}
 print(json.dumps(doc, ensure_ascii=False, indent=2))

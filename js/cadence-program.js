@@ -120,6 +120,55 @@ function cdpValidateSequence(sequence, where) {
   });
 }
 
+// KD-1: the program declares what to record, at program scope. KD-2: two
+// kinds only — a number, optionally with a unit and a min and max (a nought
+// to ten scale is just min 0 max 10), and free text. KD-9: a declaration of
+// the wrong shape is ignored rather than refused, the same trade the
+// guidance spec settled — a bad field costs a line on screen, a refusal
+// costs the session.
+function cdpRecordFields(config) {
+  const declared = config && Array.isArray(config.record) ? config.record : [];
+  const fields = [];
+  for (const f of declared) {
+    if (!f || typeof f !== 'object') continue;
+    const name = typeof f.name === 'string' ? f.name.trim() : '';
+    if (!name) continue;
+    const kind = f.kind === 'text' ? 'text' : 'number';
+    fields.push({
+      name,
+      label: (typeof f.label === 'string' && f.label.trim()) || name,
+      kind,
+      unit: typeof f.unit === 'string' ? f.unit.trim() : '',
+      min: typeof f.min === 'number' && Number.isFinite(f.min) ? f.min : null,
+      max: typeof f.max === 'number' && Number.isFinite(f.max) ? f.max : null,
+    });
+  }
+  return fields;
+}
+
+// KD-8: "last time" is the last session actually done, not the row above —
+// sessions may be completed out of order. Most recently dated wins, and list
+// order breaks a tie between two entries dated the same day.
+function cdpLastRecorded(entries, exclude) {
+  let best = null;
+  let bestIndex = -1;
+  entries.forEach((e, i) => {
+    if (e === exclude || !e.actualDate || !e.recorded) return;
+    if (!Object.keys(e.recorded).length) return;
+    if (!best || e.actualDate > best.actualDate
+        || (e.actualDate === best.actualDate && i > bestIndex)) {
+      best = e;
+      bestIndex = i;
+    }
+  });
+  return best;
+}
+
+function cdpShowValue(field, value) {
+  if (value === undefined || value === null || value === '') return '';
+  return field.unit ? `${value} ${field.unit}` : String(value);
+}
+
 class CadenceProgram extends HTMLElement {
   constructor() {
     super();
@@ -164,6 +213,13 @@ class CadenceProgram extends HTMLElement {
       <div class="cdp-run" hidden>
         <button type="button" class="cdp-back">Back</button>
         <div class="cdp-guidance cdp-entry-guidance" hidden></div>
+        <p class="cdp-lasttime" hidden></p>
+        <form class="cdp-record" hidden>
+          <h3 class="cdp-record-title">Before you go</h3>
+          <div class="cdp-record-fields"></div>
+          <button type="submit" class="cdp-record-save">Save</button>
+          <button type="button" class="cdp-record-skip">Skip</button>
+        </form>
       </div>
       <div class="cdp-problem" hidden></div>
       <div class="cdp-live" aria-live="polite"></div>
@@ -185,6 +241,9 @@ class CadenceProgram extends HTMLElement {
     this._runEl = this.querySelector('.cdp-run');
     this._programGuidanceEl = this.querySelector('.cdp-program-guidance');
     this._entryGuidanceEl = this.querySelector('.cdp-entry-guidance');
+    this._lastTimeEl = this.querySelector('.cdp-lasttime');
+    this._recordEl = this.querySelector('.cdp-record');
+    this._recordFieldsEl = this.querySelector('.cdp-record-fields');
     this._backEl = this.querySelector('.cdp-back');
     this._problemEl = this.querySelector('.cdp-problem');
     this._liveEl = this.querySelector('.cdp-live');
@@ -216,6 +275,8 @@ class CadenceProgram extends HTMLElement {
     this._exportEl.addEventListener('click', () => { this._toggleMenu(false); this._export(); });
     this._replanEl.addEventListener('click', () => { this._toggleMenu(false); this._exportReplanningPrompt(); });
     this._loadEl.addEventListener('change', () => this._load());
+    this._recordEl.addEventListener('submit', (e) => { e.preventDefault(); this._saveRecord(); });
+    this.querySelector('.cdp-record-skip').addEventListener('click', () => this._finishRecord());
   }
 
   // The public JS entry point. Stored run state wins over the config it is
@@ -671,6 +732,9 @@ class CadenceProgram extends HTMLElement {
     // KD-15: entry guidance is what you read while deciding to begin, so it
     // is here now and gone the moment the work starts — see _beginRun below.
     renderGuidance(this._entryGuidanceEl, entry.guidance);
+    // KD-4: last time's values belong here, where they still change what you
+    // load onto the bar — not after the work, when it is too late to matter.
+    this._showLastTime(entry);
 
     this._runningSeq = document.createElement('cadence-sequence');
     this._runningSeq.addEventListener('cadence:complete', () => this._onComplete(entry));
@@ -684,6 +748,7 @@ class CadenceProgram extends HTMLElement {
     // runs — the criterion this whole spec turns on.
     this._runningSeq.addEventListener('cadence:start', () => {
       this._entryGuidanceEl.hidden = true;
+      this._lastTimeEl.hidden = true;
       this._runningSeq.scrollIntoView({ block: 'start' });
     }, { once: true });
     // KD-2: the gesture that begins the work should be under the finger —
@@ -735,12 +800,134 @@ class CadenceProgram extends HTMLElement {
     }
     this._writeStored();
 
+    // KD-7: the session is complete the moment the sequence ends — the date,
+    // the shift and the store have all just happened. Recording can only add
+    // to that; it must never be able to cost someone their completion.
+    this._announce(`Completed ${entry.sequence.title || 'session'}`);
+    this.dispatchEvent(new CustomEvent('cadence:entryComplete', { detail: { entry } }));
+
+    // KD-6: the form takes the finished sequence's place, so the reader stays
+    // where they already are. Teardown still runs on the one exit path, once
+    // the form is done with.
+    if (this._openRecord(entry)) return;
+    this._finishRecord();
+  }
+
+  // Returns false when there is nothing to ask, so completion falls straight
+  // through to the list exactly as it did before this existed.
+  _openRecord(entry) {
+    const fields = cdpRecordFields(this._config);
+    if (!fields.length) return false;
+
+    this._recordingEntry = entry;
+    if (this._runningSeq) {
+      this._runningSeq.remove();
+      this._runningSeq = null;
+    }
+    this._lastTimeEl.hidden = true;
+
+    const last = cdpLastRecorded(this._config.entries, entry);
+    this._recordFieldsEl.textContent = '';
+    for (const field of fields) {
+      const wrap = document.createElement('p');
+      wrap.className = 'cdp-record-field';
+
+      const label = document.createElement('label');
+      label.className = 'cdp-record-label';
+      label.htmlFor = `cdp-rec-${field.name}`;
+      label.textContent = field.unit ? `${field.label} (${field.unit})` : field.label;
+      wrap.appendChild(label);
+
+      const input = document.createElement('input');
+      input.id = `cdp-rec-${field.name}`;
+      input.className = 'cdp-record-input';
+      input.dataset.name = field.name;
+      input.dataset.kind = field.kind;
+      if (field.kind === 'number') {
+        input.type = 'number';
+        input.step = 'any';
+        input.inputMode = 'decimal';
+        if (field.min !== null) input.min = String(field.min);
+        if (field.max !== null) input.max = String(field.max);
+      } else {
+        input.type = 'text';
+      }
+      wrap.appendChild(input);
+
+      // KD-4 again: the same value beside its own field, where it is the
+      // thing being compared against.
+      const previous = last && last.recorded ? last.recorded[field.name] : undefined;
+      const shown = cdpShowValue(field, previous);
+      if (shown) {
+        const hint = document.createElement('span');
+        hint.className = 'cdp-record-last';
+        hint.textContent = `last time ${shown}`;
+        wrap.appendChild(hint);
+      }
+      this._recordFieldsEl.appendChild(wrap);
+    }
+
+    this._recordEl.hidden = false;
+    this._recordEl.scrollIntoView({ block: 'start' });
+    this._recordFieldsEl.querySelector('input')?.focus({ preventScroll: true });
+    this._announce('Record this session, or skip');
+    return true;
+  }
+
+  _saveRecord() {
+    const entry = this._recordingEntry;
+    if (!entry) return this._finishRecord();
+    const recorded = {};
+    for (const input of this._recordFieldsEl.querySelectorAll('input')) {
+      const raw = input.value.trim();
+      // KD-3: blank is a real answer, stored as absent rather than as zero.
+      if (!raw) continue;
+      if (input.dataset.kind === 'number') {
+        // KD-10: a number field stores a number, never the string the input
+        // hands over — the export has to round-trip through a model that is
+        // being asked to read the progression. Unparseable stores nothing.
+        const n = Number(raw);
+        if (Number.isFinite(n)) recorded[input.dataset.name] = n;
+      } else {
+        recorded[input.dataset.name] = raw;
+      }
+    }
+    if (Object.keys(recorded).length) entry.recorded = recorded;
+    this._writeStored();
+    this.dispatchEvent(new CustomEvent('cadence:entryRecorded', { detail: { entry, recorded } }));
+    this._finishRecord();
+  }
+
+  _finishRecord() {
+    this._recordingEntry = null;
+    this._recordEl.hidden = true;
+    this._recordFieldsEl.textContent = '';
     this._teardownRun();
     this._viewEl.hidden = false;
     this._renderList();
     this._focusCurrent();
-    this._announce(`Completed ${entry.sequence.title || 'session'}`);
-    this.dispatchEvent(new CustomEvent('cadence:entryComplete', { detail: { entry } }));
+  }
+
+  _showLastTime(entry) {
+    const fields = cdpRecordFields(this._config);
+    const last = fields.length ? cdpLastRecorded(this._config.entries, entry) : null;
+    if (!last) {
+      this._lastTimeEl.textContent = '';
+      this._lastTimeEl.hidden = true;
+      return;
+    }
+    const parts = [];
+    for (const field of fields) {
+      const shown = cdpShowValue(field, last.recorded[field.name]);
+      if (shown) parts.push(`${field.label} ${shown}`);
+    }
+    if (!parts.length) {
+      this._lastTimeEl.textContent = '';
+      this._lastTimeEl.hidden = true;
+      return;
+    }
+    this._lastTimeEl.textContent = `Last time (${last.actualDate}): ${parts.join(' · ')}`;
+    this._lastTimeEl.hidden = false;
   }
 
   // KD-8, KD-22: reaching a marker records the day it happened and nothing
@@ -782,6 +969,9 @@ class CadenceProgram extends HTMLElement {
     }
     this._runEl.hidden = true;
     this._entryGuidanceEl.hidden = true;
+    this._lastTimeEl.hidden = true;
+    this._recordEl.hidden = true;
+    this._recordingEntry = null;
     // Back on the list, the standing rules are wanted again (KD-2). Every way
     // out of a run comes through here, so there is one place to say it.
     renderGuidance(this._programGuidanceEl, this._config && this._config.guidance);
@@ -823,10 +1013,19 @@ class CadenceProgram extends HTMLElement {
   _exportReplanningPrompt() {
     const over = this._overrun();
     const entries = this._config.entries;
+    const fields = cdpRecordFields(this._config);
     const state = entries.map((e, i) => {
       const what = e.milestone ? 'MILESTONE (fixed)' : 'session';
       const stand = e.actualDate ? `done ${e.actualDate}` : e.dropped ? 'dropped, not to be rescheduled' : 'not yet done';
-      return `${i + 1}. week ${e.week} day ${e.day} — ${what} — planned ${e.expectedDate || 'unscheduled'} — ${stand} — ${this._title(e)}`;
+      // KD-5: what was measured is the whole reason a model can judge the
+      // progression rather than just reshuffle the calendar.
+      const kept = e.recorded && Object.keys(e.recorded).length
+        ? ` — recorded ${fields.map((f) => {
+            const shown = cdpShowValue(f, e.recorded[f.name]);
+            return shown ? `${f.label} ${shown}` : '';
+          }).filter(Boolean).join(', ')}`
+        : '';
+      return `${i + 1}. week ${e.week} day ${e.day} — ${what} — planned ${e.expectedDate || 'unscheduled'} — ${stand}${kept} — ${this._title(e)}`;
     }).join('\n');
 
     const text = `# Replanning request — ${this._config.title || 'program'}
@@ -862,7 +1061,8 @@ Answer with a single JSON object and nothing else — no commentary, no code fen
 - A session entry: \`{ "week": 1, "day": 1, "sequence": { ... } }\` — \`week\` counts from 1, \`day\` is 1 for Monday through 7 for Sunday. A session entry must **not** carry a date of any kind.
 - A milestone entry: \`{ "week": 16, "day": 7, "milestone": true, "date": "YYYY-MM-DD", "title": "...", "sequence": { ... } }\` — \`date\` is allowed **only** here, \`title\` is required, and \`sequence\` is optional (leave it out for something that is only reached, not performed). Keep every existing milestone on its existing date.
 - \`sequence\`: \`{ "title": "...", "blocks": [ { "repetitions": 2, "steps": [ { "label": "...", "durationSeconds": 20, "startFrequency": 440, "endFrequency": 880 } ] } ] }\`. \`durationSeconds\` may be fractional; the two frequencies are optional beeps.
-- Carry \`actualDate\` and \`dropped\` through unchanged on the entries that have them. Leave \`expectedDate\` out entirely — Cadence computes the dates itself from the milestones.
+- Carry \`actualDate\`, \`dropped\` and \`recorded\` through unchanged on the entries that have them — \`recorded\` is what the person measured and must never be invented, altered or dropped.
+- Keep \`record\` unchanged if the programme has one: it declares what each session asks for. Leave \`expectedDate\` out entirely — Cadence computes the dates itself from the milestones.
 `;
     this._download(text, `${this._slug()}-replanning-prompt.md`, 'text/markdown');
   }

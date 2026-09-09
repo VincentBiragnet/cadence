@@ -133,6 +133,26 @@ a week and a weekday — never when it happens:
 </script>
 ```
 
+**A program can ask for a few things when a session ends.** Declare them once,
+at program level, and every session asks:
+
+```js
+"record": [
+  { "name": "loadB", "label": "Load, seated", "kind": "number", "unit": "kg" },
+  { "name": "pain",  "label": "Pain during",  "kind": "number", "min": 0, "max": 10 },
+  { "name": "notes", "label": "Notes",        "kind": "text" }
+]
+```
+
+Two kinds only, `number` and `text` — a 0-10 scale is a number with a `min` and
+a `max`. What gets typed is kept on the entry as `recorded`, and the next
+session shows it: once when the session opens, where it still changes what you
+load, and again beside each field, where it is what you are comparing against.
+Every field may be left blank, and the session is complete the moment the work
+ends — recording can never cost you a completion. The values leave with the
+export and the replanning prompt names them, so a model asked to redo the plan
+can see how it has actually been going rather than just reshuffling dates.
+
 **Guidance goes at the narrowest scope it is true of.** A program's `guidance`
 is the standing rules, shown on the list before and between sessions; an
 entry's is shown when that session opens and comes down when the work starts;

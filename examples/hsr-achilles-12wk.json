@@ -38,6 +38,45 @@
       ]
     }
   ],
+  "record": [
+    {
+      "name": "chargeB",
+      "label": "Charge B (assis)",
+      "kind": "number",
+      "unit": "kg"
+    },
+    {
+      "name": "chargeA",
+      "label": "Charge A (debout)",
+      "kind": "number",
+      "unit": "kg"
+    },
+    {
+      "name": "chargeC",
+      "label": "Charge C (unilat.)",
+      "kind": "number",
+      "unit": "kg"
+    },
+    {
+      "name": "douleurJour",
+      "label": "Douleur pendant",
+      "kind": "number",
+      "min": 0,
+      "max": 10
+    },
+    {
+      "name": "douleurCeMatin",
+      "label": "Douleur ce matin (apres la seance precedente)",
+      "kind": "number",
+      "min": 0,
+      "max": 10
+    },
+    {
+      "name": "notes",
+      "label": "Notes",
+      "kind": "text"
+    }
+  ],
   "entries": [
     {
       "week": 1,

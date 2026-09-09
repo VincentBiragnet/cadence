@@ -91,6 +91,23 @@
           and between sessions; entry guidance when that session opens; block guidance for as
           long as that block runs.</dd>
 
+        <dt>record</dt>
+        <dd>optional, on the program only. A list of things each session asks for when it
+          ends, so a progression can be followed: <code>{ "name": "loadB", "label": "Load,
+          seated", "kind": "number", "unit": "kg" }</code>. <code>kind</code> is
+          <code>"number"</code> or <code>"text"</code> and nothing else &mdash; a nought-to-ten
+          scale is a number with <code>"min": 0</code> and <code>"max": 10</code>. Ask for a
+          few things, not a form: every field is one more thing to fill in while sweating.
+          Values may always be left blank, and the next session shows what was entered last
+          time.</dd>
+
+        <dt>recorded</dt>
+        <dd>what a person actually entered, kept on the entry as
+          <code>{ "loadB": 42.5, "pain": 4 }</code>, keyed by the <code>name</code>s above.
+          You never write this &mdash; Cadence does. If you are given a program that has it,
+          carry it through unchanged: it is measured, not planned, and it is how anyone tells
+          whether the plan is working.</dd>
+
         <dt>milestone</dt>
         <dd>a fixed point, such as a race or a review: <code>"milestone": true</code> with a
           <code>date</code> of the form YYYY-MM-DD and a <code>title</code>. Only a milestone
@@ -103,6 +120,11 @@
 
       <pre id="contract-example">{
   "title": "Eight-week strength",
+  "record": [
+    { "name": "rounds", "label": "Rounds completed", "kind": "number" },
+    { "name": "effort", "label": "How hard", "kind": "number", "min": 0, "max": 10 },
+    { "name": "notes", "label": "Notes", "kind": "text" }
+  ],
   "guidance": [
     {
       "heading": "Before you start",
