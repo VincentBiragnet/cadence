@@ -14,7 +14,11 @@ const PROGRAM = {
   ],
 };
 
+// KD-1 of three-defects-the-session-card-review-found: reaching a milestone
+// now asks first, since every computed date in the programme hangs off it.
+// These tests are about what happens once it is agreed to, so they agree.
 test('starting a marker records it as reached, mounts no clock and raises no error', async ({ page }) => {
+  page.on('dialog', (d) => d.accept());
   const errors = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.clock.install({ time: new Date('2026-09-13T09:00:00') });
@@ -54,6 +58,7 @@ test('starting a marker records it as reached, mounts no clock and raises no err
 });
 
 test('reaching a marker late still moves nothing (KD-15)', async ({ page }) => {
+  page.on('dialog', (d) => d.accept());
   await page.clock.install({ time: new Date('2026-10-01T09:00:00') }); // 18 days late
   await page.goto('/tests/fixture.html');
   const result = await page.evaluate((p) => {

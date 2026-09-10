@@ -192,7 +192,6 @@ class CadenceProgram extends HTMLElement {
   _render() {
     this.innerHTML = `
       <div class="cdp-title"></div>
-      <div class="cdp-guidance cdp-program-guidance" hidden></div>
       <div class="cdp-view">
         <div class="cdp-summary"></div>
         <ul class="cdp-list" role="listbox" tabindex="-1"></ul>
@@ -212,6 +211,10 @@ class CadenceProgram extends HTMLElement {
             </div>
           </div>
         </div>
+        <!-- KD-3: the standing rules go under the sessions. Above them, four
+             blocks of a protocol's rulebook put the first row 1126px down an
+             844px phone, so the app opened on a rulebook. -->
+        <div class="cdp-guidance cdp-program-guidance" hidden></div>
       </div>
       <input type="file" class="cdp-load" accept="application/json" hidden>
       <div class="cdp-run" hidden>
@@ -516,10 +519,16 @@ class CadenceProgram extends HTMLElement {
       const m = entries[i];
       // KD-25: a cancelled date is not a deadline, so nothing can overrun it.
       if (!m.milestone || m.dropped) continue;
+      // KD-2: the effective date of an unrun session is the later of its plan
+      // and today. Comparing plans alone meant the warning could only fire for
+      // someone still moving, since plans slide on completion — so the person
+      // who has stopped, and most needs telling, never saw it.
+      const today = cdpToday();
       let last = null;
       entries.slice(0, i).forEach((e) => {
         if (e.milestone || this._settled(e) || !e.expectedDate) return;
-        if (!last || e.expectedDate > last) last = e.expectedDate;
+        const when = e.expectedDate > today ? e.expectedDate : today;
+        if (!last || when > last) last = when;
       });
       if (last && last > m.date) {
         return { title: this._title(m), date: m.date, days: cdpToDayNumber(last) - cdpToDayNumber(m.date) };
@@ -723,10 +732,18 @@ class CadenceProgram extends HTMLElement {
   _launch() {
     const entry = this._entry();
     this._anchor();
-    // KD-22: a marker milestone has nothing to play — it is reached, not
-    // performed — so Start records it where it stands rather than mounting a
-    // clock over a config that does not exist.
+    // KD-1: a marker milestone has nothing to play — it is reached, not
+    // performed. Recording it used to happen on the same unconfirmed press as
+    // starting a session, which put a physio reassessment three months away
+    // one tap from being marked done. Every computed date in the programme
+    // hangs off milestones, so this one asks first (supersedes the archived
+    // milestones spec KD-22).
     if (!entry.sequence) {
+      const what = this._title(entry);
+      const when = entry.date || entry.expectedDate;
+      if (!window.confirm(
+        `Mark "${what}" as reached today?\n\n`
+        + `It is dated ${when}. Recording it now says it has happened.`)) return;
       this._reach(entry);
       return;
     }

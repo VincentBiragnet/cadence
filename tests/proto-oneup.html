@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One session — three ways to reach the others</title>
+<link rel="stylesheet" href="../css/theme.css">
+<style>
+  body { margin: 0; font: 14px/1.5 system-ui, sans-serif; }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 12px; }
+  .pick { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+  .pick button { min-height: 40px; padding: 0 10px; font-size: .85rem; }
+  .pick button[aria-pressed="true"] { outline: 2px solid currentColor; }
+  .hint { font-size: .78rem; opacity: .6; margin: 0 0 10px; }
+
+  .head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
+  .head h1 { font-size: 1rem; font-weight: 600; opacity: .65; margin: 0; }
+
+  .card { border: 1px solid var(--cdc-color-track); border-radius: 10px; padding: 14px; }
+  .card .when { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; opacity: .6; margin: 0 0 2px; }
+  .card h2 { font-size: 1.15rem; margin: 0 0 2px; }
+  .card .sub { margin: 0 0 10px; opacity: .75; font-size: .92rem; }
+  .card .go { min-height: 48px; padding: 0 18px; font-size: 1rem; font-weight: 600;
+              color: var(--cdc-color-bg); background: var(--cdc-color-fg);
+              border: 1px solid var(--cdc-color-fg); border-radius: 6px; cursor: pointer; }
+  .card .note { font-size: .85rem; opacity: .7; margin: 8px 0 0; }
+  .late { color: #a4442a; }
+
+  .strip { display: flex; align-items: center; gap: 6px; margin-top: 12px; }
+  .strip button { min-height: 44px; min-width: 44px; }
+  .strip .pos { font-size: .85rem; opacity: .7; flex: 1; text-align: center; }
+
+  select { min-height: 44px; font: inherit; padding: 0 6px; }
+  .all { min-height: 44px; padding: 0 12px; }
+  .listwrap { margin-top: 12px; }
+  .listwrap[hidden] { display: none !important; }
+  .backrow { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="hint">Same programme (HSR, 37 entries) three ways. Session 4 is done, so
+    the one offered is S2.2. Try: start the offered one; find week 9 session 3; get back.</p>
+  <div class="pick" role="group" aria-label="Treatment">
+    <button type="button" data-t="A" aria-pressed="false">A — dropdown in the header</button>
+    <button type="button" data-t="B" aria-pressed="false">B — All sessions screen</button>
+    <button type="button" data-t="C" aria-pressed="false">C — arrows plus All</button>
+  </div>
+
+  <div class="head">
+    <h1>HSR — tendon d'Achille</h1>
+    <span id="header-slot"></span>
+  </div>
+
+  <div id="card-view">
+    <div class="card">
+      <p class="when" id="when"></p>
+      <h2 id="title"></h2>
+      <p class="sub" id="sub"></p>
+      <button type="button" class="go" id="go">Start</button>
+      <p class="note" id="note"></p>
+    </div>
+    <div class="strip" id="strip" hidden>
+      <button type="button" id="prev" aria-label="Previous session">‹</button>
+      <span class="pos" id="pos"></span>
+      <button type="button" id="next" aria-label="Next session">›</button>
+      <button type="button" class="all" id="all-c">All</button>
+    </div>
+  </div>
+
+  <div class="listwrap" id="list-view" hidden>
+    <div class="backrow">
+      <strong>All sessions</strong>
+      <button type="button" class="all" id="back">Back</button>
+    </div>
+    <cadence-program id="program"></cadence-program>
+  </div>
+</div>
+
+<script src="../js/cadence-clock.js"></script>
+<script src="../js/cadence-sequence.js"></script>
+<script src="../js/cadence-program.js"></script>
+<script>
+(async () => {
+  const res = await fetch('../examples/hsr-achilles-12wk.json');
+  const PROGRAM = await res.json();
+  // Four sessions already done, so "the one you should do" is not entry 0.
+  const today = new Date().toISOString().slice(0, 10);
+  PROGRAM.entries.slice(0, 4).forEach((e, i) => { e.actualDate = today; });
+
+  const prog = document.getElementById('program');
+  prog.configure(PROGRAM);
+
+  const entries = prog.config.entries;
+  const settled = (e) => e.actualDate || e.dropped;
+  let cursor = entries.findIndex((e) => !settled(e));
+  let treatment = null;
+
+  const label = (e) => e.milestone ? e.title : (e.label || (e.sequence && e.sequence.title) || '');
+  const dayName = (e) => e.expectedDate || 'unscheduled';
+
+  function renderCard() {
+    const e = entries[cursor];
+    const isNext = cursor === entries.findIndex((x) => !settled(x));
+    const late = e.expectedDate && e.expectedDate < today && !settled(e);
+    document.getElementById('when').textContent =
+      settled(e) ? 'Already done' : isNext ? 'Next up' : 'Chosen';
+    document.getElementById('title').textContent = label(e);
+    document.getElementById('sub').textContent =
+      `Week ${e.week}, ${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][e.day - 1]} — ${dayName(e)}`;
+    const note = document.getElementById('note');
+    note.textContent = late ? `Was due ${e.expectedDate}. Start it and the rest slides.` : '';
+    note.className = 'note' + (late ? ' late' : '');
+    document.getElementById('go').textContent = settled(e) ? 'Do it again' : 'Start';
+    document.getElementById('pos').textContent = `${cursor + 1} of ${entries.length}`;
+    if (treatment === 'A') {
+      const sel = document.getElementById('sel');
+      if (sel) sel.value = String(cursor);
+    }
+  }
+
+  function showList(on) {
+    document.getElementById('list-view').hidden = !on;
+    document.getElementById('card-view').hidden = on;
+  }
+
+  function render() {
+    const slot = document.getElementById('header-slot');
+    slot.textContent = '';
+    document.getElementById('strip').hidden = treatment !== 'C';
+    showList(false);
+
+    if (treatment === 'A') {
+      const sel = document.createElement('select');
+      sel.id = 'sel';
+      sel.setAttribute('aria-label', 'Choose a session');
+      entries.forEach((e, i) => {
+        const o = document.createElement('option');
+        o.value = String(i);
+        o.textContent = `${settled(e) ? '✓ ' : ''}${label(e)}`;
+        sel.appendChild(o);
+      });
+      sel.addEventListener('change', () => { cursor = +sel.value; renderCard(); });
+      slot.appendChild(sel);
+    }
+    if (treatment === 'B') {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'all'; b.textContent = 'All sessions';
+      b.addEventListener('click', () => showList(true));
+      slot.appendChild(b);
+    }
+    renderCard();
+  }
+
+  document.getElementById('prev').addEventListener('click', () => {
+    cursor = Math.max(0, cursor - 1); renderCard();
+  });
+  document.getElementById('next').addEventListener('click', () => {
+    cursor = Math.min(entries.length - 1, cursor + 1); renderCard();
+  });
+  document.getElementById('all-c').addEventListener('click', () => showList(true));
+  document.getElementById('back').addEventListener('click', () => showList(false));
+  prog.addEventListener('cadence:entryComplete', () => {
+    cursor = entries.findIndex((e) => !settled(e));
+    if (cursor < 0) cursor = entries.length - 1;
+    showList(false); renderCard();
+  });
+  document.getElementById('go').addEventListener('click', () => {
+    showList(true);
+    prog._select(cursor, true);
+    prog.querySelector('.cdp-start').click();
+  });
+
+  for (const b of document.querySelectorAll('.pick button')) {
+    b.addEventListener('click', () => {
+      treatment = b.dataset.t;
+      for (const o of document.querySelectorAll('.pick button')) {
+        o.setAttribute('aria-pressed', String(o === b));
+      }
+      render();
+    });
+  }
+  document.querySelector('.pick button').click();
+})();
+</script>
+</body>
+</html>
