@@ -26,6 +26,7 @@ test('a session finished 18 days late moves every unrun session after it, and no
     prog.id = 'prog';
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     return prog.config.entries.map((e) => e.expectedDate);
   }, program());
   expect(planned).toEqual(['2026-08-31', '2026-09-07', '2026-09-14', '2026-09-27']);
@@ -59,6 +60,7 @@ test('completing the milestone itself moves nothing at all (KD-15)', async ({ pa
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     const before = prog.config.entries.map((e) => e.expectedDate);
     const done = new Promise((r) => prog.addEventListener('cadence:entryComplete', r, { once: true }));
     prog.querySelectorAll('.cdp-row')[3].click(); // the milestone, run 27 days early

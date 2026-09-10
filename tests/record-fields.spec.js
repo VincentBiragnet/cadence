@@ -82,7 +82,7 @@ test('skipping records nothing and still returns to the list', async ({ page }) 
     return {
       recorded: e.recorded === undefined,
       completed: !!e.actualDate,
-      onList: prog.querySelector('.cdp-view').checkVisibility(),
+      onList: prog.querySelector('.cdp-card').checkVisibility(),   // the card is where a finished session lands now
       formGone: !prog.querySelector('.cdp-record').checkVisibility(),
     };
   });
@@ -113,7 +113,7 @@ test('a program declaring nothing goes straight back to the list', async ({ page
     prog.querySelector('cadence-sequence .cds-start').click();
   }, program(null));
   await page.waitForFunction(
-    () => document.querySelector('#prog .cdp-view')?.checkVisibility(),
+    () => document.querySelector('#prog .cdp-card')?.checkVisibility(),
     null, { timeout: 10000 });
   const after = await page.evaluate(() => ({
     form: document.querySelector('#prog .cdp-record').checkVisibility(),
@@ -157,7 +157,7 @@ test('re-running a recorded session prefills it, so saving cannot drop a field',
   await page.fill('#prog input[data-name="notes"]', 'first note');
   await page.click('#prog .cdp-record-save');
   await page.waitForFunction(
-    () => document.querySelector('#prog .cdp-view')?.checkVisibility(), null, { timeout: 10000 });
+    () => document.querySelector('#prog .cdp-card')?.checkVisibility(), null, { timeout: 10000 });
 
   // Do it again. The form should show what is already there.
   await page.evaluate(() => {
@@ -184,7 +184,7 @@ test('clearing every field clears the record, rather than keeping what was delet
   await page.fill('#prog input[data-name="loadB"]', '40');
   await page.click('#prog .cdp-record-save');
   await page.waitForFunction(
-    () => document.querySelector('#prog .cdp-view')?.checkVisibility(), null, { timeout: 10000 });
+    () => document.querySelector('#prog .cdp-card')?.checkVisibility(), null, { timeout: 10000 });
 
   await page.evaluate(() => {
     const prog = document.getElementById('prog');
@@ -232,7 +232,7 @@ test('a long recorded note does not push the page sideways', async ({ page }) =>
   await page.fill('#prog input[data-name="notes"]', 'x'.repeat(800));
   await page.click('#prog .cdp-record-save');
   await page.waitForFunction(
-    () => document.querySelector('#prog .cdp-view')?.checkVisibility(), null, { timeout: 10000 });
+    () => document.querySelector('#prog .cdp-card')?.checkVisibility(), null, { timeout: 10000 });
   await page.evaluate(() => {
     const prog = document.getElementById('prog');
     prog._select(1, true);

@@ -72,6 +72,7 @@ test('the shipped example carries them too, so Try shows the real thing', async 
     const prog = document.getElementById('program');
     const program = prog.querySelector('.cdp-program-guidance');
     const first = prog.config.entries[0];
+    prog._showList(true);   // programme guidance lives under the list now
     const onList = program.checkVisibility();
     prog.querySelector('.cdp-start').click();
     const seq = prog.querySelector('cadence-sequence');

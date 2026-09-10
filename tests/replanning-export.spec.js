@@ -25,10 +25,12 @@ test('the replanning prompt carries the contract, the state, the overrun and the
     prog.id = 'prog';
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the More menu lives in the list bar
     const done = new Promise((r) => prog.addEventListener('cadence:entryComplete', r, { once: true }));
     prog.querySelector('.cdp-start').click();
     prog.querySelector('cadence-sequence .cds-start').click();
     await done;
+    prog._showList(true);   // finishing returns to the card; the menu is on the list
   }, PROGRAM);
 
   // Push the remainder past the race so there is a real overrun to report.
@@ -75,6 +77,7 @@ test('the plain JSON export survives alongside it, and is the one Load can read 
     prog.id = 'prog';
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the More menu lives in the list bar
   }, PROGRAM);
 
   const [download] = await Promise.all([

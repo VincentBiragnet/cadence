@@ -20,6 +20,7 @@ async function selectMilestone(page) {
     prog.id = 'prog';
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     prog._select(1, true);
     return {
       button: prog.querySelector('.cdp-start').textContent,
@@ -74,6 +75,7 @@ test('a session is untouched by this: no confirmation, straight to the clock', a
     prog.id = 'prog';
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     prog._select(0, true);
     const label = prog.querySelector('.cdp-start').textContent;
     prog.querySelector('.cdp-start').click();

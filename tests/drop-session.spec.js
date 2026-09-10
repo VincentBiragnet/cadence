@@ -21,6 +21,7 @@ async function anchored(page) {
     prog.id = 'prog';
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     prog.querySelector('.cdp-start').click(); // anchors
     prog.querySelector('.cdp-back').click();  // nothing recorded
   }, PROGRAM);
@@ -113,6 +114,7 @@ test('Drop lives behind the More menu, not beside Start', async ({ page }) => {
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     return {
       actions: [...prog.querySelector('.cdp-actions').children].map((el) => el.className),
       dropInMenu: Boolean(prog.querySelector('.cdp-pop .cdp-drop')),

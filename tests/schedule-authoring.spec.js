@@ -17,6 +17,7 @@ test('a program whose JSON holds no date at all configures and lists every entry
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(program);
+    prog._showList(true);   // the list is a place you go now
     return [...prog.querySelectorAll('.cdp-row')].map((o) => o.getAttribute('aria-label'));
   }, PROGRAM);
 
@@ -55,6 +56,7 @@ test('a week or day outside the authored range is refused', async ({ page }) => 
     const attempt = (entry) => {
       try {
         prog.configure({ title: 'Bad', entries: [entry] });
+        prog._showList(true);   // the list is a place you go now
         return 'no error';
       } catch (err) {
         return err.message;

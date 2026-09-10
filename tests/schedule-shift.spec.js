@@ -26,6 +26,7 @@ test('completing two days late moves every later date exactly two days on, inter
     prog.id = 'prog';
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     prog.querySelector('.cdp-start').click();  // anchors the program (KD-12)
     prog.querySelector('.cdp-back').click();   // abandoned: nothing recorded
     return prog.config.entries.map((e) => e.expectedDate);
@@ -67,6 +68,7 @@ test('an unrun entry earlier in the order keeps its date, and nothing is pulled 
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     const done = new Promise((r) => prog.addEventListener('cadence:entryComplete', r, { once: true }));
     prog.querySelectorAll('.cdp-row')[2].click();   // week 2 day 1, out of order
     prog.querySelector('.cdp-start').click();
@@ -92,6 +94,7 @@ test('finishing early with every earlier session done does pull the rest forward
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     const run = async (index) => {
       const done = new Promise((r) => prog.addEventListener('cadence:entryComplete', r, { once: true }));
       prog.querySelectorAll('.cdp-row')[index].click();

@@ -13,6 +13,7 @@ test('sixty sessions with hundred-character titles do not widen a 390px page', a
     const prog = document.getElementById('program');
     localStorage.clear();
     prog.configure(p, { viaLoad: true });
+    prog._showList(true);   // the list is a place you go now
     prog.hidden = false;  // the page opens empty now, so show what we measure
     const rows = [...prog.querySelectorAll('.cdp-row')];
     return {
@@ -38,6 +39,7 @@ test('the same program does not stretch a row across a wide desktop window', asy
     const prog = document.getElementById('program');
     localStorage.clear();
     prog.configure(p, { viaLoad: true });
+    prog._showList(true);   // the list is a place you go now
     prog.hidden = false;  // the page opens empty now, so show what we measure
     return Math.round(prog.querySelector('.cdp-view').getBoundingClientRect().width);
   }, longTitled());

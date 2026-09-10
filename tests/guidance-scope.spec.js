@@ -34,6 +34,7 @@ test('each scope shows when it begins, and not before', async ({ page }) => {
     prog.id = 'prog';
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // programme guidance lives under the list now
   }, PROGRAM);
 
   // On the list: the program's own guidance, and nothing narrower.

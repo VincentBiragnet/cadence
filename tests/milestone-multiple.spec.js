@@ -31,6 +31,7 @@ test('three milestones keep their dates through completions late and early, whil
     prog.id = 'prog';
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     return prog.config.entries.map((e) => ({ d: e.expectedDate, m: Boolean(e.milestone) }));
   }, PROGRAM);
 

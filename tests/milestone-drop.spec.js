@@ -26,6 +26,7 @@ test('the confirmation names a milestone as a fixed date being cancelled, not a 
     prog.id = 'prog';
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     prog.querySelectorAll('.cdp-row')[2].click(); // the milestone
     prog.querySelector('.cdp-drop').click();
     return { dropped: Boolean(prog.config.entries[2].dropped), label: prog.querySelectorAll('.cdp-row')[2].getAttribute('aria-label') };
@@ -47,6 +48,7 @@ test('a cancelled milestone is no longer something the sessions can overrun', as
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     // Push the sessions well past the race so there is a real overrun.
     prog.config.entries[0].expectedDate = '2026-09-28';
     prog.config.entries[1].expectedDate = '2026-10-05';

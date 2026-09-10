@@ -14,6 +14,7 @@ test('Start stays reachable with the list scrolled to its end, and Drop is not o
     prog.id = 'prog';
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     const r = prog.querySelector('.cdp-start').getBoundingClientRect();
     return { top: Math.round(r.top), height: Math.round(r.height) };
   }, longTitled());
@@ -45,6 +46,7 @@ test('the bar names the session Start would run, and follows the selection', asy
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     const first = prog.querySelector('.cdp-next').textContent;
     prog.querySelectorAll('.cdp-row')[12].click();
     return { first, after: prog.querySelector('.cdp-next').textContent,
@@ -63,6 +65,7 @@ test('the jump goes back to the current step, whatever is selected', async ({ pa
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     prog.querySelectorAll('.cdp-row')[40].click();        // wander off
     const wandered = [...prog.querySelectorAll('.cdp-row')].findIndex((r) => r.getAttribute('aria-selected') === 'true');
     prog.querySelector('.cdp-jump').click();

@@ -21,6 +21,7 @@ test('starting a session puts focus on the control that begins it', async ({ pag
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     prog.querySelector('.cdp-start').click();
     return { cls: document.activeElement.className, tag: document.activeElement.tagName };
   }, program());
@@ -37,10 +38,12 @@ test('abandoning, completing and dropping all return focus to the current row', 
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     const state = () => {
       const el = document.activeElement;
       return {
         isRow: el.classList.contains('cdp-row'),
+        onCardAction: el.classList.contains('cdp-card-go'),
         selected: el.getAttribute('aria-selected'),
         label: el.querySelector?.('.cdp-row-label')?.textContent.trim() || null,
         inBody: el === document.body,
@@ -49,20 +52,32 @@ test('abandoning, completing and dropping all return focus to the current row', 
 
     prog.querySelector('.cdp-start').click();
     prog.querySelector('.cdp-back').click();
+    // A run returns to the card, so focus lands on the card's action; opening
+    // the list from there still puts it on the current row. Both halves of
+    // that are the claim: focus is never dropped on the body.
+    // Focus lands on the card's action on the way out of a run, and on the
+    // current row when the list is opened. Neither ever lands on the body.
+    const cardFocus = [];
+    cardFocus.push(document.activeElement.classList.contains('cdp-card-go'));
+    prog._showList(true);
     const afterAbandon = state();
 
     const done = new Promise((r) => prog.addEventListener('cadence:entryComplete', r, { once: true }));
     prog.querySelector('.cdp-start').click();
     prog.querySelector('cadence-sequence .cds-start').click();
     await done;
+    cardFocus.push(document.activeElement.classList.contains('cdp-card-go'));
+    prog._showList(true);
     const afterComplete = state();
 
     prog.querySelector('.cdp-drop').click();
     const afterDrop = state();
-    return { afterAbandon, afterComplete, afterDrop };
+    return { afterAbandon, afterComplete, afterDrop, cardFocus };
   }, program());
 
+  expect(s.cardFocus, 'a run should hand focus to the card action').toEqual([true, true]);
   for (const [when, f] of Object.entries(s)) {
+    if (when === 'cardFocus') continue;
     expect(f.inBody, `${when} left focus on the body`).toBe(false);
     expect(f.isRow, `${when} did not focus a row`).toBe(true);
     expect(f.selected).toBe('true');

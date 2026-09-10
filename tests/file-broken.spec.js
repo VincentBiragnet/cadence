@@ -32,6 +32,7 @@ test('every shape that would die at the press of Start is refused at load', asyn
       document.body.appendChild(prog);
       try {
         prog.configure(program, { viaLoad: true });
+        prog._showList(true);   // the list is a place you go now
         out[name] = { accepted: true, rows: prog.querySelectorAll('.cdp-row').length };
       } catch (err) {
         out[name] = { accepted: false, message: err.message };
@@ -84,6 +85,7 @@ test('a truncated file says so and leaves the program that was loaded alone', as
     prog.id = 'prog';
     document.body.appendChild(prog);
     prog.configure(p, { viaLoad: true });
+    prog._showList(true);   // the list is a place you go now
   }, good);
 
   const dir = mkdtempSync(join(tmpdir(), 'cadence-'));

@@ -14,6 +14,9 @@ async function load(page, file) {
   await page.evaluate(() => localStorage.clear());
   await page.reload();
   await page.setInputFiles('#program .cdp-load', file);
+  // The list is a screen you go to now; this criterion is about what it
+  // looks like when you get there.
+  await page.evaluate(() => document.getElementById('program')._showList(true));
   return page.evaluate(() => {
     const rows = [...document.querySelectorAll('#program .cdp-row')];
     const g = document.querySelector('#program .cdp-program-guidance');

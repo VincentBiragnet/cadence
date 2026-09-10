@@ -28,6 +28,7 @@ test('the race date lays the whole plan out backwards, before anything is run', 
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p); // configured only — nothing launched
+    prog._showList(true);   // the list is a place you go now
     const e = prog.config.entries;
     return {
       anchorDate: prog.config.anchorDate,

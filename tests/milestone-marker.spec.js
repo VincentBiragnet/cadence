@@ -28,6 +28,7 @@ test('starting a marker records it as reached, mounts no clock and raises no err
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     const seen = [];
     prog.addEventListener('cadence:entryComplete', (e) => seen.push(e.detail.entry.title));
     const before = prog.config.entries.map((e) => e.expectedDate);
@@ -65,6 +66,7 @@ test('reaching a marker late still moves nothing (KD-15)', async ({ page }) => {
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     const before = prog.config.entries.map((e) => e.expectedDate);
     prog.querySelectorAll('.cdp-row')[1].click();
     prog.querySelector('.cdp-start').click();
@@ -82,6 +84,7 @@ test('an ordinary session with no sequence is refused at configure time', async 
     document.body.appendChild(prog);
     try {
       prog.configure({ title: 'Broken', entries: [{ week: 1, day: 1 }] });
+      prog._showList(true);   // the list is a place you go now
       return 'no error';
     } catch (err) {
       return err.message;

@@ -23,6 +23,7 @@ test('markup in a label, a milestone title or a sequence title is text, not mark
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p, { viaLoad: true });
+    prog._showList(true);   // the list is a place you go now
     const rows = [...prog.querySelectorAll('.cdp-row')];
     return {
       pwned: window.__PWNED__ ?? null,

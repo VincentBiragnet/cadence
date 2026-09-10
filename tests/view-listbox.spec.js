@@ -15,6 +15,7 @@ test('a listbox of options, with exactly one selected at any time', async ({ pag
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     const list = prog.querySelector('.cdp-list');
     const before = prog.querySelectorAll('[aria-selected="true"]').length;
     prog.querySelectorAll('.cdp-row')[9].click();
@@ -45,6 +46,7 @@ test('arrows move one row, Home and End reach the ends, and the focused row is i
     prog.id = 'prog';
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     prog.querySelectorAll('.cdp-row')[0].click();
   }, longTitled());
 
@@ -111,6 +113,7 @@ test('arrowing arms the row it lands on, and the bar says so', async ({ page }) 
     prog.id = 'prog';
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     prog.querySelectorAll('.cdp-row')[0].click();
   }, longTitled());
 
@@ -135,6 +138,7 @@ test('after browsing away, the jump returns to the soonest unsettled session', a
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     prog.querySelectorAll('.cdp-row')[55].click();
     prog.querySelector('.cdp-jump').click();
     return [...prog.querySelectorAll('.cdp-row')].findIndex((r) => r.getAttribute('aria-selected') === 'true');

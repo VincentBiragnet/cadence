@@ -29,6 +29,7 @@ test('when storage refuses the write, the program runs and says it is not being 
     prog.addEventListener('cadence:notSaved', () => events.push('notSaved'));
     try {
       prog.configure(p, { viaLoad: true });
+      prog._showList(true);   // the list is a place you go now
     } finally {
       Storage.prototype.setItem = real;
     }
@@ -60,6 +61,7 @@ test('once storage works again the warning goes away', async ({ page }) => {
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p, { viaLoad: true });
+    prog._showList(true);   // the list is a place you go now
     const whileFull = !prog.querySelector('.cdp-problem').hidden;
 
     Storage.prototype.setItem = real;

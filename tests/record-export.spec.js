@@ -38,7 +38,7 @@ async function mountAndRecord(page) {
   await page.fill('#prog input[data-name="pain"]', '4');
   await page.click('#prog .cdp-record-save');
   await page.waitForFunction(
-    () => document.querySelector('#prog .cdp-view')?.checkVisibility(),
+    () => document.querySelector('#prog .cdp-card')?.checkVisibility(),
     null, { timeout: 10000 });
 }
 

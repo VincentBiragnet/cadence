@@ -653,3 +653,59 @@ cadence-sequence cadence-clock .cdc-time {
   font-variant-numeric: tabular-nums;
   line-height: 1.1;
 }
+
+/* One session on screen, the rest a step away. */
+.cdp-card { display: flex; flex-direction: column; gap: var(--cdc-space-2); }
+.cdp-standing {
+  margin: 0;
+  padding: 0.55rem 0.7rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--cdc-color-muted);
+  border-left: 3px solid var(--cdc-color-track);
+  overflow-wrap: anywhere;
+}
+/* KD-5: when the plan no longer fits, this is the sentence that has to be
+   read, so it stops looking like a caption. */
+.cdp-standing-bad { color: #a4442a; border-left-color: #a4442a; font-weight: 600; }
+.cdp-card-body {
+  border: 1px solid var(--cdc-color-track);
+  border-radius: 10px;
+  padding: 0.9rem;
+}
+.cdp-card-when {
+  margin: 0 0 0.15rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--cdc-color-muted);
+}
+/* KD-3: these used to render identically, so a session you browsed to looked
+   exactly like the one you are due. */
+.cdp-card-late { color: #a4442a; }
+.cdp-card-browsing {
+  color: var(--cdc-color-bg);
+  background: var(--cdc-color-fg);
+  display: inline-block;
+  padding: 0.1rem 0.45rem;
+  border-radius: 3px;
+}
+.cdp-card-what { margin: 0 0 0.2rem; font-size: 1.2rem; }
+.cdp-card-due { margin: 0 0 0.9rem; color: var(--cdc-color-muted); font-size: 0.92rem; }
+.cdp-card-go {
+  min-height: 48px;
+  padding: 0 1.4rem;
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--cdc-color-bg);
+  background: var(--cdc-color-fg);
+  border: 1px solid var(--cdc-color-fg);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.cdp-card-go:disabled { opacity: 0.45; cursor: default; }
+.cdp-card-does { margin: 0.55rem 0 0; font-size: 0.82rem; color: var(--cdc-color-muted); }
+.cdp-card-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.cdp-card-actions button, .cdp-view-back { min-height: 44px; padding: 0 0.9rem; }

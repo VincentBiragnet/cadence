@@ -93,3 +93,6 @@ across nineteen configurations. VC-7 exists because VC-1 turned out to be
 vacuous where it mattered: guidance between the cue and the clock only makes
 "cue above clock" easier, so at fifty bullets the clock was three viewport-
 heights below the fold with the criterion green.
+
+## how-you-reach-a-session-that-is-not-the-next-one
+**Archived:** 2026-09-10 · **discovery** for one-session-on-screen-the-rest-a-step-away (OQ-1) · **Commit:** 57b52fae033b4a3c4e3e2b79614a29de6092ea20 `specs/how-you-reach-a-session-that-is-not-the-next-one.discovery.md`

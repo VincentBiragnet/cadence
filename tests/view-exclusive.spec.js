@@ -48,6 +48,9 @@ test('while a session runs, the list and its bar are gone by the same measure', 
   }, { title: 'Running', entries: [{ week: 1, day: 1, label: 'One', sequence: { title: 'A', blocks: [{ repetitions: 1, steps: [{ label: 'x', durationSeconds: 5 }] }] } }] });
   await page.reload();
 
+  // The list is a screen you go to now, so this claim — that it is genuinely
+  // gone while a session runs, not merely transparent — is measured from it.
+  await page.evaluate(() => document.querySelector('cadence-program')._showList(true));
   const before = await page.evaluate(`(${MEASURE})('.cdp-view')`);
   await page.click('.cdp-start');
   const view = await page.evaluate(`(${MEASURE})('.cdp-view')`);

@@ -51,7 +51,7 @@ test('a refused request is reported, and the session still runs', async ({ page 
   expect(said.live).toContain('screen may sleep');
   // The work carries on regardless.
   await page.waitForFunction(
-    () => document.querySelector('#prog .cdp-view')?.checkVisibility(), null, { timeout: 10000 });
+    () => document.querySelector('#prog .cdp-card')?.checkVisibility(), null, { timeout: 10000 });
   const done = await page.evaluate(() => !!document.getElementById('prog').config.entries[0].actualDate);
   expect(done).toBe(true);
 });
@@ -68,7 +68,7 @@ test('a browser with no Wake Lock API at all is treated the same', async ({ page
   const text = seen.text;
   expect(text).toContain('will not keep the screen on');
   await page.waitForFunction(
-    () => document.querySelector('#prog .cdp-view')?.checkVisibility(), null, { timeout: 10000 });
+    () => document.querySelector('#prog .cdp-card')?.checkVisibility(), null, { timeout: 10000 });
   const done = await page.evaluate(() => !!document.getElementById('prog').config.entries[0].actualDate);
   expect(done).toBe(true);
 });

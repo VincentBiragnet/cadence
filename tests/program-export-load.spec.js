@@ -21,6 +21,7 @@ test('export produces the current state as JSON; loading it back reproduces it',
         { week: 2, day: 4, expectedDate: '2026-09-17', sequence: { title: 'Not yet', blocks: [{ repetitions: 2, steps: [{ label: 'y', durationSeconds: 5, startFrequency: 440 }] }] } },
       ],
     });
+    prog._showList(true);   // the More menu lives in the list bar
   });
 
   const [download] = await Promise.all([
@@ -44,6 +45,7 @@ test('export produces the current state as JSON; loading it back reproduces it',
       title: 'Stale prior program',
       entries: [{ week: 1, day: 1, sequence: { title: 'Should be gone', blocks: [{ repetitions: 1, steps: [{ label: 'z', durationSeconds: 1 }] }] } }],
     });
+    prog._showList(true);   // the More menu lives in the list bar
   });
   await page.setInputFiles('#load-test .cdp-load', path);
   const [reloaded, optionTexts] = await page.evaluate(() => [

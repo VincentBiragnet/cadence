@@ -12,6 +12,7 @@ test('a row shows the short label and the date, and not the long title', async (
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     prog.querySelector('.cdp-start').click();   // anchors, so rows carry dates
     prog.querySelector('.cdp-back').click();
     const row = prog.querySelectorAll('.cdp-row')[0];

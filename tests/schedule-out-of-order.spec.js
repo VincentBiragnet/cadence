@@ -25,6 +25,7 @@ test('starting week 3 day 2 while week 1 is unrun runs it and leaves the skipped
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     const done = new Promise((r) => prog.addEventListener('cadence:entryComplete', r, { once: true }));
     prog.querySelectorAll('.cdp-row')[4].click(); // week 3 day 2
     prog.querySelector('.cdp-start').click();

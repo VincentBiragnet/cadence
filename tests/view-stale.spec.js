@@ -29,6 +29,7 @@ test('only a past date that is neither run nor dropped is stale, and today is no
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     return [...prog.querySelectorAll('.cdp-row')].map((row) => ({
       name: row.getAttribute('aria-label'),
       stale: row.classList.contains('stale'),
@@ -50,6 +51,7 @@ test('the divider falls between what is behind and what is still ahead', async (
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     // The marker rides on the first row still ahead (KD-3), so the list is
     // all options and the boundary is a class rather than an element.
     return [...prog.querySelector('.cdp-list').children].map((el) =>
@@ -66,12 +68,14 @@ test('everything behind puts the divider at the end; nothing dated shows none at
     const past = document.createElement('cadence-program');
     document.body.appendChild(past);
     past.configure(p);
+    past._showList(true);   // the list is a place you go now
     const marked = past.querySelectorAll('.cdp-row.cdp-today').length;
 
     localStorage.clear();
     const undated = document.createElement('cadence-program');
     document.body.appendChild(undated);
     undated.configure({ title: 'No dates', entries: p.entries.map(({ week, day, label, sequence }) => ({ week, day, label, sequence })) });
+    undated._showList(true);   // the list is a place you go now
 
     return {
       markedRows: marked,                                    // nothing follows today

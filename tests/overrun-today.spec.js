@@ -27,6 +27,7 @@ async function summary(page, program) {
     prog.id = 'prog';
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     const el = prog.querySelector('.cdp-summary');
     return { text: el.textContent.replace(/\s+/g, ' ').trim(),
              over: !!prog.querySelector('.cdp-over'),

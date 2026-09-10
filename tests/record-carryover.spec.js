@@ -46,7 +46,7 @@ async function doSession(page, index, values) {
   }
   await page.click('#prog .cdp-record-save');
   await page.waitForFunction(
-    () => document.querySelector('#prog .cdp-view')?.checkVisibility(),
+    () => document.querySelector('#prog .cdp-card')?.checkVisibility(),
     null, { timeout: 10000 });
 }
 

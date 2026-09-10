@@ -20,6 +20,7 @@ test('reloading restores the same dates and the same entry marked run', async ({
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     const done = new Promise((r) => prog.addEventListener('cadence:entryComplete', r, { once: true }));
     prog.querySelector('.cdp-start').click();
     prog.querySelector('cadence-sequence .cds-start').click();
@@ -38,6 +39,7 @@ test('reloading restores the same dates and the same entry marked run', async ({
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     return {
       anchorDate: prog.config.anchorDate,
       entries: prog.config.entries.map((e) => ({ expected: e.expectedDate, actual: e.actualDate || null })),

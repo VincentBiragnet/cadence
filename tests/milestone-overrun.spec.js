@@ -24,6 +24,7 @@ test('sliding past the race reports the overrun in days, and compresses nothing'
     prog.id = 'prog';
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     return { text: prog.querySelector('.cdp-summary').textContent };
   }, PROGRAM);
   // The plan fits to begin with, so there is nothing to say.
@@ -59,6 +60,7 @@ test('a dropped session is left out of the overrun (KD-19)', async ({ page }) =>
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     // Push everything past the race by finishing the first session very late.
     prog.config.entries[1].expectedDate = '2026-10-05';
     prog.config.entries[2].expectedDate = '2026-10-12';

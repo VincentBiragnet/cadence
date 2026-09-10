@@ -12,6 +12,7 @@ test('no control in the program view is smaller than 44 pixels either way', asyn
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);
     prog.querySelector('.cdp-more').click();     // measure the menu open
     return [...prog.querySelectorAll('button, .cdp-load-label')]
       .map((el) => {
@@ -31,6 +32,7 @@ test('Escape closes the menu and hands focus back to its button', async ({ page 
     prog.id = 'prog';
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);
     prog.querySelector('.cdp-more').click();
   }, longTitled());
 
@@ -56,6 +58,7 @@ test('a press outside the menu closes it', async ({ page }) => {
     prog.id = 'prog';
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);
     prog.querySelector('.cdp-more').click();
   }, longTitled());
 

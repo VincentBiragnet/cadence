@@ -65,7 +65,7 @@ test('a real lock is held for the run and released on completion', async ({ page
   // Completing hands back to the list, which removes the sequence — so wait
   // for the view rather than for an element that is on its way out.
   await page.waitForFunction(
-    () => document.querySelector('#prog .cdp-view')?.checkVisibility(),
+    () => document.querySelector('#prog .cdp-card')?.checkVisibility(),
     null, { timeout: 10000 });
   expect(await sentinel.evaluate((s) => s.released)).toBe(true);
 });

@@ -10,6 +10,7 @@ test('one row per entry, in authored order, with nothing after the last', async 
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     const rows = [...prog.querySelectorAll('.cdp-row')];
     const last = rows[rows.length - 1];
     return {
@@ -37,6 +38,7 @@ test('opening the view leaves the current step inside the scrolled list', async 
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     const list = prog.querySelector('.cdp-list');
     const row = prog.querySelector('.cdp-row[aria-selected="true"]');
     row.scrollIntoView({ block: 'center' });

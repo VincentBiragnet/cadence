@@ -14,14 +14,17 @@ test('start: launching mounts a real, visible, running cadence-sequence and hide
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure({ title: 'Launching', entries: [entry] });
+    prog._showList(true);   // the list is a place you go now
     prog.querySelector('.cdp-start').click();
     return {
       listHidden: prog.querySelector('.cdp-view').hidden,
+      cardHidden: prog.querySelector('.cdp-card').hidden,
       runVisible: !prog.querySelector('.cdp-run').hidden,
       hasSequence: prog.querySelector('cadence-sequence') !== null,
     };
   }, ENTRY('X', 10));
-  expect(result).toEqual({ listHidden: true, runVisible: true, hasSequence: true });
+  // A run hides both of the ways in, not just the list.
+  expect(result).toEqual({ listHidden: true, cardHidden: true, runVisible: true, hasSequence: true });
 });
 
 test('back: abandons the run with no actualDate recorded, restores the list unchanged', async ({ page }) => {
@@ -30,11 +33,12 @@ test('back: abandons the run with no actualDate recorded, restores the list unch
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure({ title: 'Abandoning', entries: [entry] });
+    prog._showList(true);   // the list is a place you go now
     prog.querySelector('.cdp-start').click();
     prog.querySelector('cadence-sequence .cds-start').click(); // actually running now
     prog.querySelector('.cdp-back').click();
     return {
-      listVisible: !prog.querySelector('.cdp-view').hidden,
+      listVisible: !prog.querySelector('.cdp-card').hidden,   // the card is what a run returns to
       sequenceGone: prog.querySelector('cadence-sequence') === null,
       entryDone: prog.querySelector('.cdp-list').innerHTML.includes('done'),
       actualDateSet: !!prog.config.entries[0].actualDate,
@@ -54,6 +58,7 @@ test('complete: records actualDate, fires cadence:entryComplete, restores the li
     const events = [];
     prog.addEventListener('cadence:entryComplete', (e) => events.push(e.detail));
     prog.configure({ title: 'Completing', entries: [entry] });
+    prog._showList(true);   // the list is a place you go now
     const done = new Promise((r) => prog.addEventListener('cadence:entryComplete', r, { once: true }));
     prog.querySelector('.cdp-start').click();
     prog.querySelector('cadence-sequence .cds-start').click();
@@ -62,7 +67,7 @@ test('complete: records actualDate, fires cadence:entryComplete, restores the li
       events: events.length,
       actualDate: prog.config.entries[0].actualDate,
       anchorDate: prog.config.anchorDate,
-      listVisible: !prog.querySelector('.cdp-view').hidden,
+      listVisible: !prog.querySelector('.cdp-card').hidden,   // the card is what a run returns to
       entryDone: prog.querySelector('.cdp-list').innerHTML.includes('done'),
     };
   }, ENTRY('X', 0.15));

@@ -21,6 +21,7 @@ test('it counts what is done and names the day the program is projected to end',
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     const done = new Promise((r) => prog.addEventListener('cadence:entryComplete', r, { once: true }));
     prog.querySelector('.cdp-start').click();
     prog.querySelector('cadence-sequence .cds-start').click();
@@ -39,6 +40,7 @@ test('once a milestone is overrun the summary says that instead of a finish', as
     const prog = document.createElement('cadence-program');
     document.body.appendChild(prog);
     prog.configure(p);
+    prog._showList(true);   // the list is a place you go now
     prog.config.entries[2].expectedDate = '2026-10-04';   // a week past the race
     prog._renderList();
     return prog.querySelector('.cdp-summary').textContent;
@@ -54,6 +56,7 @@ test('a program with nothing left says so, and one with no dates yet does not', 
     const unanchored = document.createElement('cadence-program');
     document.body.appendChild(unanchored);
     unanchored.configure({ title: 'Fresh', entries: p.entries.slice(0, 3) });
+    unanchored._showList(true);   // the list is a place you go now
     const fresh = unanchored.querySelector('.cdp-summary').textContent;
 
     const finished = document.createElement('cadence-program');
