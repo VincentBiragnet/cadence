@@ -129,3 +129,105 @@ test('behind and at risk: the card states it, and says when it will not fit', as
     .classList.contains('cdp-standing-bad'));
   expect(bad).toBe(true);
 });
+
+// The three defects a reviewer found in the standing line. Each one made the
+// card state something false about whether a medical date is reachable.
+
+const day = (n) => {
+  const d = new Date('2026-10-12T09:00:00Z');
+  d.setUTCDate(d.getUTCDate() + n);
+  return d.toISOString().slice(0, 10);
+};
+
+async function standing(page, program) {
+  await page.clock.setFixedTime(new Date('2026-10-12T09:00:00Z'));
+  await open(page, program);
+  return page.evaluate(() => ({
+    text: document.querySelector('#program .cdp-standing').textContent,
+    rate: document.getElementById('program')._weeklyRate(),
+  }));
+}
+
+test('the achieved rate counts sessions per day, not gaps between them', async ({ page }) => {
+  // Four done across two calendar days is fourteen a week, not twenty-one:
+  // (n-1)/span counts the intervals, and two sessions in one day has none.
+  const s = await standing(page, {
+    title: 'Twice daily',
+    entries: [
+      ...[0, 0, 1, 1].map((d, i) => ({
+        week: 1, day: i + 1, label: `D${i}`, expectedDate: day(d - 4), actualDate: day(d - 4),
+        sequence: { title: `D${i}`, blocks } })),
+      ...Array.from({ length: 100 }, (_, i) => ({
+        week: 2, day: (i % 7) + 1, label: `S${i}`, expectedDate: day(Math.floor(i / 2)),
+        sequence: { title: `S${i}`, blocks } })),
+      { week: 20, day: 7, milestone: true, date: day(40), title: 'Phase review' },
+    ],
+  });
+  expect(s.rate).toBeCloseTo(14, 1);
+  // A hundred sessions at fourteen a week needs fifty days and has forty.
+  expect(s.text).toContain('will not fit');
+});
+
+test('what is still due is counted by date, not by where it sits in the array', async ({ page }) => {
+  const s = await standing(page, {
+    title: 'Out of order',
+    entries: [
+      { week: 1, day: 1, label: 'Soon', expectedDate: day(1),
+        sequence: { title: 'Soon', blocks } },
+      ...[60, 61, 62].map((n, i) => ({
+        week: 9, day: i + 1, label: `Far${i}`, expectedDate: day(n),
+        sequence: { title: `Far${i}`, blocks } })),
+      { week: 2, day: 7, milestone: true, date: day(3), title: 'M' },
+    ],
+  });
+  // Only "Soon" falls before the milestone; the three dated two months out
+  // used to be counted against a date three days away.
+  expect(s.text).toContain('M in 3 days');
+  expect(s.text).toContain('1 still due before it');
+  expect(s.text).not.toContain('4 still due');
+});
+
+test('the milestone named is the earliest dated, wherever it sits', async ({ page }) => {
+  const s = await standing(page, {
+    title: 'Two milestones',
+    entries: [
+      { week: 1, day: 1, label: 'S1', expectedDate: day(1), sequence: { title: 'S1', blocks } },
+      { week: 5, day: 7, milestone: true, date: day(30), title: 'Far' },
+      { week: 1, day: 7, milestone: true, date: day(2), title: 'Soon' },
+    ],
+  });
+  expect(s.text).toContain('Soon in 2 days');
+  expect(s.text).not.toContain('Far');
+});
+
+test('a dropped session says so instead of offering to start it', async ({ page }) => {
+  await open(page, { ...PROGRAM,
+    entries: PROGRAM.entries.map((e, i) => (i === 0 ? { ...e, dropped: true } : e)) });
+  const c = await page.evaluate(() => {
+    const prog = document.getElementById('program');
+    prog._select(0, true);
+    return { does: prog.querySelector('.cdp-card-does').textContent,
+             disabled: prog.querySelector('.cdp-card-go').disabled };
+  });
+  expect(c.does).toContain('was dropped');
+  expect(c.does).not.toContain('Start will run');
+  expect(c.disabled).toBe(true);
+});
+
+test('a finished programme still shows a session you browse to', async ({ page }) => {
+  const done = new Date().toISOString().slice(0, 10);
+  await open(page, { ...PROGRAM,
+    entries: PROGRAM.entries.map((e) => ({ ...e, actualDate: done })) });
+  const c = await page.evaluate(() => {
+    const prog = document.getElementById('program');
+    prog._select(1, true);
+    return {
+      bodyShown: prog.querySelector('.cdp-card-body').checkVisibility(),
+      what: prog.querySelector('.cdp-card-what').textContent,
+      standing: prog.querySelector('.cdp-standing').textContent,
+    };
+  });
+  expect(c.bodyShown).toBe(true);      // it used to vanish entirely
+  expect(c.what).toBe('S2');
+  expect(c.standing).toContain('complete');
+});

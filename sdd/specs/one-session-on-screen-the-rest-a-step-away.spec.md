@@ -42,6 +42,7 @@ _No items yet._
 - **PA-3** Cadence today opens on a listbox of every entry, which for the HSR protocol is 37 rows and for the AM/PM rehab example is 172, with the current one selected somewhere inside it
 - **PA-4** The archived program-view spec chose that scrolling list deliberately, over a dropdown, and its decisions about keyboard handling, the roving focus, the today marker and the stale divider all belong to the list. This spec changes what opens, not whether a list can exist
 - **PA-5** Twenty-five test files had to be told to open the list, which is the measure of how much of this app was written on the assumption that the list is the app
+- **PA-6** Checked and I was wrong to dismiss it: I rejected two reviewers' report of the list wrapping into columns because the HSR and ACL examples render single column. Their labels are long. A third reviewer produced three rows per line from an eight-entry programme with short labels, and measured the selected row at 188px inside a 334px scroller. The duplicate .cdp-list rule is a real defect and my two examples were not a test of it
 
 ## Implementation Details
 - [x] **IMPL-1** Give cadence-program a card view beside the list and the run
@@ -51,13 +52,19 @@ _No items yet._
 - [x] **IMPL-5** Name what the button will do, on the card as on the list bar
 - [x] **IMPL-6** Say a programme is complete rather than offering the next thing
 - [x] **IMPL-7** Move focus to the card's action on the way out of a run
+- [x] **IMPL-8** Count the achieved rate as sessions per elapsed day, not as gaps between them
+- [x] **IMPL-9** Take the earliest dated milestone, and count what is due before it by date
+- [x] **IMPL-10** Say a dropped session was dropped instead of offering to start it
+- [x] **IMPL-11** Keep the card body when a session is browsed to inside a finished programme
+- [x] **IMPL-12** Remove the dropdown-era list rule that made rows content-width flex items
 
 ## Verification Criteria
-- [ ] **VC-1** With sessions overdue and a milestone ahead, the card states the number behind and the days remaining, and says plainly when what is still due cannot fit before the milestone at the programme's own stated rate
-- [ ] **VC-2** A card showing a session other than the due one is visibly marked as such and carries a control that returns to the due one in one press
-- [ ] **VC-3** Opening the full list scrolls to the current session rather than to the top, on a 37-entry programme and on a 172-entry one
+- [ ] **VC-1** With sessions overdue and a milestone ahead, the card states the number behind and the days remaining, and says plainly when what is still due cannot fit before the milestone at the programme's own stated rate → failed 2026-09-10 (attested: Verified by a reviewer that did not build it. The wording names all three numbers and fires correctly across fourteen permutations of the real ACL programme, but three defects make it state something false. The achieved rate is (done-1)*7/span, so four sessions across two days reported 21 a week for someone doing 14, and 100 sessions due before a milestone 40 days off showed no warning though neither the achieved rate nor the plan's own spacing fits them in. Still due before it is counted by array position rather than by date, so three sessions dated sixty days out counted against a milestone three days away, and the mirror case reported no due count at all. The next milestone is the first in array order rather than the earliest dated, so a milestone two days away went unmentioned behind one thirty days away)
+- [x] **VC-2** A card showing a session other than the due one is visibly marked as such and carries a control that returns to the due one in one press → passed 2026-09-10 (attested: Verified by the same reviewer across six selections. Browsed states carry a filled dark badge, white on rgb(26,26,26), against transparent background and grey or red text for the due one, so the marking is a measured visual difference and not only a word. Back to today measures 113x44, is hidden exactly on the due session and on a finished programme, and one press returns. When the due session changed while browsing, one press landed on the new due one rather than the stale one)
+- [x] **VC-3** Opening the full list scrolls to the current session rather than to the top, on a 37-entry programme and on a 172-entry one → passed 2026-09-10 (attested: Verified by the same reviewer across thirteen cases on both programmes. The selected row is inside the scroller every time: 37 entries at scrollTop 0, 383, 956, 1627 and 1766 of 1766; 172 entries at 0, 1542, 5042, 7117, 8947 and 10001 of 10001. Survives a page reload from stored state and a close and reopen of the list. A first entry legitimately reads scrollTop 0)
 - [x] **VC-4** With a programme loaded, the app opens on one session and no list, and the list is reachable and dismissable in one press each (G-1, G-2) `npx playwright test tests/card-open.spec.js` → passed 2026-09-10 (ran: exit 0 — Running 5 tests using 1 worker ✓ 1 tests/card-open.spec.js:47:5 › a loaded programme opens)
 - [x] **VC-5** A 172-session programme opens the same way a 25-session one does, with the same controls in the same places and no scrolling to reach Start (G-3) `npx playwright test tests/card-scale.spec.js` → passed 2026-09-10 (ran: exit 0 — Running 2 tests using 1 worker ✓ 1 tests/card-scale.spec.js:39:5 › 25 sessions and 172 ope)
+- [x] **VC-6** Rows are one per line at full width whatever the label length, and the selection highlight covers its row `npx playwright test tests/list-rows.spec.js` → passed 2026-09-10 (ran: exit 0 — Running 2 tests using 1 worker ✓ 1 tests/list-rows.spec.js:13:5 › short labels still give )
 
 ## Changelog
 - 2026-09-10: Spec initialized.
@@ -101,3 +108,15 @@ _No items yet._
 - 2026-09-10: PA-5 added
 - 2026-09-10: VC-4 passed
 - 2026-09-10: VC-5 passed
+- 2026-09-10: VC-1 failed
+- 2026-09-10: VC-2 passed
+- 2026-09-10: VC-3 passed
+- 2026-09-10: PA-6 added
+- 2026-09-10: IMPL-8 added
+- 2026-09-10: IMPL-9 added
+- 2026-09-10: IMPL-10 added
+- 2026-09-10: IMPL-11 added
+- 2026-09-10: IMPL-12 added
+- 2026-09-10: IMPL-8, IMPL-9, IMPL-10, IMPL-11, IMPL-12 checked
+- 2026-09-10: VC-6 added
+- 2026-09-10: VC-6 passed

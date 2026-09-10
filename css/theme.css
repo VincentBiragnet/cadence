@@ -207,13 +207,6 @@ cadence-program {
   font-weight: 600;
 }
 
-.cdp-list {
-  display: flex;
-  align-items: center;
-  gap: var(--cdc-space-2);
-  flex-wrap: wrap;
-}
-
 .cdp-start, .cdp-jump, .cdp-drop, .cdp-more, .cdp-export, .cdp-replan, .cdp-load-label {
   font-family: var(--cdc-font);
   font-size: 0.95rem;
@@ -236,6 +229,7 @@ cadence-program {
 .cdp-summary.cdp-over { font-weight: 600; color: var(--cdc-color-progress); }
 
 .cdp-list {
+  display: block;   /* rows are rows; see the dropdown-era rule removed above */
   list-style: none;
   margin: 0;
   padding: 0;

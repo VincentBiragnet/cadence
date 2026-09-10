@@ -307,6 +307,7 @@ class CadenceProgram extends HTMLElement {
     this._loadEl.addEventListener('change', () => this._load());
     this._cardGoEl.addEventListener('click', () => this._launch());
     this._cardHomeEl.addEventListener('click', () => {
+      this._picked = false;
       this._select(this._suggestedIndex(), false);
       this._renderCard();
     });
@@ -453,6 +454,7 @@ class CadenceProgram extends HTMLElement {
     // you go. Thirty-seven rows was never the answer to "what do I do today".
     this._cardEl.hidden = false;
     this._viewEl.hidden = true;
+    this._picked = false;
     this._renderCard();
   }
 
@@ -678,7 +680,10 @@ class CadenceProgram extends HTMLElement {
   // Drop act on cannot come apart. KD-11: moving the current step into view
   // is done by focusing its row and letting the browser scroll it, which is
   // the same mechanism assistive technology relies on.
+  // A pick is the user choosing a row; the card's own "back to today" and the
+  // end of a run both clear it.
   _select(index, moveFocus) {
+    if (moveFocus) this._picked = true;
     const rows = this._rows();
     if (!rows.length) return;
     this._selected = Math.max(0, Math.min(rows.length - 1, index));
@@ -725,8 +730,8 @@ class CadenceProgram extends HTMLElement {
       .map((e) => cdpToDayNumber(e.actualDate))
       .sort((a, b) => a - b);
     if (done.length >= 2) {
-      const span = done[done.length - 1] - done[0];
-      if (span > 0) return (done.length - 1) * 7 / span;
+      const span = done[done.length - 1] - done[0] + 1;
+      return done.length * 7 / span;
     }
     // Nothing done yet: fall back to the plan's own spacing.
     const planned = this._config.entries
@@ -734,8 +739,8 @@ class CadenceProgram extends HTMLElement {
       .map((e) => cdpToDayNumber(e.expectedDate))
       .sort((a, b) => a - b);
     if (planned.length >= 2) {
-      const span = planned[planned.length - 1] - planned[0];
-      if (span > 0) return (planned.length - 1) * 7 / span;
+      const span = planned[planned.length - 1] - planned[0] + 1;
+      return planned.length * 7 / span;
     }
     return 0;
   }
@@ -744,15 +749,20 @@ class CadenceProgram extends HTMLElement {
   _standing() {
     const today = cdpToday();
     const behind = this._behind();
-    const next = this._config.entries.find(
-      (e) => e.milestone && !e.dropped && !e.actualDate && e.date && e.date >= today);
+    const next = this._config.entries
+      .filter((e) => e.milestone && !e.dropped && !e.actualDate && e.date && e.date >= today)
+      .sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0))[0];
     const parts = [];
     if (behind) parts.push(`${behind} session${behind === 1 ? '' : 's'} behind`);
     if (next) {
       const days = cdpToDayNumber(next.date) - cdpToDayNumber(today);
-      const due = this._config.entries.filter((e, i) =>
-        !e.milestone && !this._settled(e)
-        && i < this._config.entries.indexOf(next)).length;
+      // By date, never by position: an entry's index says nothing about when
+      // it falls, and a programme may list a milestone anywhere.
+      const due = this._config.entries.filter((e) => {
+        if (e.milestone || this._settled(e) || !e.expectedDate) return false;
+        const when = e.expectedDate > today ? e.expectedDate : today;
+        return when <= next.date;
+      }).length;
       parts.push(`${this._title(next)} in ${days} day${days === 1 ? '' : 's'}`);
       if (due) {
         const rate = this._weeklyRate();
@@ -778,14 +788,24 @@ class CadenceProgram extends HTMLElement {
     // KD-6: a finished programme says so rather than offering tomorrow's
     // session under the same heading as today's.
     const finished = entries.every((e) => this._settled(e));
-    this._cardEl.querySelector('.cdp-card-body').hidden = finished;
-    if (finished) {
+    // Browsing is "you are looking at something other than what you are due".
+    // With a finished programme there is nothing you are due, so the only way
+    // to tell a fresh open from a deliberate pick is whether one happened.
+    const browsing = suggested !== -1
+      ? this._selected !== suggested
+      : Boolean(this._picked);
+    this._cardEl.querySelector('.cdp-card-body').hidden = finished && !browsing;
+    if (finished && !browsing) {
       this._cardWhenEl.textContent = '';
       this._cardWhatEl.textContent = '';
       this._standingEl.textContent = 'Programme complete. Every session is settled.';
       this._standingEl.hidden = false;
       this._cardHomeEl.hidden = true;
       return;
+    }
+    if (finished) {
+      this._standingEl.textContent = 'Programme complete. Every session is settled.';
+      this._standingEl.hidden = false;
     }
     if (!entry) return;
 
@@ -810,8 +830,11 @@ class CadenceProgram extends HTMLElement {
     this._cardGoEl.disabled = Boolean(entry.dropped);
     // KD-4: name what the press will do. A browsed session and the due one
     // are otherwise one identical tap apart.
-    this._cardDoesEl.textContent =
-      `${entry.sequence ? 'Start will run' : 'Will mark reached'}: ${this._title(entry)}`;
+    this._cardDoesEl.textContent = entry.dropped
+      ? `${this._title(entry)} was dropped — there is nothing to start`
+      : `${entry.sequence
+            ? (this._settled(entry) ? 'Will run again' : 'Start will run')
+            : 'Will mark reached'}: ${this._title(entry)}`;
     this._cardHomeEl.hidden = isDue;
   }
 
@@ -1100,6 +1123,7 @@ class CadenceProgram extends HTMLElement {
     this._renderList();
     // KD-8: back to the card, on the session you are now due, not the one
     // you just finished.
+    this._picked = false;
     this._select(this._suggestedIndex(), false);
     this._renderCard();
     this._cardGoEl.focus({ preventScroll: true });
