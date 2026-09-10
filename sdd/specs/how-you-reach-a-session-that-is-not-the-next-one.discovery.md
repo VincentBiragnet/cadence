@@ -33,10 +33,10 @@ _No items yet._
 - **PD-2** The card carries orientation, not just a title: how many sessions are behind, the next fixed date and how long until it, and whether the plan still fits before it. Every reviewer counted those by hand off the list, which is the work the card exists to save
 - **PD-3** A card showing anything other than the session you are due must say so unmistakably and offer a way back to today. NEXT UP and CHOSEN currently render identically, and no treatment has a way home
 - **PD-4** The card names what pressing the button will do, the way the list bar already does, because a browsed session and the due one are otherwise one identical tap apart
-- **PD-5** A milestone is never started. It is marked reached, behind a confirmation naming its date, because it is the anchor the whole schedule hangs on
+- **PD-5** ~~A milestone is never started. It is marked reached, behind a confirmation naming its date, because it is the anchor the whole schedule hangs on~~ → Already delivered, ahead of this spec: three-defects-the-session-card-review-found KD-1 gated it behind a confirmation naming the date, verified by tests/milestone-reach.spec.js
 
 ## Proposed Criteria
-- **PC-1** Selecting a milestone offers to mark it reached rather than start it, and recording it requires a confirmation that names its date; declining records nothing
+- **PC-1** ~~Selecting a milestone offers to mark it reached rather than start it, and recording it requires a confirmation that names its date; declining records nothing~~ → Already delivered and verified by the same spec's VC-1, so folding it forward would duplicate a passed criterion
 - **PC-2** With sessions overdue and a milestone ahead, the card states the number behind and the days remaining, and says plainly when what is still due cannot fit before the milestone at the programme's own stated rate
 - **PC-3** A card showing a session other than the due one is visibly marked as such and carries a control that returns to the due one in one press
 - **PC-4** Opening the full list scrolls to the current session rather than to the top, on a 37-entry programme and on a 172-entry one
@@ -70,3 +70,5 @@ _No items yet._
 - 2026-09-10: PC-2 added
 - 2026-09-10: PC-3 added
 - 2026-09-10: PC-4 added
+- 2026-09-10: PD-5 struck
+- 2026-09-10: PC-1 struck
